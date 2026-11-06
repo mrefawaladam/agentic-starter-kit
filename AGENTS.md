@@ -1,6 +1,8 @@
-# Agentic Starter Kit — Global AI Instructions
+# 🤖 Sakti-Agent — KasirSakti Engineering Ecosystem AI Master Guidelines
 
-Framework pengembangan perangkat lunak berbasis **AI Spec-Driven Development** yang hemat token, terstruktur, dan teruji.
+Dokumen ini adalah pedoman operasional terpusat (*Single Source of Truth*) untuk seluruh AI Assistant, Agent Spesialis (`agents/` & `.agents/skills/`), dan tim rekayasa perangkat lunak dalam merancang, mendokumentasikan, dan mengimplementasikan solusi pada ekosistem **KasirSakti** (Backend `kasirsakti-be`, Frontend `kasirsakti-fe`, dan E2E Testing `kasirsakti-e2e`).
+
+Framework ini mengadopsi metodologi **AI Spec-Driven Development** yang hemat token, terstruktur, dan terverifikasi secara multi-agent.
 
 ---
 
@@ -13,9 +15,9 @@ Dilarang memuat seluruh isi repository ke dalam konteks percakapan. Terapkan 5 t
 ```
 
 1. **Kenali Tugas**: Identifikasi peran mana yang bertanggung jawab (PM, BA, UI/UX, Architect, Frontend, Backend, QE, atau Security).
-2. **Baca 1 Skill Saja**: Muat file `.agents/skills/<role>/SKILL.md` yang spesifik untuk tugas tersebut.
+2. **Baca 1 Skill Saja**: Muat file `.agents/skills/<role>/SKILL.md` atau `agents/<role>/AGENT.md` yang spesifik untuk tugas tersebut.
 3. **Ambil Referensi Seperlunya**: Hanya baca file dokumen di `docs/` atau `.agents/skills/<role>/references/` yang dibutuhkan secara langsung.
-4. **Telusuri Dependensi**: Gunakan `data/knowledge-graph.json` untuk menavigasi modul, tipe data, dan endpoint yang terdampak tanpa memindai seluruh folder source code.
+4. **Telusuri Dependensi**: Gunakan `data/knowledge-graph.json` dan skrip `scripts/graph-lookup.js` untuk menavigasi modul, tipe data, dan endpoint yang terdampak tanpa memindai seluruh folder source code.
 5. **Hasilkan Deliverable**: Buat dokumen atau kode sesuai standar, catat asumsi terbuka (`[TODO: PENDING_CONFIRMATION]`), dan perbarui `data/backlog.json`.
 
 ---

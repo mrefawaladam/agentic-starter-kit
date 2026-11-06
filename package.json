@@ -1,17 +1,19 @@
 {
-  "name": "agentic-starter-kit",
+  "name": "sakti-agent",
   "version": "1.0.0",
-  "description": "AI Spec-Driven Development Starter Kit with Local Kanban & Markdown Spec Hub",
+  "description": "KasirSakti AI Spec-Driven Engineering Hub with Local Kanban & Markdown Spec Hub",
   "scripts": {
     "board": "cd viewer && pnpm dev",
     "board:build": "cd viewer && pnpm build",
     "board:start": "cd viewer && pnpm start"
   },
   "keywords": [
+    "kasirsakti",
+    "sakti-agent",
     "ai-spec-driven",
     "agentic",
     "kanban",
-    "starter-kit"
+    "pos-retail"
   ],
   "author": "",
   "license": "MIT"

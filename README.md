@@ -1,8 +1,8 @@
-# Agentic Blueprint Starter Kit
+# Sakti-Agent — KasirSakti Spec-Driven Engineering Hub
 
-> **A Token-Efficient, Smart, Multi-Agent Development Framework Powered by Docs, Skills, Rules, and Codebase Knowledge Graph.**
+> **A Token-Efficient, Smart, Multi-Agent Development Framework Powered by Docs, Skills, Rules, and Codebase Knowledge Graph for KasirSakti Ecosystem.**
 
-Starter kit ini adalah cetak biru (*blueprint*) rekayasa perangkat lunak multi-agent yang dirancang agar AI Agent bekerja secara terstruktur, kolaboratif, tidak saling tumpang tindih, dan **sangat hemat token**. Dilengkapi dengan **Web UI Kanban & Documentation Hub lokal (Next.js 16)** bergaya **Jira Light** yang beroperasi secara *local-first* (JSON + Markdown) tanpa dependensi database eksternal.
+`sakti-agent` adalah repositori terpusat (*Single Source of Truth*) dan pusat kendali rekayasa perangkat lunak multi-agent untuk ekosistem **KasirSakti** (`kasirsakti-be`, `kasirsakti-fe`, `kasirsakti-e2e`). Dilengkapi dengan **Web UI Kanban & Documentation Hub lokal (Next.js 16)** bergaya **Jira Light** yang beroperasi secara *local-first* (JSON + Markdown) tanpa dependensi database eksternal.
 
 ---
 
@@ -72,7 +72,7 @@ node scripts/graph-lookup.js --file docs/06-api/billing-endpoints.md
 
 ```bash
 # 1. Masuk ke direktori
-cd agentic-starter-kit
+cd sakti-agent
 
 # 2. Jalankan Jira Light SpecOS Dashboard
 pnpm board

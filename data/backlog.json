@@ -1,7 +1,7 @@
 {
-  "project_name": "Agentic Blueprint Starter",
-  "description": "AI Spec-Driven Development Workspace",
-  "version": "1.0.0",
+  "project_name": "KasirSakti Spec-Driven Engineering Hub",
+  "description": "AI Spec-Driven Development Workspace & Multi-Agent Kanban for KasirSakti",
+  "version": "1.1.0",
   "columns": [
     { "id": "backlog", "title": "Backlog" },
     { "id": "spec_drafting", "title": "Spec Drafting" },
@@ -13,143 +13,157 @@
   ],
   "tasks": [
     {
-      "id": "TASK-001",
-      "code": "FEAT-AUTH-001",
-      "title": "Autentikasi Pengguna & Manajemen Sesi (JWT)",
+      "id": "TASK-POS-001",
+      "code": "FEAT-POS-001",
+      "title": "Shift Kasir, Petty Cash Laci & Blind Closing (Sprint 1)",
+      "status": "ready_for_dev",
+      "priority": "CRITICAL",
+      "type": "FEATURE",
+      "assignee": "Backend Developer",
+      "spec_file": "docs/03-requirements/features/FEAT-POS-001-sales/README.md",
+      "tags": ["pos", "shift", "petty-cash", "sprint-1"],
+      "story_points": 5,
+      "acceptance_criteria": [
+        { "id": "AC-POS-001", "text": "Checkout berhasil dengan metode tunai dan ikat shift_log_id", "checked": true },
+        { "id": "AC-POS-002", "text": "Checkout ditolak HTTP 400 jika tidak memiliki shift kasir OPEN", "checked": true },
+        { "id": "AC-POS-003", "text": "Blind shift closing rekonsiliasi pengeluaran kas laci (expectedCash formula)", "checked": true }
+      ],
+      "updated_at": "2026-11-06T11:18:00Z"
+    },
+    {
+      "id": "TASK-POS-002",
+      "code": "FEAT-POS-001",
+      "title": "Void Transaksi, Reversal Journal & Audit Trail (Sprint 1)",
+      "status": "ready_for_dev",
+      "priority": "CRITICAL",
+      "type": "FEATURE",
+      "assignee": "Backend Developer",
+      "spec_file": "docs/03-requirements/features/FEAT-POS-001-sales/use-cases/UC-POS-003-void-transaction.md",
+      "tags": ["pos", "void", "accounting", "audit-trail", "sprint-1"],
+      "story_points": 5,
+      "acceptance_criteria": [
+        { "id": "AC-POS-004", "text": "Otorisasi void manajer menerbitkan 4 baris jurnal pembalik dan batalkan piutang kasbon", "checked": true },
+        { "id": "AC-POS-005", "text": "Pencatatan otomatis audit trail pada void, shift, price update, dan opname", "checked": true }
+      ],
+      "updated_at": "2026-11-06T11:18:00Z"
+    },
+    {
+      "id": "TASK-INV-001",
+      "code": "FEAT-INVENTORY-001",
+      "title": "Manajemen Multi-Unit Inventori & Stock Movement",
       "status": "ready_for_dev",
       "priority": "HIGH",
       "type": "FEATURE",
       "assignee": "Backend Developer",
-      "spec_file": "docs/03-requirements/features/FEAT-001-user-auth/README.md",
-      "tags": ["auth", "security", "backend"],
+      "spec_file": "docs/03-requirements/features/FEAT-INVENTORY-001-stock/README.md",
+      "tags": ["inventory", "multi-unit", "stocks"],
       "story_points": 5,
       "acceptance_criteria": [
-        { "id": "AC-1", "text": "Registrasi akun dengan validasi password BR-AUTH-001", "checked": true },
-        { "id": "AC-2", "text": "Login berhasil dan mengembalikan JWT Access Token", "checked": true },
-        { "id": "AC-3", "text": "Rate limiting 5 kali gagal dalam 15 menit", "checked": false },
-        { "id": "AC-4", "text": "Refresh token rotation 7 hari", "checked": false }
+        { "id": "AC-INV-001", "text": "Pemotongan stok unit dasar otomatis sesuai rasio konversi unit bertingkat", "checked": true }
       ],
-      "updated_at": "2026-11-06T08:50:00Z"
+      "updated_at": "2026-11-06T09:00:00Z"
     },
     {
-      "id": "TASK-002",
-      "code": "FEAT-DASH-002",
-      "title": "Desain UI Dashboard & Ringkasan Metrik",
-      "status": "spec_drafting",
-      "priority": "MEDIUM",
+      "id": "TASK-KDS-001",
+      "code": "FEAT-POS-005",
+      "title": "Kitchen Display System (KDS) Realtime F&B (Sprint 2)",
+      "status": "in_review",
+      "priority": "HIGH",
       "type": "FEATURE",
-      "assignee": "UI/UX Designer",
-      "spec_file": "docs/04-ux-design/screen-specifications/dashboard.md",
-      "tags": ["frontend", "ui-ux"],
-      "story_points": 3,
+      "assignee": "Solution Architect",
+      "spec_file": "docs/03-requirements/features/FEAT-POS-005-kds/README.md",
+      "tags": ["kds", "kitchen", "frontend", "sprint-2"],
+      "story_points": 5,
       "acceptance_criteria": [
-        { "id": "AC-201", "text": "Menampilkan kartu ringkasan metrik statistik", "checked": false },
-        { "id": "AC-202", "text": "Responsif pada ukuran layar ponsel dan tablet", "checked": false }
+        { "id": "AC-KDS-001", "text": "Pengambilan tiket pesanan aktif PENDING/PREPARING/READY per outlet", "checked": false },
+        { "id": "AC-KDS-002", "text": "Pembaruan status memasak realtime di backend & frontend", "checked": false },
+        { "id": "AC-KDS-003", "text": "Peringatan visual tiket dibatalkan (void)", "checked": false }
       ],
-      "updated_at": "2026-11-06T08:51:00Z"
+      "updated_at": "2026-11-06T11:19:00Z"
     },
     {
-      "id": "TASK-003",
-      "code": "BUG-001",
-      "title": "Fix token expiration edge case pada background refresh",
-      "status": "in_progress",
-      "priority": "CRITICAL",
-      "type": "BUG",
-      "assignee": "Human Lead",
-      "spec_file": "docs/03-requirements/features/FEAT-001-user-auth/edge-cases.md",
-      "tags": ["bug", "auth", "security"],
-      "story_points": 2,
-      "acceptance_criteria": [
-        { "id": "AC-301", "text": "Cegah race condition pada multi-tab token renewal", "checked": false }
-      ],
-      "updated_at": "2026-11-06T08:52:00Z"
-    },
-    {
-      "id": "TASK-004",
-      "code": "FEAT-NOTIF-003",
-      "title": "Notifikasi Email Transaksional & Webhook",
-      "status": "backlog",
-      "priority": "LOW",
-      "type": "STORY",
-      "assignee": "Unassigned",
-      "spec_file": "docs/03-requirements/epics/README.md",
-      "tags": ["notification", "email"],
+      "id": "TASK-BOM-001",
+      "code": "FEAT-POS-003",
+      "title": "Resep Bahan Baku (BOM) & Auto-Deduction Stok Minus (Sprint 2)",
+      "status": "in_review",
+      "priority": "HIGH",
+      "type": "FEATURE",
+      "assignee": "Solution Architect",
+      "spec_file": "docs/03-requirements/features/FEAT-POS-003-bom/README.md",
+      "tags": ["bom", "recipes", "inventory", "sprint-2"],
       "story_points": 8,
       "acceptance_criteria": [
-        { "id": "AC-401", "text": "Integrasi provider email Resend / SendGrid", "checked": false },
-        { "id": "AC-402", "text": "Template email selamat datang dinamis", "checked": false }
+        { "id": "AC-BOM-001", "text": "Penjualan menu ber-resep memotong bahan baku sesuai takaran porsi", "checked": false },
+        { "id": "AC-BOM-002", "text": "Penjualan diizinkan saat bahan baku habis dengan warning stok minus & alert restock", "checked": false },
+        { "id": "AC-BOM-003", "text": "Pemulihan stok bahan baku mentah saat terjadi void nota", "checked": false }
       ],
-      "updated_at": "2026-11-06T08:53:00Z"
+      "updated_at": "2026-11-06T11:19:00Z"
     },
     {
-      "id": "TASK-005",
-      "code": "INFRA-INIT-001",
-      "title": "Setup Repository & AI Engineering Guidelines",
-      "status": "done",
-      "priority": "HIGH",
-      "type": "TASK",
-      "assignee": "Product Manager",
-      "spec_file": "AGENTS.md",
-      "tags": ["setup", "governance"],
-      "story_points": 1,
-      "acceptance_criteria": [
-        { "id": "AC-501", "text": "Inisialisasi folder docs/ dan agents/", "checked": true },
-        { "id": "AC-502", "text": "Dokumentasi standar dan guideline terintegrasi", "checked": true }
-      ],
-      "updated_at": "2026-11-06T08:54:00Z"
-    },
-    {
-      "id": "TASK-006",
-      "code": "FEAT-PAY-001",
-      "title": "Core Billing Engine & Webhook Settlement Gateway",
-      "status": "ready_for_dev",
+      "id": "TASK-HRIS-001",
+      "code": "FEAT-HRIS-001",
+      "title": "Integrasi Payroll HRIS ke Jurnal Umum Buku Besar (Sprint 3)",
+      "status": "in_review",
       "priority": "HIGH",
       "type": "FEATURE",
-      "assignee": "Backend Developer",
-      "spec_file": "docs/03-requirements/features/FEAT-002-school-payment/README.md",
-      "tags": ["billing", "payment", "backend", "hexagonal"],
+      "assignee": "Solution Architect",
+      "spec_file": "docs/03-requirements/features/FEAT-HRIS-001-payroll-journal/README.md",
+      "tags": ["hris", "payroll", "accounting", "sprint-3"],
       "story_points": 5,
       "acceptance_criteria": [
-        { "id": "AC-PAY-1", "text": "Penerbitan tagihan siswa dengan kode unik BILL-YYYY-XXXX", "checked": true },
-        { "id": "AC-PAY-2", "text": "Penerimaan webhook gateway dengan verifikasi signature HMAC-SHA256", "checked": false },
-        { "id": "AC-PAY-3", "text": "Proteksi idempotency terhadap pengiriman webhook callback duplikat", "checked": false }
+        { "id": "AC-HRIS-001", "text": "Pembayaran gaji menerbitkan jurnal beban gaji 5201, bank 1102, kasbon 1104 seimbang", "checked": false },
+        { "id": "AC-HRIS-002", "text": "Otorisasi role finance/owner wajib dipenuhi", "checked": false }
       ],
-      "updated_at": "2026-11-06T12:05:00Z"
+      "updated_at": "2026-11-06T11:19:00Z"
     },
     {
-      "id": "TASK-007",
-      "code": "FEAT-PAY-002",
-      "title": "Student Bill Card UI & Modal Pembayaran QRIS",
-      "status": "ready_for_dev",
+      "id": "TASK-SPLIT-001",
+      "code": "FEAT-POS-004",
+      "title": "Split Payment / Multi-Method POS Checkout (Sprint 3)",
+      "status": "in_review",
+      "priority": "MEDIUM",
+      "type": "FEATURE",
+      "assignee": "Solution Architect",
+      "spec_file": "docs/03-requirements/features/FEAT-POS-004-split-payment/README.md",
+      "tags": ["pos", "split-payment", "accounting", "sprint-3"],
+      "story_points": 5,
+      "acceptance_criteria": [
+        { "id": "AC-POS-006", "text": "Checkout multi-metode (CASH + QRIS) dengan multi-debit accounting seimbang", "checked": false },
+        { "id": "AC-POS-007", "text": "Validasi ketat SUM(payments.amount) == TotalPrice", "checked": false }
+      ],
+      "updated_at": "2026-11-06T11:19:00Z"
+    },
+    {
+      "id": "TASK-CREDIT-001",
+      "code": "FEAT-CREDIT-001",
+      "title": "Validasi Credit Limit & Pengajuan Kasbon Berjenjang",
+      "status": "in_review",
       "priority": "HIGH",
       "type": "FEATURE",
-      "assignee": "Frontend Developer",
-      "spec_file": "docs/03-requirements/features/FEAT-002-school-payment/user-stories.md",
-      "tags": ["frontend", "ui-ux", "tailwind", "baseline-ui"],
-      "story_points": 3,
+      "assignee": "Product Manager",
+      "spec_file": "docs/03-requirements/features/FEAT-CREDIT-001-kasbon/README.md",
+      "tags": ["credit", "kasbon", "cooperative"],
+      "story_points": 5,
       "acceptance_criteria": [
-        { "id": "AC-PAY-4", "text": "Menampilkan kartu tagihan dengan font-mono tabular-nums", "checked": false },
-        { "id": "AC-PAY-5", "text": "Modal pop-up QRIS dengan hitung mundur expired 15 menit", "checked": false },
-        { "id": "AC-PAY-6", "text": "Skeleton loader saat memuat data tagihan tanpa layout shift", "checked": false }
+        { "id": "AC-CREDIT-001", "text": "Pemeriksaan plafon credit limit anggota sebelum checkout tempo", "checked": false }
       ],
-      "updated_at": "2026-11-06T12:05:00Z"
+      "updated_at": "2026-11-06T09:00:00Z"
     },
     {
-      "id": "TASK-008",
-      "code": "TEST-PAY-001",
-      "title": "Automated E2E Playwright Suite: School Payment Journey",
-      "status": "ready_for_dev",
-      "priority": "HIGH",
-      "type": "TASK",
-      "assignee": "Quality Engineer",
-      "spec_file": "docs/03-requirements/features/FEAT-002-school-payment/acceptance-criteria.md",
-      "tags": ["qa", "playwright", "e2e", "gherkin"],
-      "story_points": 3,
+      "id": "TASK-LEGAL-001",
+      "code": "FEAT-LEGAL-001",
+      "title": "Generator Dokumen Perjanjian Kasbon Otomatis (> 100k)",
+      "status": "in_review",
+      "priority": "MEDIUM",
+      "type": "FEATURE",
+      "assignee": "Product Manager",
+      "spec_file": "docs/03-requirements/features/FEAT-LEGAL-001-agreement/README.md",
+      "tags": ["legal", "agreement", "digital-signature"],
+      "story_points": 5,
       "acceptance_criteria": [
-        { "id": "AC-PAY-7", "text": "E2E: Happy path checkout pembayaran QRIS sampai lunas", "checked": false },
-        { "id": "AC-PAY-8", "text": "Security test: Penolakan webhook palsu tanpa signature valid", "checked": false }
+        { "id": "AC-LEGAL-001", "text": "Penerbitan surat perjanjian bernomor unik AGR-YYYYMM-XXXXX untuk kasbon > 100rb", "checked": false }
       ],
-      "updated_at": "2026-11-06T12:05:00Z"
+      "updated_at": "2026-11-06T09:00:00Z"
     }
   ]
 }

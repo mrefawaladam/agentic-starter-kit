@@ -1,143 +1,181 @@
 {
-  "version": "1.0.0",
-  "project": "Agentic Blueprint Starter",
-  "description": "Codebase Knowledge Graph for token-efficient dependency navigation and impact analysis",
+  "version": "1.1.0",
+  "project": "KasirSakti Ecosystem",
+  "description": "Codebase Knowledge Graph for KasirSakti token-efficient dependency navigation, traceability, and impact analysis",
   "nodes": [
     {
-      "id": "FEAT-001-user-auth",
+      "id": "FEAT-POS-001",
       "type": "feature",
-      "title": "User Authentication & Session Management",
-      "status": "APPROVED",
-      "owner": "product-manager",
-      "path": "docs/03-requirements/features/FEAT-001-user-auth/README.md"
-    },
-    {
-      "id": "FEAT-002-school-payment",
-      "type": "feature",
-      "title": "School Tuition & Billing Payment System",
+      "title": "POS Checkout, Petty Cash & Shift Reconciliation",
       "status": "READY_FOR_DEV",
       "owner": "product-manager",
-      "path": "docs/03-requirements/features/FEAT-002-school-payment/README.md"
+      "path": "docs/03-requirements/features/FEAT-POS-001-sales/README.md"
     },
     {
-      "id": "DOC-AUTH-PRD",
+      "id": "FEAT-POS-003",
+      "type": "feature",
+      "title": "Bill of Materials (BOM) & Raw Ingredient Auto-Deduction",
+      "status": "APPROVED",
+      "owner": "product-manager",
+      "path": "docs/03-requirements/features/FEAT-POS-003-bom/README.md"
+    },
+    {
+      "id": "FEAT-POS-004",
+      "type": "feature",
+      "title": "Split Payment & Multi-Method POS",
+      "status": "APPROVED",
+      "owner": "product-manager",
+      "path": "docs/03-requirements/features/FEAT-POS-004-split-payment/README.md"
+    },
+    {
+      "id": "FEAT-POS-005",
+      "type": "feature",
+      "title": "Kitchen Display System (KDS) Realtime F&B",
+      "status": "APPROVED",
+      "owner": "product-manager",
+      "path": "docs/03-requirements/features/FEAT-POS-005-kds/README.md"
+    },
+    {
+      "id": "FEAT-CREDIT-001",
+      "type": "feature",
+      "title": "Credit Limit Validation & Kasbon Lifecycle",
+      "status": "APPROVED",
+      "owner": "product-manager",
+      "path": "docs/03-requirements/features/FEAT-CREDIT-001-kasbon/README.md"
+    },
+    {
+      "id": "FEAT-INVENTORY-001",
+      "type": "feature",
+      "title": "Multi-Unit Inventory & Stock Movement",
+      "status": "READY_FOR_DEV",
+      "owner": "product-manager",
+      "path": "docs/03-requirements/features/FEAT-INVENTORY-001-stock/README.md"
+    },
+    {
+      "id": "FEAT-HRIS-001",
+      "type": "feature",
+      "title": "HRIS Payroll to General Ledger Integration",
+      "status": "APPROVED",
+      "owner": "product-manager",
+      "path": "docs/03-requirements/features/FEAT-HRIS-001-payroll-journal/README.md"
+    },
+    {
+      "id": "PRD-MASTER",
       "type": "document",
-      "title": "PRD User Authentication",
-      "path": "docs/03-requirements/features/FEAT-001-user-auth/README.md"
+      "title": "Master PRD — KasirSakti Platform",
+      "path": "docs/03-requirements/prd/PRD-001-kasirsakti.md"
     },
     {
-      "id": "DOC-PAYMENT-PRD",
-      "type": "document",
-      "title": "PRD School Tuition Payment System",
-      "path": "docs/03-requirements/features/FEAT-002-school-payment/prd-payment-system.md"
+      "id": "EPIC-POS",
+      "type": "epic",
+      "title": "Epic — Point of Sale & Anti-Fraud Operations",
+      "path": "docs/03-requirements/epics/EPIC-POS.md"
     },
     {
-      "id": "DOC-PAYMENT-WORKFLOW",
-      "type": "document",
-      "title": "BPMN Payment Flow & State Transitions",
-      "path": "docs/03-requirements/features/FEAT-002-school-payment/use-cases.md"
+      "id": "EPIC-FINANCE",
+      "type": "epic",
+      "title": "Epic — Financial Bookkeeping & Automated Accounting",
+      "path": "docs/03-requirements/epics/EPIC-FINANCE.md"
     },
     {
-      "id": "DOC-PAYMENT-AC",
-      "type": "document",
-      "title": "Acceptance Criteria School Payment",
-      "path": "docs/03-requirements/features/FEAT-002-school-payment/acceptance-criteria.md"
+      "id": "EPIC-HRIS",
+      "type": "epic",
+      "title": "Epic — HRIS & Integrated Payroll Accounting",
+      "path": "docs/03-requirements/epics/EPIC-HRIS.md"
     },
     {
-      "id": "ARCH-C4-CONTAINER",
+      "id": "ARCH-CLEAN-ARCH",
       "type": "architecture",
-      "title": "Container Architecture Specification",
-      "path": "docs/05-architecture/02-container-diagram.md"
+      "title": "Strict Clean Architecture Specification",
+      "path": "docs/05-architecture/high-level-design.md"
     },
     {
-      "id": "ARCH-PAYMENT-SCHEMA",
-      "type": "data_model",
-      "title": "Billing & Invoicing Relational Schema",
-      "path": "docs/05-architecture/schemas/billing-schema.md"
+      "id": "ARCH-DOUBLE-ENTRY",
+      "type": "architecture",
+      "title": "Double-Entry Accounting Engine ADR",
+      "path": "docs/05-architecture/adr/ADR-002-double-entry-bookkeeping.md"
     },
     {
-      "id": "API-BILLS-ENDPOINT",
+      "id": "API-CHECKOUT-ENDPOINT",
       "type": "api_endpoint",
-      "title": "REST API: Bills & Tuition Billing",
-      "method": "GET, POST",
-      "path": "docs/06-api/billing-endpoints.md"
-    },
-    {
-      "id": "API-WEBHOOK-ENDPOINT",
-      "type": "api_endpoint",
-      "title": "Payment Gateway Webhook Callback",
+      "title": "POST /api/v1/products/checkout",
       "method": "POST",
-      "path": "docs/06-api/webhook-endpoints.md"
+      "path": "docs/06-api/endpoints/pos-endpoints.md"
     },
     {
-      "id": "SEC-STRIDE-PAYMENT",
-      "type": "security_spec",
-      "title": "STRIDE Threat Model for School Payment",
-      "path": "docs/07-security-compliance/threat-models/payment-threat-model.md"
+      "id": "API-KDS-ENDPOINT",
+      "type": "api_endpoint",
+      "title": "GET/PATCH /api/v1/orders/kds",
+      "method": "GET, PATCH",
+      "path": "docs/06-api/endpoints/pos-endpoints.md"
     },
     {
-      "id": "COMP-PAYMENT-CARD",
-      "type": "ui_component",
-      "title": "StudentBillCard & PaymentModal",
-      "path": "viewer/src/components/StudentBillCard.tsx"
-    },
-    {
-      "id": "TEST-PAYMENT-E2E",
+      "id": "TEST-POS-CHECKOUT-TC",
       "type": "test_suite",
-      "title": "Playwright E2E: School Payment Journey",
-      "path": "tests/e2e/payment-journey.spec.ts"
+      "title": "Playwright & Unit Test: POS Checkout & Shift Close",
+      "path": "docs/08-quality-assurance/test-cases/TC-POS-checkout.md"
     }
   ],
   "edges": [
     {
-      "from": "FEAT-002-school-payment",
-      "to": "DOC-PAYMENT-PRD",
-      "relation": "specifies"
+      "from": "PRD-MASTER",
+      "to": "EPIC-POS",
+      "relation": "contains_epic"
     },
     {
-      "from": "FEAT-002-school-payment",
-      "to": "DOC-PAYMENT-WORKFLOW",
-      "relation": "models_workflow"
+      "from": "PRD-MASTER",
+      "to": "EPIC-FINANCE",
+      "relation": "contains_epic"
     },
     {
-      "from": "FEAT-002-school-payment",
-      "to": "DOC-PAYMENT-AC",
-      "relation": "defines_criteria"
+      "from": "PRD-MASTER",
+      "to": "EPIC-HRIS",
+      "relation": "contains_epic"
     },
     {
-      "from": "DOC-PAYMENT-PRD",
-      "to": "ARCH-PAYMENT-SCHEMA",
-      "relation": "architectural_design"
+      "from": "EPIC-POS",
+      "to": "FEAT-POS-001",
+      "relation": "breaks_down_into"
     },
     {
-      "from": "DOC-PAYMENT-PRD",
-      "to": "API-BILLS-ENDPOINT",
+      "from": "EPIC-POS",
+      "to": "FEAT-POS-003",
+      "relation": "breaks_down_into"
+    },
+    {
+      "from": "EPIC-POS",
+      "to": "FEAT-POS-004",
+      "relation": "breaks_down_into"
+    },
+    {
+      "from": "EPIC-POS",
+      "to": "FEAT-POS-005",
+      "relation": "breaks_down_into"
+    },
+    {
+      "from": "EPIC-HRIS",
+      "to": "FEAT-HRIS-001",
+      "relation": "breaks_down_into"
+    },
+    {
+      "from": "FEAT-POS-001",
+      "to": "ARCH-DOUBLE-ENTRY",
+      "relation": "ledger_dependency"
+    },
+    {
+      "from": "FEAT-POS-001",
+      "to": "API-CHECKOUT-ENDPOINT",
       "relation": "api_contract"
     },
     {
-      "from": "API-BILLS-ENDPOINT",
-      "to": "API-WEBHOOK-ENDPOINT",
-      "relation": "reconciliation_callback"
+      "from": "FEAT-POS-005",
+      "to": "API-KDS-ENDPOINT",
+      "relation": "api_contract"
     },
     {
-      "from": "API-BILLS-ENDPOINT",
-      "to": "SEC-STRIDE-PAYMENT",
-      "relation": "threat_modeled_by"
-    },
-    {
-      "from": "API-BILLS-ENDPOINT",
-      "to": "COMP-PAYMENT-CARD",
-      "relation": "consumed_by_ui"
-    },
-    {
-      "from": "DOC-PAYMENT-AC",
-      "to": "TEST-PAYMENT-E2E",
+      "from": "FEAT-POS-001",
+      "to": "TEST-POS-CHECKOUT-TC",
       "relation": "verified_by"
-    },
-    {
-      "from": "COMP-PAYMENT-CARD",
-      "to": "TEST-PAYMENT-E2E",
-      "relation": "tested_by"
     }
   ]
 }
