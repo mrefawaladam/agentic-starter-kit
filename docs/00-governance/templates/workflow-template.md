@@ -1,4 +1,4 @@
-# 🔄 Alur Kerja & Diagram Proses (Workflows): [Nama Fitur]
+# Alur Kerja & Diagram Proses (Workflows): [Nama Fitur]
 
 Dokumen ini memvisualisasikan alur kerja interaksi antar aktor, sistem frontend, backend, dan database.
 

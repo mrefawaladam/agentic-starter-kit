@@ -12,7 +12,7 @@ target_release: Sprint-02
 
 Solusi penagihan dan pembayaran biaya pendidikan (SPP bulanan, Uang Gedung, Seragam) secara digital dan otomatis terintegrasi dengan Payment Gateway (QRIS & Virtual Account).
 
-## 📑 Daftar Dokumen Spesifikasi
+## Daftar Dokumen Spesifikasi
 
 | Dokumen | Tanggung Jawab Peran | Deskripsi |
 | :--- | :--- | :--- |
@@ -22,13 +22,13 @@ Solusi penagihan dan pembayaran biaya pendidikan (SPP bulanan, Uang Gedung, Sera
 | [`acceptance-criteria.md`](./acceptance-criteria.md) | **Quality Engineer** | Kriteria penerimaan dalam format formal Gherkin (Given-When-Then). |
 | [`risk-register.md`](./risk-register.md) | **Security / PM** | Matriks risiko teknis, operasional, kepatuhan, serta mitigasinya. |
 
-## 🏛️ Dokumen Teknis Terkait (Progressive Scope)
+## ️ Dokumen Teknis Terkait (Progressive Scope)
 
 - **Database Schema**: [`docs/05-architecture/schemas/billing-schema.md`](../../../05-architecture/schemas/billing-schema.md)
 - **API Contracts**: [`docs/06-api/billing-endpoints.md`](../../../06-api/billing-endpoints.md)
 - **Security STRIDE Review**: [`docs/07-security-compliance/threat-models/payment-threat-model.md`](../../../07-security-compliance/threat-models/payment-threat-model.md)
 
-## 🤝 Handoff & Readiness Verification
+## Handoff & Readiness Verification
 
 - [x] **Product Manager Sign-off**: PRD, User Stories, dan Scope disetujui.
 - [x] **Business Analyst Sign-off**: Diagram proses BPMN dan FSM disinkronkan.

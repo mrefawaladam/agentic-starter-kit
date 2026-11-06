@@ -12,7 +12,7 @@ related_epics:
   - EPIC-01-core-identity
 ---
 
-# 📦 Spesifikasi Fitur: Autentikasi Pengguna & Manajemen Sesi
+# Spesifikasi Fitur: Autentikasi Pengguna & Manajemen Sesi
 
 ## 1. Ringkasan Fitur (Overview)
 Fitur ini menyediakan mekanisme registrasi akun, login dengan email & password, reset kata sandi, serta penerbitan token sesi (JWT / Session Cookie) yang aman. Fitur ini menjadi fondasi identitas untuk seluruh modul dalam aplikasi.

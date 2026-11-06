@@ -8,7 +8,7 @@ feature_id: FEAT-MODUL-001
 actor: "[Primary Actor]"
 ---
 
-# 🎯 Use Case: [Nama Use Case]
+# Use Case: [Nama Use Case]
 
 ## 1. Metadata Informasi
 - **Use Case ID**: `UC-MODUL-001`

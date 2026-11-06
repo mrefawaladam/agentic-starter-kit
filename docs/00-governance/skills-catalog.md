@@ -1,4 +1,4 @@
-# 🌐 Unified Agent Skills Catalog
+# Unified Agent Skills Catalog
 
 Dokumen ini merupakan indeks terpadu seluruh keterampilan (*skills*) yang diadopsi dari registry dan direktori AI Agent terkemuka di dunia:
 - **[Skills.sh](https://www.skills.sh/)** (Vercel Labs Agent Registry)
@@ -10,7 +10,7 @@ Dokumen ini merupakan indeks terpadu seluruh keterampilan (*skills*) yang diadop
 
 ---
 
-## 🏛️ Matriks Keterampilan per Peran AI Agent
+## ️ Matriks Keterampilan per Peran AI Agent
 
 | Peran AI Agent | Daftar Keterampilan Inti | Sumber Referensi Utama |
 | :--- | :--- | :--- |
@@ -24,7 +24,7 @@ Dokumen ini merupakan indeks terpadu seluruh keterampilan (*skills*) yang diadop
 
 ---
 
-## 📋 Aturan Pemanggilan Skill (Skill Routing Rules)
+## Aturan Pemanggilan Skill (Skill Routing Rules)
 
 1. **Prinsip "Less is More"**: Muat hanya 1 skill spesifik untuk tugas operasional reguler.
 2. **Kombinasi Maksimal 2-3 Skill**: Hanya padukan skill saat tugas membutuhkan sudut pandang ganda (misal: `playwright-e2e-testing` + `bdd-gherkin-verification` untuk verifikasi fitur).

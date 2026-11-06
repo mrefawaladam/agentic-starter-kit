@@ -1,4 +1,4 @@
-# 🎨 Design Principles & Design System
+# Design Principles & Design System
 
 ## 1. Design Philosophy (ui-skills.com & Jira Light)
 - **Visual Restraint**: Setiap elemen antarmuka harus memiliki tujuan yang jelas, tanpa dekorasi berlebihan.

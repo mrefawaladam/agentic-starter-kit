@@ -1,4 +1,4 @@
-# 🔍 Discovery: Problem Statements & Assumptions
+# Discovery: Problem Statements & Assumptions
 
 ## 1. Problem Statements
 1. **Unconstrained AI Coding**: Developer sering meminta AI menulis kode tanpa batasan requirement, menghasilkan kode yang tidak konsisten dan sulit dirawat.

@@ -1,4 +1,4 @@
-# 📋 Business Rules: Autentikasi Pengguna
+# Business Rules: Autentikasi Pengguna
 
 | Rule ID | Nama Aturan | Deskripsi & Validasi |
 | :--- | :--- | :--- |

@@ -1,4 +1,4 @@
-# 🌐 API Specification: Authentication Endpoints
+# API Specification: Authentication Endpoints
 
 Base URL: `/api/v1/auth`
 

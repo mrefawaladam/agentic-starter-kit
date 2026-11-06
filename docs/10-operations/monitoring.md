@@ -1,4 +1,4 @@
-# 📈 Operations: Monitoring & Health Checks
+# Operations: Monitoring & Health Checks
 
 ## 1. Health Check Endpoint
 - Path: `GET /health`

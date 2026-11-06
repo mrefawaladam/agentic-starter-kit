@@ -1,4 +1,4 @@
-# 🛡️ Threat Model & STRIDE Analysis
+# ️ Threat Model & STRIDE Analysis
 
 ## 1. Metodologi STRIDE
 | Kategori Ancaman | Risiko Potensial | Mitigasi yang Diterapkan |

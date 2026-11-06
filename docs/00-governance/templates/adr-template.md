@@ -9,7 +9,7 @@ deciders:
 date: YYYY-MM-DD
 ---
 
-# 🏛️ Architecture Decision Record: [Judul Keputusan]
+# ️ Architecture Decision Record: [Judul Keputusan]
 
 ## 1. Context (Konteks & Masalah)
 Jelaskan latar belakang teknis atau masalah bisnis yang dihadapi, kendala yang ada, dan mengapa keputusan ini perlu diambil sekarang.

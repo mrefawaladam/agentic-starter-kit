@@ -1,10 +1,10 @@
-# 🎨 Katalog UI Skills (Referensi https://www.ui-skills.com/)
+# Katalog UI Skills (Referensi https://www.ui-skills.com/)
 
 Dokumen ini mendokumentasikan seluruh aturan dan paket skill dari ekosistem **[UI Skills](https://www.ui-skills.com/)** (`ibelick/ui-skills`) yang diadopsi sebagai standar desain rekayasa antarmuka di proyek ini.
 
 ---
 
-## 📋 Ringkasan 6 Paket Skill
+## Ringkasan 6 Paket Skill
 
 | Nama Skill | Fokus Utama | Aturan Kunci |
 | :--- | :--- | :--- |
@@ -17,7 +17,7 @@ Dokumen ini mendokumentasikan seluruh aturan dan paket skill dari ekosistem **[U
 
 ---
 
-## 🛠️ Checklist Kepatuhan Komponen UI
+## ️ Checklist Kepatuhan Komponen UI
 
 Setiap komponen yang dibuat oleh tim atau AI harus lolos checklist berikut:
 

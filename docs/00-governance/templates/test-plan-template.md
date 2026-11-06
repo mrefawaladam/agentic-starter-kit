@@ -8,7 +8,7 @@ version: 1.0.0
 created_at: YYYY-MM-DD
 ---
 
-# 🧪 Rencana Pengujian (Test Plan): [Nama Fitur / Modul]
+# Rencana Pengujian (Test Plan): [Nama Fitur / Modul]
 
 ## 1. Ruang Lingkup Pengujian (Scope)
 - **Komponen yang Diuji**: Handler HTTP, UseCase transaksi, Repository GORM, isolasi multi-tenant.

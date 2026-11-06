@@ -1,4 +1,4 @@
-# 📑 Log Keputusan Produk & Arsitektur (Decision Log)
+# Log Keputusan Produk & Arsitektur (Decision Log)
 
 Dokumen ini mencatat keputusan-keputusan strategis tingkat produk, bisnis, dan rekayasa perangkat lunak yang disepakati oleh tim KasirSakti.
 

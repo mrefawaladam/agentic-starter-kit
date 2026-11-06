@@ -14,7 +14,7 @@ depends_on:
   - FEAT-YYY-001
 ---
 
-# 📦 Spesifikasi Fitur: [Nama Fitur]
+# Spesifikasi Fitur: [Nama Fitur]
 
 ## 1. Ringkasan Fitur (Overview)
 Penjelasan ringkas tentang apa yang dilakukan oleh fitur ini dan mengapa penting bagi pengguna.

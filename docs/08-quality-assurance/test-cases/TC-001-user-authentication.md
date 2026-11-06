@@ -1,4 +1,4 @@
-# 🧪 Test Case: TC-001 - Autentikasi Pengguna
+# Test Case: TC-001 - Autentikasi Pengguna
 
 | Metadata | Nilai |
 | :--- | :--- |

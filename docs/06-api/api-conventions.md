@@ -1,4 +1,4 @@
-# 🌐 API Conventions & Standards
+# API Conventions & Standards
 
 ## 1. Format Respons Standar
 Seluruh endpoint API mengembalikan format JSON standar:

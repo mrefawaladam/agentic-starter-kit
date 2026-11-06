@@ -1,10 +1,10 @@
-# 📖 Glosarium Istilah Bisnis & Teknis KasirSakti (Glossary)
+# Glosarium Istilah Bisnis & Teknis KasirSakti (Glossary)
 
 Glosarium ini menetapkan definisi baku untuk seluruh terminologi agar tercipta pemahaman yang seragam di antara AI Agent, Product Owner, Developer, dan QA.
 
 ---
 
-## 🏛️ Terminologi Bisnis & Organisasi
+## ️ Terminologi Bisnis & Organisasi
 | Istilah | Definisi Baku |
 | :--- | :--- |
 | **Merchant / Cooperative** | Entitas pemilik usaha tertinggi (penyewa multi-tenant) yang memayungi beberapa cabang outlet. Seluruh data keuangan, pengguna, dan produk terisolasi per `merchant_id`. |
@@ -18,7 +18,7 @@ Glosarium ini menetapkan definisi baku untuk seluruh terminologi agar tercipta p
 
 ---
 
-## 💼 Terminologi Operasional POS & Kasir
+## Terminologi Operasional POS & Kasir
 | Istilah | Definisi Baku |
 | :--- | :--- |
 | **Opening Cash (Modal Awal)** | Uang fisik modal receh kasir yang diinput saat membuka laci kasir di awal shift. |
@@ -30,7 +30,7 @@ Glosarium ini menetapkan definisi baku untuk seluruh terminologi agar tercipta p
 
 ---
 
-## 📦 Terminologi Inventori & Multi-Unit
+## Terminologi Inventori & Multi-Unit
 | Istilah | Definisi Baku |
 | :--- | :--- |
 | **Base Unit (Unit Dasar)** | Satuan terkecil yang digunakan untuk penghitungan stok gudang (contoh: Pcs, Gram, Mililiter). |
@@ -41,7 +41,7 @@ Glosarium ini menetapkan definisi baku untuk seluruh terminologi agar tercipta p
 
 ---
 
-## 📊 Terminologi Finansial & Akuntansi
+## Terminologi Finansial & Akuntansi
 | Istilah | Definisi Baku |
 | :--- | :--- |
 | **Double-Entry Bookkeeping** | Sistem pencatatan akuntansi berpasangan di mana setiap transaksi menghasilkan debit dan kredit yang nilainya seimbang. |
