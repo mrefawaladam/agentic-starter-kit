@@ -23,6 +23,7 @@ import {
   ArrowRight,
   Eye,
   ChevronDown,
+  Copy,
 } from 'lucide-react';
 
 interface SpecDrawerProps {
@@ -69,6 +70,7 @@ export function SpecDrawer({
   const [specContent, setSpecContent] = useState<string>('');
   const [isLoadingSpec, setIsLoadingSpec] = useState(false);
   const [copiedPrompt, setCopiedPrompt] = useState(false);
+  const [copiedTaskId, setCopiedTaskId] = useState(false);
 
   // Document mention picker states
   const [isDocPickerOpen, setIsDocPickerOpen] = useState(false);
@@ -182,8 +184,30 @@ export function SpecDrawer({
     onUpdateTask({ ...task, status: newStatus, updated_at: new Date().toISOString() });
   };
 
-  // Generate Enhanced Agent Prompt including Document References
+  // Mapping role assignee ke Antigravity shortcut (/dev, /pm, /architect, dll)
+  const getAgentShortcut = (assignee?: string) => {
+    const norm = (assignee || '').toLowerCase();
+    if (norm.includes('product') || norm.includes('pm')) return { slash: '/pm', tag: '@pm', role: 'Product Manager' };
+    if (norm.includes('business') || norm.includes('ba') || norm.includes('analyst')) return { slash: '/ba', tag: '@ba', role: 'Business Analyst' };
+    if (norm.includes('architect') || norm.includes('solution')) return { slash: '/architect', tag: '@architect', role: 'Solution Architect' };
+    if (norm.includes('quality') || norm.includes('qa') || norm.includes('test')) return { slash: '/qa', tag: '@qa', role: 'Quality Engineer' };
+    if (norm.includes('security')) return { slash: '/security', tag: '@security', role: 'Security Engineer' };
+    if (norm.includes('ui') || norm.includes('ux') || norm.includes('design')) return { slash: '/ui-ux', tag: '@ui-ux', role: 'UI/UX Designer' };
+    return { slash: '/dev', tag: '@dev', role: 'Developer' };
+  };
+
+  const handleCopyTaskId = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (task?.id) {
+      navigator.clipboard.writeText(task.id);
+      setCopiedTaskId(true);
+      setTimeout(() => setCopiedTaskId(false), 2000);
+    }
+  };
+
+  // Generate Enhanced Agent Prompt for Antigravity & AI Spec-Driven workflow
   const generateAgentPrompt = () => {
+    const shortcut = getAgentShortcut(task.assignee);
     const docMentions =
       task.document_references && task.document_references.length > 0
         ? `\n\n[Dokumen Referensi Terkait (PRD / Epics / Architecture / API)]:\n` +
@@ -192,26 +216,42 @@ export function SpecDrawer({
             .join('\n')
         : '';
 
-    return `@${task.assignee?.replace(/\s+/g, '') || 'Developer'}
-Bertindaklah sebagai ${task.assignee || 'Developer Agent'}.
-Saya ingin mengerjakan task: "${task.title}" (${task.code || task.id}).
+    const acList =
+      task.acceptance_criteria && task.acceptance_criteria.length > 0
+        ? task.acceptance_criteria
+            .map((ac) => `- [${ac.checked ? 'x' : ' '}] ${ac.id}: ${ac.text}`)
+            .join('\n')
+        : '- (Belum ada Acceptance Criteria spesifik)';
 
-[Spesifikasi Utama]:
-- File Spesifikasi: ${task.spec_file || 'docs/03-requirements/features/...'}
-- Assignee: ${task.assignee || 'Unassigned'}
-- Status Kesiapan: ${task.status.toUpperCase()}
-- Prioritas: ${task.priority}${docMentions}
+    return `${shortcut.slash} Kerjakan task [${task.id}] — "${task.title}"
 
-Aturan Mutlak:
-1. Baca Dokumen Spesifikasi Utama serta Dokumen Referensi yang di-mention di atas sebelum menyusun solusi atau menulis kode.
-2. Patuhi Acceptance Criteria yang ditentukan.
-3. Jaga isolasi multi-tenant (merchant_id) dan arsitektur Clean Architecture KasirSakti.`;
+Peran: ${shortcut.role} (${shortcut.tag})
+Task ID: ${task.id}
+Feature Code: ${task.code}
+Status Kesiapan: ${task.status.toUpperCase()}
+Prioritas: ${task.priority}
+Story Points: ${task.story_points ?? '-'}
+Tags: ${task.tags && task.tags.length > 0 ? task.tags.join(', ') : '-'}
+
+[File Spesifikasi Utama]:
+- Path: ${task.spec_file || 'docs/03-requirements/features/...'}${docMentions}
+
+[Acceptance Criteria]:
+${acList}
+
+[Panduan Eksekusi AI Agent (Antigravity)]:
+1. Anda dapat membaca spesifikasi task ini secara instan di terminal menggunakan:
+   \`node scripts/task.js get ${task.id}\`
+   atau membaca langsung file 'data/backlog.json' dan '${task.spec_file}'.
+2. Telusuri relasi arsitektur dan endpoint terdampak via 'data/knowledge-graph.json'.
+3. Kerjakan implementasi dan pastikan seluruh Acceptance Criteria di atas terverifikasi.
+4. Setelah selesai, perbarui status task di 'data/backlog.json' menjadi 'in_qa' atau 'done' (atau jalankan \`node scripts/task.js set-status ${task.id} done\`).`;
   };
 
   const handleCopyPrompt = () => {
     navigator.clipboard.writeText(generateAgentPrompt());
     setCopiedPrompt(true);
-    setTimeout(() => setCopiedPrompt(false), 2000);
+    setTimeout(() => setCopiedPrompt(false), 2500);
   };
 
   // Filter docs for mention picker
@@ -264,10 +304,36 @@ Aturan Mutlak:
         {/* Header with Issue Key & Interactive Assignee */}
         <div className="p-5 border-b border-[#EBECF0] flex items-start justify-between gap-4 bg-[#FAFBFC]">
           <div className="flex flex-col gap-2 flex-1">
-            <div className="flex items-center gap-2.5 flex-wrap">
-              <span className="font-mono text-xs px-2.5 py-0.5 rounded-md bg-[#DEEBFF] text-[#0747A6] font-bold shadow-2xs">
-                {task.code || task.id}
-              </span>
+            <div className="flex items-center gap-2 flex-wrap">
+              {/* Task ID (Nomor Task) dengan Tombol Salin */}
+              <div className="flex items-center gap-1.5 bg-[#DEEBFF] border border-[#B3D4FF] rounded-md px-2.5 py-0.5 shadow-2xs">
+                <span className="font-mono text-xs text-[#0747A6] font-bold" title="Nomor Task Unik">
+                  {task.id}
+                </span>
+                <button
+                  type="button"
+                  onClick={handleCopyTaskId}
+                  title="Salin Task ID ke Clipboard"
+                  className="text-[#0747A6] hover:text-[#0052CC] p-0.5 rounded hover:bg-[#B3D4FF]/40 cursor-pointer transition-colors"
+                >
+                  {copiedTaskId ? (
+                    <Check className="w-3.5 h-3.5 text-emerald-600" />
+                  ) : (
+                    <Copy className="w-3.5 h-3.5" />
+                  )}
+                </button>
+              </div>
+
+              {/* Feature / Epic Code (jika berbeda dari Task ID) */}
+              {task.code && task.code !== task.id && (
+                <span
+                  title="Feature / Epic Code"
+                  className="font-mono text-xs px-2 py-0.5 rounded-md bg-[#F4F5F7] text-[#42526E] font-medium border border-[#DFE1E6]"
+                >
+                  {task.code}
+                </span>
+              )}
+
               <span className="text-xs text-[#8993A4]">•</span>
 
               {/* Interactive Assignee Dropdown */}
@@ -371,16 +437,17 @@ Aturan Mutlak:
             <button
               onClick={handleCopyPrompt}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[#0052CC] hover:bg-[#0747A6] active:bg-[#003884] text-white text-xs font-semibold shadow-xs transition-all cursor-pointer"
+              title={`Salin prompt tugas berformat resmi untuk Antigravity CLI (${getAgentShortcut(task.assignee).slash})`}
             >
               {copiedPrompt ? (
                 <>
                   <Check className="w-3.5 h-3.5 text-emerald-300" />
-                  <span>Prompt Disalin!</span>
+                  <span>Prompt Antigravity Disalin!</span>
                 </>
               ) : (
                 <>
                   <Sparkles className="w-3.5 h-3.5" />
-                  <span>Salin Prompt AI</span>
+                  <span>Salin Prompt AI ({getAgentShortcut(task.assignee).slash})</span>
                 </>
               )}
             </button>

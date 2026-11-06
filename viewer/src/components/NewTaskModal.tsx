@@ -67,6 +67,7 @@ const COMMON_DOC_REFERENCES: DocumentReference[] = [
 ];
 
 export function NewTaskModal({ columns, isOpen, onClose, onAddTask }: NewTaskModalProps) {
+  const [taskId, setTaskId] = useState('TASK-' + Math.floor(100 + Math.random() * 900));
   const [code, setCode] = useState('FEAT-POS-006');
   const [title, setTitle] = useState('');
   const [type, setType] = useState<TaskItem['type']>('FEATURE');
@@ -102,7 +103,7 @@ export function NewTaskModal({ columns, isOpen, onClose, onAddTask }: NewTaskMod
     const finalAssignee = isCustomAssignee ? customAssigneeVal.trim() || 'Unassigned' : assignee;
 
     const newTask: TaskItem = {
-      id: `TASK-${Date.now().toString().slice(-4)}`,
+      id: taskId.trim() || `TASK-${Date.now().toString().slice(-4)}`,
       code: code.trim(),
       title: title.trim(),
       type,
@@ -142,15 +143,26 @@ export function NewTaskModal({ columns, isOpen, onClose, onAddTask }: NewTaskMod
 
         {/* Form Body */}
         <form onSubmit={handleSubmit} className="p-6 overflow-y-auto flex flex-col gap-4 text-xs">
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-4 gap-3">
             <div className="col-span-1 flex flex-col gap-1.5">
-              <label className="text-[#42526E] font-semibold">Issue Key</label>
+              <label className="text-[#42526E] font-semibold">Nomor Task (ID)</label>
+              <input
+                type="text"
+                required
+                value={taskId}
+                onChange={(e) => setTaskId(e.target.value)}
+                placeholder="TASK-POS-003"
+                className="bg-[#DEEBFF]/50 border border-[#B3D4FF] rounded-md px-3 py-2 text-[#0747A6] font-mono font-bold focus:border-[#0052CC] focus:outline-hidden"
+              />
+            </div>
+            <div className="col-span-1 flex flex-col gap-1.5">
+              <label className="text-[#42526E] font-semibold">Kode Fitur</label>
               <input
                 type="text"
                 required
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
-                placeholder="FEAT-POS-006"
+                placeholder="FEAT-POS-001"
                 className="bg-[#F4F5F7] border border-[#DFE1E6] rounded-md px-3 py-2 text-[#172B4D] font-mono focus:border-[#0052CC] focus:outline-hidden"
               />
             </div>
