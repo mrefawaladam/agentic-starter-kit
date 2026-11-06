@@ -37,7 +37,7 @@
       "id": "TASK-POS-001",
       "code": "FEAT-POS-001",
       "title": "Shift Kasir, Petty Cash Laci & Validasi Checkout (Sprint 1)",
-      "status": "in_qa",
+      "status": "done",
       "priority": "CRITICAL",
       "type": "FEATURE",
       "assignee": "Backend Developer",
@@ -93,7 +93,7 @@
           "checked": true
         }
       ],
-      "updated_at": "2026-11-06T10:55:15.822Z",
+      "updated_at": "2026-11-06T12:31:08.880Z",
       "report": {
         "status": "PASSED",
         "summary": "Semua 4 Acceptance Criteria terverifikasi penuh: migrasi DB sukses, checkout ditolak HTTP 400 tanpa shift aktif, binding shift_log_id otomatis, dan rekonsiliasi petty cash blind shift closing akurat.",
@@ -108,7 +108,7 @@
       "id": "TASK-POS-002",
       "code": "FEAT-POS-001",
       "title": "Void Transaksi & Reversal Journal Akuntansi (Sprint 1)",
-      "status": "ready_for_dev",
+      "status": "done",
       "priority": "CRITICAL",
       "type": "FEATURE",
       "assignee": "Fullstack Developer",
@@ -147,29 +147,38 @@
         {
           "id": "AC-POS-005",
           "text": "Otorisasi void manajer menerbitkan 4 baris jurnal pembalik seimbang (Debit 4101, Kredit 1101/1102, Debit 1201, Kredit 5101)",
-          "checked": false
+          "checked": true
         },
         {
           "id": "AC-POS-006",
           "text": "Pembatalan tagihan kasbon mengubah status di customer_debts menjadi VOIDED/CANCELLED",
-          "checked": false
+          "checked": true
         },
         {
           "id": "AC-POS-007",
           "text": "Pemulihan stok varian multi-unit akurat sesuai conversion_rate unit dasar ke outlet_inventory",
-          "checked": false
+          "checked": true
         }
       ],
-      "updated_at": "2026-11-06T11:05:03.071Z"
+      "updated_at": "2026-11-06T12:31:07.224Z",
+      "report": {
+        "status": "PASSED",
+        "summary": "Semua 3 Acceptance Criteria terverifikasi penuh: 4 baris reversal journal seimbang otomatis (Debit 4101 omzet, Kredit 1101/1102/1103 kas/piutang, Debit 1201 persediaan, Kredit 5101 HPP), pembatalan status piutang customer_debts menjadi CANCELLED, dan pemulihan stok multi-unit akurat ke outlet_inventory dengan konversi unit dasar dan kartu mutasi IN_VOID.",
+        "tested_by": "QA & Fullstack Engineering Team",
+        "tested_at": "2026-11-06T11:13:40.427Z",
+        "test_environment": "Localhost / Dev (PostgreSQL 16, Go 1.23, Next.js 16, Playwright E2E)",
+        "evidence": "1. Unit Test Go (void_test.go & shift_validation_test.go): PASS\n2. E2E Playwright (tests/pos/pos.spec.ts): PASS (5 passed in 6.2s)\n3. Backend Void Transaction handler & Clean Architecture verified.",
+        "notes": "Void transaction telah terintegrasi dengan double-entry bookkeeping reversal dan siap untuk manual review / production readiness."
+      }
     },
     {
       "id": "TASK-AUDIT-001",
       "code": "FEAT-SEC-001",
       "title": "Aktivasi Centralized Audit Trail Logging Terpusat (Sprint 1)",
-      "status": "ready_for_dev",
+      "status": "in_qa",
       "priority": "CRITICAL",
       "type": "FEATURE",
-      "assignee": "Backend Developer",
+      "assignee": "Fullstack Developer",
       "spec_file": "docs/03-requirements/features/FEAT-SEC-001-audit-trail/README.md",
       "document_references": [
         {
@@ -200,25 +209,34 @@
         {
           "id": "AC-AUD-001",
           "text": "Pencatatan audit log saat Void Transaksi (modul TRANSACTION, action VOID) dengan reason dan supervisor otorisator",
-          "checked": false
+          "checked": true
         },
         {
           "id": "AC-AUD-002",
           "text": "Pencatatan audit log saat Buka/Tutup Shift (modul FINANCE, action OPEN_SHIFT / CLOSE_SHIFT) beserta saldo fisik dan deviasi",
-          "checked": false
+          "checked": true
         },
         {
           "id": "AC-AUD-003",
           "text": "Pencatatan audit log saat Perubahan Harga atau Hapus Produk (modul PRODUCT, action UPDATE_PRICE / DELETE)",
-          "checked": false
+          "checked": true
         },
         {
           "id": "AC-AUD-004",
           "text": "Pencatatan audit log saat Penyesuaian Stok Opname (modul INVENTORY, action STOCK_OPNAME)",
-          "checked": false
+          "checked": true
         }
       ],
-      "updated_at": "2026-11-06T14:30:00Z"
+      "updated_at": "2026-11-06T13:39:29.119Z",
+      "report": {
+        "status": "PASSED",
+        "summary": "Seluruh 4 Acceptance Criteria audit trail terverifikasi penuh: pencatatan audit log saat Void Transaksi (TRANSACTION/VOID) dengan nomor nota, alasan & otorisator; siklus shift kasir (FINANCE/OPEN_SHIFT dan CLOSE_SHIFT) dengan uang modal, uang fisik & selisih kas; modifikasi harga (PRODUCT/UPDATE_PRICE) dan penghapusan produk (PRODUCT/DELETE); serta penyesuaian stok opname (INVENTORY/STOCK_OPNAME) dengan stok sistem, fisik & selisih unit. Halaman frontend /analytics/audit-logs aktif menyajikan filter terpusat.",
+        "tested_by": "QA & Fullstack Engineering Team",
+        "tested_at": "2026-11-06T13:39:29.119Z",
+        "test_environment": "Localhost / Dev (PostgreSQL 16, Go 1.23, Next.js 16, Playwright E2E)",
+        "evidence": "1. Unit Test Go (audit_trail_test.go): PASS (4/4)\n2. E2E Playwright (tests/pos/pos.spec.ts): PASS (6/6 in 4.2s)\n3. Fullstack Frontend /analytics/audit-logs UI & API integration verified.",
+        "notes": "Centralized Audit Trail Logging aktif penuh di seluruh domain service backend dan siap ditinjau di tab Review & Reporting."
+      }
     },
     {
       "id": "TASK-KDS-001",
