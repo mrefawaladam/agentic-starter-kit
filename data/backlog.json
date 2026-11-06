@@ -378,7 +378,7 @@
       "id": "TASK-HRIS-001",
       "code": "FEAT-HRIS-001",
       "title": "Integrasi Payroll HRIS ke Jurnal Umum Buku Besar (Sprint 3)",
-      "status": "ready_for_dev",
+      "status": "in_qa",
       "priority": "HIGH",
       "type": "FEATURE",
       "assignee": "Fullstack Developer",
@@ -416,20 +416,27 @@
         {
           "id": "AC-HRIS-001",
           "text": "Pembayaran payroll disetujui otomatis menerbitkan entri jurnal umum double-entry seimbang (Debit 5201, Kredit 1101/1102, Kredit 2103, Kredit 1104)",
-          "checked": false
+          "checked": true
         },
         {
           "id": "AC-HRIS-002",
           "text": "Validasi kesetaraan total debit == kredit sebelum committing entri jurnal",
-          "checked": false
+          "checked": true
         },
         {
           "id": "AC-HRIS-003",
           "text": "Otorisasi role Finance Admin / Owner wajib dipenuhi sebelum payroll diposting",
-          "checked": false
+          "checked": true
         }
       ],
-      "updated_at": "2026-11-06T14:30:00Z"
+      "updated_at": "2026-11-06T14:59:43.294Z",
+      "report": {
+        "status": "PASSED",
+        "summary": "Integrasi Payroll HRIS ke Jurnal Umum Buku Besar berhasil diimplementasikan sesuai Clean Architecture. Seluruh 3 AC terverifikasi: Jurnal seimbang Debit 5201 vs Kredit 1101/1102, 1104, 2103, validasi debit == credit atomik, dan proteksi otorisasi Finance Admin/Owner.",
+        "tested_by": "Fullstack Developer (@dev)",
+        "tested_at": "2026-11-06T14:59:43.294Z",
+        "test_environment": "Localhost / Dev Environment"
+      }
     },
     {
       "id": "TASK-SPLIT-001",
