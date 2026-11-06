@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { TaskItem, KanbanColumn, DocumentReference } from '@/lib/storage';
+import { TaskItem, KanbanColumn, DocumentReference, TaskReport } from '@/lib/storage';
 import { MarkdownViewer } from './MarkdownViewer';
 import {
   X,
@@ -24,6 +24,11 @@ import {
   Eye,
   ChevronDown,
   Copy,
+  ClipboardList,
+  AlertCircle,
+  Clock,
+  Send,
+  Save,
 } from 'lucide-react';
 
 interface SpecDrawerProps {
@@ -65,12 +70,41 @@ export function SpecDrawer({
   onUpdateTask,
   onOpenDocInHub,
 }: SpecDrawerProps) {
-  const [activeTab, setActiveTab] = useState<'spec' | 'ac' | 'references'>('spec');
+  const [activeTab, setActiveTab] = useState<'spec' | 'ac' | 'references' | 'report'>('spec');
   const [activeDocPath, setActiveDocPath] = useState<string>('');
   const [specContent, setSpecContent] = useState<string>('');
   const [isLoadingSpec, setIsLoadingSpec] = useState(false);
   const [copiedPrompt, setCopiedPrompt] = useState(false);
   const [copiedTaskId, setCopiedTaskId] = useState(false);
+
+  // Task Report Form State
+  const [reportStatus, setReportStatus] = useState<TaskReport['status']>('PENDING_REVIEW');
+  const [reportSummary, setReportSummary] = useState('');
+  const [reportTestedBy, setReportTestedBy] = useState('');
+  const [reportEnv, setReportEnv] = useState('');
+  const [reportEvidence, setReportEvidence] = useState('');
+  const [reportNotes, setReportNotes] = useState('');
+  const [isReportSaved, setIsReportSaved] = useState(false);
+
+  // Sync report state when task changes
+  useEffect(() => {
+    if (task?.report) {
+      setReportStatus(task.report.status || 'PENDING_REVIEW');
+      setReportSummary(task.report.summary || '');
+      setReportTestedBy(task.report.tested_by || '');
+      setReportEnv(task.report.test_environment || 'Localhost / Dev');
+      setReportEvidence(task.report.evidence || '');
+      setReportNotes(task.report.notes || '');
+    } else {
+      setReportStatus('PENDING_REVIEW');
+      setReportSummary('');
+      setReportTestedBy('');
+      setReportEnv('Localhost / Dev');
+      setReportEvidence('');
+      setReportNotes('');
+    }
+    setIsReportSaved(false);
+  }, [task?.id, task?.report]);
 
   // Document mention picker states
   const [isDocPickerOpen, setIsDocPickerOpen] = useState(false);
@@ -187,13 +221,17 @@ export function SpecDrawer({
   // Mapping role assignee ke Antigravity shortcut (/dev, /pm, /architect, dll)
   const getAgentShortcut = (assignee?: string) => {
     const norm = (assignee || '').toLowerCase();
-    if (norm.includes('product') || norm.includes('pm')) return { slash: '/pm', tag: '@pm', role: 'Product Manager' };
-    if (norm.includes('business') || norm.includes('ba') || norm.includes('analyst')) return { slash: '/ba', tag: '@ba', role: 'Business Analyst' };
+    // Prioritaskan developer (frontend / backend / fullstack / engineer coding) ke /dev
+    if (norm.includes('dev') || norm.includes('frontend') || norm.includes('backend') || norm.includes('fullstack') || norm.includes('coder') || norm.includes('programmer')) {
+      return { slash: '/dev', tag: '@dev', role: assignee || 'Developer' };
+    }
+    if (norm.includes('product') || /\bpm\b/.test(norm)) return { slash: '/pm', tag: '@pm', role: 'Product Manager' };
+    if (norm.includes('business') || /\bba\b/.test(norm) || norm.includes('analyst')) return { slash: '/ba', tag: '@ba', role: 'Business Analyst' };
     if (norm.includes('architect') || norm.includes('solution')) return { slash: '/architect', tag: '@architect', role: 'Solution Architect' };
-    if (norm.includes('quality') || norm.includes('qa') || norm.includes('test')) return { slash: '/qa', tag: '@qa', role: 'Quality Engineer' };
+    if (norm.includes('quality') || /\bqa\b/.test(norm) || norm.includes('tester') || norm.includes('testing')) return { slash: '/qa', tag: '@qa', role: 'Quality Engineer' };
     if (norm.includes('security')) return { slash: '/security', tag: '@security', role: 'Security Engineer' };
     if (norm.includes('ui') || norm.includes('ux') || norm.includes('design')) return { slash: '/ui-ux', tag: '@ui-ux', role: 'UI/UX Designer' };
-    return { slash: '/dev', tag: '@dev', role: 'Developer' };
+    return { slash: '/dev', tag: '@dev', role: assignee || 'Developer' };
   };
 
   const handleCopyTaskId = (e: React.MouseEvent) => {
@@ -203,6 +241,34 @@ export function SpecDrawer({
       setCopiedTaskId(true);
       setTimeout(() => setCopiedTaskId(false), 2000);
     }
+  };
+
+  const handleSaveReport = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!task) return;
+
+    const newReport: TaskReport = {
+      status: reportStatus,
+      summary: reportSummary.trim(),
+      tested_by: reportTestedBy.trim() || 'Human Lead Reviewer',
+      tested_at: new Date().toISOString(),
+      test_environment: reportEnv.trim(),
+      evidence: reportEvidence.trim(),
+      notes: reportNotes.trim(),
+    };
+
+    // Otomatis update status task ke in_qa jika user memilih status pengujian atau sedang direview
+    const updatedStatus = task.status === 'ready_for_dev' || task.status === 'in_progress' ? 'in_qa' : task.status;
+
+    onUpdateTask({
+      ...task,
+      status: updatedStatus,
+      report: newReport,
+      updated_at: new Date().toISOString(),
+    });
+
+    setIsReportSaved(true);
+    setTimeout(() => setIsReportSaved(false), 2500);
   };
 
   // Generate Enhanced Agent Prompt for Antigravity & AI Spec-Driven workflow
@@ -239,13 +305,17 @@ Tags: ${task.tags && task.tags.length > 0 ? task.tags.join(', ') : '-'}
 [Acceptance Criteria]:
 ${acList}
 
+[Alur Kerja & Handoff Review]:
+1. Developer (@dev): Kerjakan implementasi kode (Frontend / Backend) sesuai Clean Architecture & penuhi seluruh Acceptance Criteria.
+2. Tandai AC yang telah selesai via \`node scripts/task.js check-ac ${task.id} <AC-ID>\`.
+3. Setelah selesai, pindahkan status task ke 'in_qa' untuk manual review oleh Human Lead melalui perintah:
+   \`node scripts/task.js set-status ${task.id} in_qa\`
+   atau sertakan ringkasan hasil implementasi/test untuk pelaporan di task.
+
 [Panduan Eksekusi AI Agent (Antigravity)]:
-1. Anda dapat membaca spesifikasi task ini secara instan di terminal menggunakan:
-   \`node scripts/task.js get ${task.id}\`
-   atau membaca langsung file 'data/backlog.json' dan '${task.spec_file}'.
+1. Baca spesifikasi task instan di terminal: \`node scripts/task.js get ${task.id}\`
 2. Telusuri relasi arsitektur dan endpoint terdampak via 'data/knowledge-graph.json'.
-3. Kerjakan implementasi dan pastikan seluruh Acceptance Criteria di atas terverifikasi.
-4. Setelah selesai, perbarui status task di 'data/backlog.json' menjadi 'in_qa' atau 'done' (atau jalankan \`node scripts/task.js set-status ${task.id} done\`).`;
+3. Eksekusi kode hingga tuntas dan siapkan hasil deliverable untuk direview.`;
   };
 
   const handleCopyPrompt = () => {
@@ -493,6 +563,34 @@ ${acList}
             <BookOpen className="w-4 h-4" />
             <span>Dokumen Referensi ({docRefCount})</span>
           </button>
+          <button
+            onClick={() => setActiveTab('report')}
+            className={`flex items-center gap-2 py-3 px-3 text-xs font-bold border-b-2 transition-colors cursor-pointer shrink-0 ${
+              activeTab === 'report'
+                ? 'border-[#0052CC] text-[#0052CC]'
+                : 'border-transparent text-[#5E6C84] hover:text-[#172B4D]'
+            }`}
+          >
+            <ClipboardList className="w-4 h-4" />
+            <div className="flex items-center gap-1.5">
+              <span>Review & Reporting</span>
+              {task.report ? (
+                <span
+                  className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full uppercase ${
+                    task.report.status === 'PASSED'
+                      ? 'bg-emerald-100 text-emerald-700'
+                      : task.report.status === 'FAILED'
+                      ? 'bg-red-100 text-red-700'
+                      : task.report.status === 'NEEDS_CHANGES'
+                      ? 'bg-amber-100 text-amber-700'
+                      : 'bg-blue-100 text-blue-700'
+                  }`}
+                >
+                  {task.report.status === 'PENDING_REVIEW' ? 'Review' : task.report.status}
+                </span>
+              ) : null}
+            </div>
+          </button>
         </div>
 
         {/* Drawer Body */}
@@ -691,6 +789,149 @@ ${acList}
                   </div>
                 )}
               </div>
+            </div>
+          )}
+
+          {activeTab === 'report' && (
+            <div className="flex flex-col gap-5 max-w-3xl">
+              {/* Info banner */}
+              <div className="p-4 bg-[#F4F5F7] border border-[#DFE1E6] rounded-xl flex items-start gap-3">
+                <ClipboardList className="w-5 h-5 text-[#0052CC] shrink-0 mt-0.5" />
+                <div className="flex flex-col gap-1 text-xs">
+                  <span className="font-bold text-[#172B4D]">Manual Review & Execution Reporting</span>
+                  <span className="text-[#5E6C84] leading-relaxed">
+                    Setelah implementasi selesai, task dialihkan ke <span className="font-semibold text-[#0052CC]">In QA</span> untuk review manual oleh Human Lead. Simpan ringkasan verifikasi, log eksekusi, atau temuan bug di sini sebagai bukti kualitas.
+                  </span>
+                </div>
+              </div>
+
+              {/* Form Input Laporan */}
+              <form onSubmit={handleSaveReport} className="flex flex-col gap-4 bg-white p-5 rounded-xl border border-[#DFE1E6] shadow-2xs">
+                {/* Status & Reviewer Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-bold text-[#172B4D] flex items-center gap-1.5">
+                      <span>Hasil Review / QA Status</span>
+                      <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      value={reportStatus}
+                      onChange={(e) => setReportStatus(e.target.value as TaskReport['status'])}
+                      className="w-full bg-[#FAFBFC] border border-[#DFE1E6] rounded-lg px-3 py-2 text-xs font-semibold text-[#172B4D] focus:border-[#0052CC] focus:outline-hidden"
+                    >
+                      <option value="PENDING_REVIEW">⏳ PENDING_REVIEW (Menunggu Review Manual)</option>
+                      <option value="PASSED">✅ PASSED (Lolos Uji & Sesuai Acceptance Criteria)</option>
+                      <option value="NEEDS_CHANGES">⚠️ NEEDS_CHANGES (Perlu Revisi / Perbaikan)</option>
+                      <option value="FAILED">❌ FAILED (Gagal Uji / Bug Kritis)</option>
+                    </select>
+                  </div>
+
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-bold text-[#172B4D]">Reviewer / Tester</label>
+                    <input
+                      type="text"
+                      placeholder="Nama Reviewer (cth: Human Lead / Muhammad Refa)"
+                      value={reportTestedBy}
+                      onChange={(e) => setReportTestedBy(e.target.value)}
+                      className="w-full bg-[#FAFBFC] border border-[#DFE1E6] rounded-lg px-3 py-2 text-xs text-[#172B4D] focus:border-[#0052CC] focus:outline-hidden"
+                    />
+                  </div>
+                </div>
+
+                {/* Environment */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-bold text-[#172B4D]">Environment Pengujian</label>
+                  <input
+                    type="text"
+                    placeholder="Contoh: Localhost (Node v20 + PostgreSQL Docker), Staging, dsb."
+                    value={reportEnv}
+                    onChange={(e) => setReportEnv(e.target.value)}
+                    className="w-full bg-[#FAFBFC] border border-[#DFE1E6] rounded-lg px-3 py-2 text-xs text-[#172B4D] focus:border-[#0052CC] focus:outline-hidden"
+                  />
+                </div>
+
+                {/* Summary */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-bold text-[#172B4D] flex items-center gap-1.5">
+                    <span>Ringkasan Eksekusi / Testing Summary</span>
+                    <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Contoh: Seluruh 3 AC terverifikasi manual, API shift & validasi 400 bekerja sesuai spek."
+                    value={reportSummary}
+                    onChange={(e) => setReportSummary(e.target.value)}
+                    className="w-full bg-[#FAFBFC] border border-[#DFE1E6] rounded-lg px-3 py-2 text-xs text-[#172B4D] focus:border-[#0052CC] focus:outline-hidden font-medium"
+                    required
+                  />
+                </div>
+
+                {/* Evidence / Logs */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-bold text-[#172B4D] flex items-center justify-between">
+                    <span>Bukti Eksekusi (Log Terminal, Respon API, atau Link Screenshot)</span>
+                    <span className="text-[10px] text-[#5E6C84] font-normal">Mendukung Markdown</span>
+                  </label>
+                  <textarea
+                    rows={4}
+                    placeholder="Tempelkan curl response, log terminal testing, atau catatan pengujian..."
+                    value={reportEvidence}
+                    onChange={(e) => setReportEvidence(e.target.value)}
+                    className="w-full bg-[#FAFBFC] border border-[#DFE1E6] rounded-lg p-3 text-xs font-mono text-[#172B4D] focus:border-[#0052CC] focus:outline-hidden resize-y"
+                  />
+                </div>
+
+                {/* Notes / Action Items */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-bold text-[#172B4D]">Catatan Tambahan / Feedback untuk Developer</label>
+                  <textarea
+                    rows={2}
+                    placeholder="Catatan jika ada revisi minor atau rekomendasi refaktor..."
+                    value={reportNotes}
+                    onChange={(e) => setReportNotes(e.target.value)}
+                    className="w-full bg-[#FAFBFC] border border-[#DFE1E6] rounded-lg p-3 text-xs text-[#172B4D] focus:border-[#0052CC] focus:outline-hidden resize-y"
+                  />
+                </div>
+
+                {/* Action Toolbar */}
+                <div className="pt-2 flex items-center justify-between gap-3 border-t border-[#EBECF0]">
+                  <div className="text-[11px] text-[#5E6C84] flex items-center gap-1.5">
+                    {task.report?.tested_at && (
+                      <>
+                        <Clock className="w-3.5 h-3.5" />
+                        <span>Terakhir diperbarui: {new Date(task.report.tested_at).toLocaleString('id-ID')}</span>
+                      </>
+                    )}
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="flex items-center gap-1.5 px-4 py-2 bg-[#0052CC] hover:bg-[#0747A6] active:bg-[#003884] text-white text-xs font-bold rounded-lg shadow-xs transition-all cursor-pointer"
+                  >
+                    {isReportSaved ? (
+                      <>
+                        <Check className="w-4 h-4 text-emerald-300" />
+                        <span>Laporan Tersimpan!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Save className="w-4 h-4" />
+                        <span>Simpan Laporan & Update ke In QA</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </form>
+
+              {/* Riwayat Laporan Sebelumnya jika ada */}
+              {task.report && task.report.evidence && (
+                <div className="mt-2 flex flex-col gap-2">
+                  <span className="text-xs font-bold text-[#172B4D]">Preview Bukti Pengujian Terdaftar:</span>
+                  <div className="p-4 bg-[#FAFBFC] border border-[#DFE1E6] rounded-xl text-xs font-mono whitespace-pre-wrap text-[#253858]">
+                    {task.report.evidence}
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>

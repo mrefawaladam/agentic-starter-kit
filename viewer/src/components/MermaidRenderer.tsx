@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import mermaid from 'mermaid';
 import {
   ZoomIn,
@@ -67,45 +67,77 @@ export function MermaidRenderer({ code }: MermaidProps) {
     };
   }, [code]);
 
-  // Calculate Fit to Viewport
-  const fitToView = useCallback(() => {
-    if (!viewportRef.current || !svgHtml) return;
+  // Extract natural SVG width & height from viewBox or width/height attributes
+  const svgDimensions = useMemo<{ width: number; height: number } | null>(() => {
+    if (!svgHtml) return null;
 
-    const match = svgHtml.match(
+    // Try viewBox first: viewBox="minX minY width height"
+    const vbMatch = svgHtml.match(
       /viewBox=["']\s*([0-9.-]+)\s+([0-9.-]+)\s+([0-9.-]+)\s+([0-9.-]+)\s*["']/
     );
+    if (vbMatch) {
+      const w = parseFloat(vbMatch[3]);
+      const h = parseFloat(vbMatch[4]);
+      if (w > 0 && h > 0) {
+        return { width: Math.round(w), height: Math.round(h) };
+      }
+    }
+
+    // Try explicit width & height attributes
+    const wMatch = svgHtml.match(/\bwidth=["']([0-9.]+)px?["']/);
+    const hMatch = svgHtml.match(/\bheight=["']([0-9.]+)px?["']/);
+    if (wMatch && hMatch) {
+      const w = parseFloat(wMatch[1]);
+      const h = parseFloat(hMatch[1]);
+      if (w > 0 && h > 0) {
+        return { width: Math.round(w), height: Math.round(h) };
+      }
+    }
+
+    return null;
+  }, [svgHtml]);
+
+  // Calculate Fit to Viewport
+  const fitToView = useCallback(() => {
+    if (!viewportRef.current) return;
 
     const containerW = viewportRef.current.clientWidth - 48;
     const containerH = viewportRef.current.clientHeight - 48;
 
-    if (match && containerW > 0 && containerH > 0) {
-      const svgW = parseFloat(match[3]);
-      const svgH = parseFloat(match[4]);
-
-      if (svgW > 0 && svgH > 0) {
-        const scaleW = containerW / svgW;
-        const scaleH = containerH / svgH;
-        const autoFit = Math.min(scaleW, scaleH, 1.15);
-        setScale(Number(Math.max(0.2, autoFit).toFixed(2)));
-        setPosition({ x: 0, y: 0 });
-        return;
-      }
+    if (svgDimensions && containerW > 0 && containerH > 0) {
+      const scaleW = containerW / svgDimensions.width;
+      const scaleH = containerH / svgDimensions.height;
+      // Fit both width & height inside container, but do not upscale small diagrams past 1.0 (100%)
+      const autoFit = Math.min(scaleW, scaleH, 1.0);
+      setScale(Number(Math.max(0.1, autoFit).toFixed(2)));
+      setPosition({ x: 0, y: 0 });
+      return;
     }
 
     setScale(1);
     setPosition({ x: 0, y: 0 });
-  }, [svgHtml]);
+  }, [svgDimensions]);
+
+  // Toggle between Fit to View and 100% (Natural Size)
+  const toggleFitOr100 = useCallback(() => {
+    if (Math.abs(scale - 1) < 0.05) {
+      fitToView();
+    } else {
+      setScale(1);
+      setPosition({ x: 0, y: 0 });
+    }
+  }, [scale, fitToView]);
 
   // Initial Auto-Fit when SVG loads or fullscreen toggles
   useEffect(() => {
-    if (svgHtml) {
+    if (svgHtml && svgDimensions) {
       // Delay slightly for DOM layout measurement
       const timer = setTimeout(() => {
         fitToView();
       }, 50);
       return () => clearTimeout(timer);
     }
-  }, [svgHtml, isFullscreen, fitToView]);
+  }, [svgHtml, svgDimensions, isFullscreen, fitToView]);
 
   // Handle Fullscreen Scroll Lock & Escape key
   useEffect(() => {
@@ -157,8 +189,10 @@ export function MermaidRenderer({ code }: MermaidProps) {
   }, [isDragging, dragStart]);
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    // Only primary left mouse click
+    // Only primary left mouse click and not clicking interactive controls
     if (e.button !== 0) return;
+    if ((e.target as HTMLElement).closest('button')) return;
+    e.preventDefault();
     setIsDragging(true);
     setDragStart({
       x: e.clientX - position.x,
@@ -274,11 +308,11 @@ export function MermaidRenderer({ code }: MermaidProps) {
             <ZoomOut className="w-3.5 h-3.5" />
           </button>
 
-          {/* Zoom Level Indicator (Clickable to Reset) */}
+          {/* Zoom Level Indicator (Clickable to Toggle Fit / 100%) */}
           <button
             type="button"
-            onClick={resetView}
-            title="Reset ke 100%"
+            onClick={toggleFitOr100}
+            title={Math.abs(scale - 1) < 0.05 ? 'Paskan ke Layar (Fit)' : 'Reset ke 100%'}
             className="px-2 py-0.5 font-mono text-[11px] font-semibold text-slate-700 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors"
           >
             {zoomPercent}%
@@ -376,6 +410,7 @@ export function MermaidRenderer({ code }: MermaidProps) {
         ref={viewportRef}
         onMouseDown={handleMouseDown}
         onWheel={handleWheel}
+        onDoubleClick={toggleFitOr100}
         style={{
           backgroundImage:
             'radial-gradient(circle, #cbd5e1 1.2px, transparent 1.2px)',
@@ -389,7 +424,7 @@ export function MermaidRenderer({ code }: MermaidProps) {
         {/* Subtle Ctrl + Scroll Hint Toast */}
         {showHint && !isFullscreen && (
           <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 pointer-events-none bg-slate-900/80 text-white text-[11px] font-medium px-3 py-1.5 rounded-full shadow-lg backdrop-blur-xs animate-in fade-in duration-200">
-            Tahan <kbd className="bg-slate-700 px-1 py-0.5 rounded text-[10px]">Ctrl</kbd> + Scroll untuk Zoom
+            Tahan <kbd className="bg-slate-700 px-1 py-0.5 rounded text-[10px]">Ctrl</kbd> + Scroll untuk Zoom • Double click untuk Toggle Fit / 100%
           </div>
         )}
 
@@ -403,7 +438,12 @@ export function MermaidRenderer({ code }: MermaidProps) {
           }}
         >
           <div
-            className="mermaid-svg-container pointer-events-auto [&_svg]:max-w-none [&_svg]:h-auto shadow-xs p-4 bg-white/40 rounded-xl"
+            className="mermaid-svg-container pointer-events-auto flex items-center justify-center shadow-xs bg-white/50 rounded-xl transition-shadow [&_svg]:!max-w-none [&_svg]:!w-full [&_svg]:!h-full [&_svg]:block"
+            style={{
+              width: svgDimensions ? `${svgDimensions.width}px` : 'auto',
+              height: svgDimensions ? `${svgDimensions.height}px` : 'auto',
+              flexShrink: 0,
+            }}
             dangerouslySetInnerHTML={{ __html: svgHtml }}
           />
         </div>

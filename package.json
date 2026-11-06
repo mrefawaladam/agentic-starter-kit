@@ -5,7 +5,8 @@
   "scripts": {
     "board": "cd viewer && pnpm dev",
     "board:build": "cd viewer && pnpm build",
-    "board:start": "cd viewer && pnpm start"
+    "board:start": "cd viewer && pnpm start",
+    "task": "node scripts/task.js"
   },
   "keywords": [
     "kasirsakti",
