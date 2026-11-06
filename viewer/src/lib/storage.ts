@@ -14,6 +14,16 @@ export interface DocumentReference {
   type?: 'prd' | 'epic' | 'feature' | 'architecture' | 'api' | 'security' | 'qa' | 'governance' | 'other';
 }
 
+export interface TaskReport {
+  status: 'PENDING_REVIEW' | 'PASSED' | 'FAILED' | 'NEEDS_CHANGES';
+  summary: string;
+  tested_by?: string;
+  tested_at?: string;
+  test_environment?: string; // misal: "Localhost", "Staging", "Docker"
+  evidence?: string;         // Log eksekusi / markdown hasil tes / screenshot link
+  notes?: string;
+}
+
 export interface TaskItem {
   id: string;
   code: string;
@@ -27,6 +37,7 @@ export interface TaskItem {
   tags?: string[];
   story_points?: number;
   acceptance_criteria?: AcceptanceCriterion[];
+  report?: TaskReport;
   updated_at?: string;
 }
 

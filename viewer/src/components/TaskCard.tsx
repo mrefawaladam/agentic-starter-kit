@@ -171,7 +171,25 @@ export function TaskCard({ task, onSelect, onDragStart }: TaskCardProps) {
               className="flex items-center gap-1 text-[10px] font-mono px-1.5 py-0.5 rounded bg-purple-50 text-purple-700 font-semibold border border-purple-200"
             >
               <FileText className="w-2.5 h-2.5 text-purple-600" />
-              {task.document_references.length} doc{task.document_references.length > 1 ? 's' : ''}
+              {task.document_references.length}
+            </span>
+          )}
+
+          {/* Report Status Badge if exists */}
+          {task.report && (
+            <span
+              title={`Hasil Review: ${task.report.status} (${task.report.summary || 'Lihat drawer'})`}
+              className={`text-[9px] font-bold font-mono px-1.5 py-0.5 rounded border uppercase ${
+                task.report.status === 'PASSED'
+                  ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                  : task.report.status === 'FAILED'
+                  ? 'bg-red-50 text-red-700 border-red-200'
+                  : task.report.status === 'NEEDS_CHANGES'
+                  ? 'bg-amber-50 text-amber-700 border-amber-200'
+                  : 'bg-blue-50 text-blue-700 border-blue-200'
+              }`}
+            >
+              {task.report.status === 'PENDING_REVIEW' ? 'Review' : task.report.status}
             </span>
           )}
 

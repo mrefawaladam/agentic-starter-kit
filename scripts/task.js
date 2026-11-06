@@ -40,11 +40,16 @@ Perintah yang tersedia:
   node scripts/task.js get <TASK-ID>             Baca spesifikasi lengkap sebuah task
   node scripts/task.js set-status <ID> <STATUS>  Perbarui status task (misal: in_progress, in_qa, done)
   node scripts/task.js check-ac <ID> <AC-ID>     Tandai acceptance criteria sebagai selesai
+  node scripts/task.js report <ID> <STATUS> <SUMMARY> [TESTED_BY]
+                                                 Simpan laporan review & pengujian task
+
+Pilihan Status Report:
+  passed | failed | needs_changes | pending_review
 
 Contoh:
-  node scripts/task.js get TASK-POS-002
-  node scripts/task.js set-status TASK-POS-002 in_progress
-  node scripts/task.js check-ac TASK-POS-002 AC-POS-005
+  node scripts/task.js get TASK-POS-001
+  node scripts/task.js set-status TASK-POS-001 in_qa
+  node scripts/task.js report TASK-POS-001 passed "Seluruh 3 AC terverifikasi manual" "Human Lead"
 `);
 }
 
@@ -123,6 +128,17 @@ function getTask(taskId) {
     });
   }
 
+  if (task.report) {
+    console.log(`\n📋 Laporan Review & Pengujian (Reporting):`);
+    console.log(`  • Status Review : [${task.report.status}]`);
+    console.log(`  • Ringkasan     : ${task.report.summary}`);
+    if (task.report.tested_by) console.log(`  • Reviewer      : ${task.report.tested_by}`);
+    if (task.report.tested_at) console.log(`  • Waktu         : ${task.report.tested_at}`);
+    if (task.report.test_environment) console.log(`  • Environment   : ${task.report.test_environment}`);
+    if (task.report.evidence) console.log(`  • Bukti/Log     :\n    ${task.report.evidence.replace(/\n/g, '\n    ')}`);
+    if (task.report.notes) console.log(`  • Catatan/Notes : ${task.report.notes}`);
+  }
+
   // Tampilkan isi file spesifikasi jika ada
   if (task.spec_file) {
     const fullSpecPath = path.join(__dirname, '..', task.spec_file);
@@ -199,6 +215,61 @@ function checkAC(taskId, acId) {
   console.log(`[OK] Kriteria '${ac.id}' pada task '${task.id}' sekarang berstatus: ${ac.checked ? 'SELESAI [x]' : 'BELUM [ ]'}.`);
 }
 
+function reportTask(taskId, statusInput, summary, testedBy) {
+  if (!taskId || !statusInput || !summary) {
+    console.error('[ERROR] Format: node scripts/task.js report <TASK-ID> <STATUS> <SUMMARY> [TESTED_BY]');
+    console.error('Contoh: node scripts/task.js report TASK-POS-001 passed "Seluruh 3 AC terverifikasi manual" "Human Lead"');
+    process.exit(1);
+  }
+
+  const validReportStatuses = {
+    passed: 'PASSED',
+    pass: 'PASSED',
+    failed: 'FAILED',
+    fail: 'FAILED',
+    needs_changes: 'NEEDS_CHANGES',
+    revisi: 'NEEDS_CHANGES',
+    pending: 'PENDING_REVIEW',
+    pending_review: 'PENDING_REVIEW',
+  };
+
+  const normKey = statusInput.toLowerCase();
+  const canonicalStatus = validReportStatuses[normKey];
+  if (!canonicalStatus) {
+    console.error(`[ERROR] Status report '${statusInput}' tidak valid.`);
+    console.error(`Pilihan status: passed, failed, needs_changes, pending_review`);
+    process.exit(1);
+  }
+
+  const data = loadBacklog();
+  const task = data.tasks.find((t) => t.id.toLowerCase() === taskId.toLowerCase());
+  if (!task) {
+    console.error(`[ERROR] Task '${taskId}' tidak ditemukan.`);
+    process.exit(1);
+  }
+
+  task.report = {
+    status: canonicalStatus,
+    summary: summary,
+    tested_by: testedBy || 'Human Lead',
+    tested_at: new Date().toISOString(),
+    test_environment: 'Localhost / Dev Environment',
+  };
+
+  // Jika sebelumnya status masih in_progress atau ready_for_dev, otomatis alihkan ke in_qa
+  if (task.status === 'ready_for_dev' || task.status === 'in_progress') {
+    task.status = 'in_qa';
+  } else if (canonicalStatus === 'PASSED' && task.status === 'in_qa') {
+    // Opsional: jika passed, bisa tetap in_qa atau done tergantung keputusan reviewer
+  }
+
+  task.updated_at = new Date().toISOString();
+  saveBacklog(data);
+
+  console.log(`[OK] Laporan untuk task '${task.id}' berhasil disimpan dengan status: [${canonicalStatus}].`);
+  console.log(`     Status task saat ini: [${task.status.toUpperCase()}].`);
+}
+
 // Router CLI
 const args = process.argv.slice(2);
 const command = args[0] ? args[0].toLowerCase() : null;
@@ -213,6 +284,8 @@ if (!command || command === 'help' || command === '--help' || command === '-h') 
   setTaskStatus(args[1], args[2]);
 } else if (command === 'check-ac') {
   checkAC(args[1], args[2]);
+} else if (command === 'report') {
+  reportTask(args[1], args[2], args[3], args[4]);
 } else {
   // Jika argumen langsung berupa TASK-ID, anggap sebagai 'get'
   if (command.toUpperCase().startsWith('TASK-') || command.toUpperCase().startsWith('FEAT-')) {
