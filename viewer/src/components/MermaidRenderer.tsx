@@ -1,7 +1,20 @@
 'use client';
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import mermaid from 'mermaid';
+import {
+  ZoomIn,
+  ZoomOut,
+  RotateCcw,
+  Maximize2,
+  Minimize2,
+  Scan,
+  Download,
+  Copy,
+  Check,
+  Workflow,
+  X,
+} from 'lucide-react';
 
 interface MermaidProps {
   code: string;
@@ -10,8 +23,19 @@ interface MermaidProps {
 export function MermaidRenderer({ code }: MermaidProps) {
   const [svgHtml, setSvgHtml] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState<number>(1);
+  const [position, setPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [dragStart, setDragStart] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+  const [copied, setCopied] = useState<boolean>(false);
+  const [showHint, setShowHint] = useState<boolean>(false);
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const hintTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Render Mermaid code to SVG
   useEffect(() => {
     let isMounted = true;
 
@@ -43,6 +67,158 @@ export function MermaidRenderer({ code }: MermaidProps) {
     };
   }, [code]);
 
+  // Calculate Fit to Viewport
+  const fitToView = useCallback(() => {
+    if (!viewportRef.current || !svgHtml) return;
+
+    const match = svgHtml.match(
+      /viewBox=["']\s*([0-9.-]+)\s+([0-9.-]+)\s+([0-9.-]+)\s+([0-9.-]+)\s*["']/
+    );
+
+    const containerW = viewportRef.current.clientWidth - 48;
+    const containerH = viewportRef.current.clientHeight - 48;
+
+    if (match && containerW > 0 && containerH > 0) {
+      const svgW = parseFloat(match[3]);
+      const svgH = parseFloat(match[4]);
+
+      if (svgW > 0 && svgH > 0) {
+        const scaleW = containerW / svgW;
+        const scaleH = containerH / svgH;
+        const autoFit = Math.min(scaleW, scaleH, 1.15);
+        setScale(Number(Math.max(0.2, autoFit).toFixed(2)));
+        setPosition({ x: 0, y: 0 });
+        return;
+      }
+    }
+
+    setScale(1);
+    setPosition({ x: 0, y: 0 });
+  }, [svgHtml]);
+
+  // Initial Auto-Fit when SVG loads or fullscreen toggles
+  useEffect(() => {
+    if (svgHtml) {
+      // Delay slightly for DOM layout measurement
+      const timer = setTimeout(() => {
+        fitToView();
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [svgHtml, isFullscreen, fitToView]);
+
+  // Handle Fullscreen Scroll Lock & Escape key
+  useEffect(() => {
+    if (isFullscreen) {
+      document.body.style.overflow = 'hidden';
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') {
+          setIsFullscreen(false);
+        } else if (e.key === '+' || e.key === '=') {
+          setScale((prev) => Math.min(5, Number((prev * 1.2).toFixed(2))));
+        } else if (e.key === '-') {
+          setScale((prev) => Math.max(0.15, Number((prev / 1.2).toFixed(2))));
+        } else if (e.key === '0') {
+          fitToView();
+        }
+      };
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        document.body.style.overflow = '';
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    } else {
+      document.body.style.overflow = '';
+    }
+  }, [isFullscreen, fitToView]);
+
+  // Smooth Global Drag Handlers
+  useEffect(() => {
+    if (!isDragging) return;
+
+    const handleGlobalMouseMove = (e: MouseEvent) => {
+      setPosition({
+        x: e.clientX - dragStart.x,
+        y: e.clientY - dragStart.y,
+      });
+    };
+
+    const handleGlobalMouseUp = () => {
+      setIsDragging(false);
+    };
+
+    window.addEventListener('mousemove', handleGlobalMouseMove);
+    window.addEventListener('mouseup', handleGlobalMouseUp);
+
+    return () => {
+      window.removeEventListener('mousemove', handleGlobalMouseMove);
+      window.removeEventListener('mouseup', handleGlobalMouseUp);
+    };
+  }, [isDragging, dragStart]);
+
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    // Only primary left mouse click
+    if (e.button !== 0) return;
+    setIsDragging(true);
+    setDragStart({
+      x: e.clientX - position.x,
+      y: e.clientY - position.y,
+    });
+  };
+
+  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    // In fullscreen or when Ctrl / Cmd is held, zoom in/out
+    if (isFullscreen || e.ctrlKey || e.metaKey) {
+      e.preventDefault();
+      const zoomFactor = e.deltaY < 0 ? 1.15 : 0.87;
+      setScale((prev) => {
+        const next = prev * zoomFactor;
+        return Number(Math.min(5, Math.max(0.15, next)).toFixed(2));
+      });
+    } else {
+      // Show subtle hint if user tries to scroll without Ctrl in embedded view
+      setShowHint(true);
+      if (hintTimeoutRef.current) clearTimeout(hintTimeoutRef.current);
+      hintTimeoutRef.current = setTimeout(() => setShowHint(false), 2000);
+    }
+  };
+
+  const zoomIn = () => {
+    setScale((prev) => Math.min(5, Number((prev * 1.25).toFixed(2))));
+  };
+
+  const zoomOut = () => {
+    setScale((prev) => Math.max(0.15, Number((prev / 1.25).toFixed(2))));
+  };
+
+  const resetView = () => {
+    setScale(1);
+    setPosition({ x: 0, y: 0 });
+  };
+
+  const downloadSvg = () => {
+    if (!svgHtml) return;
+    const blob = new Blob([svgHtml], { type: 'image/svg+xml;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `mermaid-diagram-${Date.now()}.svg`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const copyCode = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (e) {
+      console.error('Failed to copy Mermaid code', e);
+    }
+  };
+
   if (error) {
     return (
       <div className="my-4 p-4 rounded-xl border border-amber-200 bg-amber-50 text-amber-900 text-xs">
@@ -56,17 +232,182 @@ export function MermaidRenderer({ code }: MermaidProps) {
 
   if (!svgHtml) {
     return (
-      <div className="my-4 p-6 flex items-center justify-center bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-400 font-mono animate-pulse">
+      <div className="my-4 p-8 flex items-center justify-center bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-400 font-mono animate-pulse">
         Merender diagram Mermaid...
       </div>
     );
   }
 
+  const zoomPercent = Math.round(scale * 100);
+
   return (
     <div
       ref={containerRef}
-      className="my-4 p-5 rounded-xl border border-slate-200 bg-white shadow-xs overflow-x-auto flex justify-center transition-all hover:border-blue-300"
-      dangerouslySetInnerHTML={{ __html: svgHtml }}
-    />
+      className={
+        isFullscreen
+          ? 'fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md p-3 md:p-6 flex flex-col animate-in fade-in duration-150'
+          : 'my-6 rounded-2xl border border-slate-200/90 bg-white shadow-sm overflow-hidden flex flex-col transition-all hover:border-slate-300'
+      }
+    >
+      {/* Interactive Top Toolbar */}
+      <div className="flex items-center justify-between px-3.5 py-2 bg-slate-50/90 border-b border-slate-200 text-slate-700 text-xs select-none">
+        {/* Left: Indicator & Hint */}
+        <div className="flex items-center gap-2">
+          <span className="flex items-center gap-1.5 font-medium text-slate-700 bg-white px-2.5 py-1 rounded-md border border-slate-200 shadow-2xs">
+            <Workflow className="w-3.5 h-3.5 text-blue-600" />
+            <span>Mermaid Diagram</span>
+          </span>
+          <span className="hidden sm:inline-block text-[11px] text-slate-500">
+            {isFullscreen ? 'Tahan geser untuk pan • Scroll untuk zoom' : 'Klik & drag untuk geser'}
+          </span>
+        </div>
+
+        {/* Right: Controls */}
+        <div className="flex items-center gap-1 bg-white p-0.5 rounded-lg border border-slate-200 shadow-2xs">
+          {/* Zoom Out */}
+          <button
+            type="button"
+            onClick={zoomOut}
+            title="Perkecil (-)"
+            className="p-1.5 rounded-md hover:bg-slate-100 active:bg-slate-200 text-slate-600 hover:text-slate-900 transition-colors"
+          >
+            <ZoomOut className="w-3.5 h-3.5" />
+          </button>
+
+          {/* Zoom Level Indicator (Clickable to Reset) */}
+          <button
+            type="button"
+            onClick={resetView}
+            title="Reset ke 100%"
+            className="px-2 py-0.5 font-mono text-[11px] font-semibold text-slate-700 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors"
+          >
+            {zoomPercent}%
+          </button>
+
+          {/* Zoom In */}
+          <button
+            type="button"
+            onClick={zoomIn}
+            title="Perbesar (+)"
+            className="p-1.5 rounded-md hover:bg-slate-100 active:bg-slate-200 text-slate-600 hover:text-slate-900 transition-colors"
+          >
+            <ZoomIn className="w-3.5 h-3.5" />
+          </button>
+
+          <div className="w-[1px] h-3.5 bg-slate-200 my-auto mx-0.5" />
+
+          {/* Fit to Viewport */}
+          <button
+            type="button"
+            onClick={fitToView}
+            title="Paskan ke Layar (Fit)"
+            className="p-1.5 rounded-md hover:bg-slate-100 active:bg-slate-200 text-slate-600 hover:text-slate-900 transition-colors"
+          >
+            <Scan className="w-3.5 h-3.5" />
+          </button>
+
+          {/* Reset View */}
+          <button
+            type="button"
+            onClick={resetView}
+            title="Reset Posisi & Zoom"
+            className="p-1.5 rounded-md hover:bg-slate-100 active:bg-slate-200 text-slate-600 hover:text-slate-900 transition-colors"
+          >
+            <RotateCcw className="w-3.5 h-3.5" />
+          </button>
+
+          <div className="w-[1px] h-3.5 bg-slate-200 my-auto mx-0.5" />
+
+          {/* Download SVG */}
+          <button
+            type="button"
+            onClick={downloadSvg}
+            title="Download SVG"
+            className="p-1.5 rounded-md hover:bg-slate-100 active:bg-slate-200 text-slate-600 hover:text-slate-900 transition-colors"
+          >
+            <Download className="w-3.5 h-3.5" />
+          </button>
+
+          {/* Copy Code */}
+          <button
+            type="button"
+            onClick={copyCode}
+            title="Salin Kode Mermaid"
+            className="p-1.5 rounded-md hover:bg-slate-100 active:bg-slate-200 text-slate-600 hover:text-slate-900 transition-colors"
+          >
+            {copied ? (
+              <Check className="w-3.5 h-3.5 text-emerald-600" />
+            ) : (
+              <Copy className="w-3.5 h-3.5" />
+            )}
+          </button>
+
+          <div className="w-[1px] h-3.5 bg-slate-200 my-auto mx-0.5" />
+
+          {/* Fullscreen Toggle */}
+          <button
+            type="button"
+            onClick={() => setIsFullscreen(!isFullscreen)}
+            title={isFullscreen ? 'Keluar Layar Penuh (Esc)' : 'Tampilkan Layar Penuh'}
+            className="p-1.5 rounded-md hover:bg-blue-50 active:bg-blue-100 text-blue-600 transition-colors"
+          >
+            {isFullscreen ? (
+              <Minimize2 className="w-3.5 h-3.5" />
+            ) : (
+              <Maximize2 className="w-3.5 h-3.5" />
+            )}
+          </button>
+
+          {isFullscreen && (
+            <button
+              type="button"
+              onClick={() => setIsFullscreen(false)}
+              title="Tutup (Esc)"
+              className="p-1.5 rounded-md hover:bg-red-50 text-red-600 transition-colors"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Canvas Viewport */}
+      <div
+        ref={viewportRef}
+        onMouseDown={handleMouseDown}
+        onWheel={handleWheel}
+        style={{
+          backgroundImage:
+            'radial-gradient(circle, #cbd5e1 1.2px, transparent 1.2px)',
+          backgroundSize: '24px 24px',
+          backgroundPosition: `${position.x % 24}px ${position.y % 24}px`,
+        }}
+        className={`relative overflow-hidden bg-slate-50/60 select-none ${
+          isFullscreen ? 'flex-1 w-full min-h-0' : 'h-[500px] w-full'
+        } ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+      >
+        {/* Subtle Ctrl + Scroll Hint Toast */}
+        {showHint && !isFullscreen && (
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 pointer-events-none bg-slate-900/80 text-white text-[11px] font-medium px-3 py-1.5 rounded-full shadow-lg backdrop-blur-xs animate-in fade-in duration-200">
+            Tahan <kbd className="bg-slate-700 px-1 py-0.5 rounded text-[10px]">Ctrl</kbd> + Scroll untuk Zoom
+          </div>
+        )}
+
+        {/* Diagram Transform Wrapper */}
+        <div
+          className="w-full h-full flex items-center justify-center pointer-events-none"
+          style={{
+            transform: `translate3d(${position.x}px, ${position.y}px, 0) scale(${scale})`,
+            transformOrigin: 'center center',
+            transition: isDragging ? 'none' : 'transform 0.15s cubic-bezier(0.2, 0, 0, 1)',
+          }}
+        >
+          <div
+            className="mermaid-svg-container pointer-events-auto [&_svg]:max-w-none [&_svg]:h-auto shadow-xs p-4 bg-white/40 rounded-xl"
+            dangerouslySetInnerHTML={{ __html: svgHtml }}
+          />
+        </div>
+      </div>
+    </div>
   );
 }
