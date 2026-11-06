@@ -30,13 +30,23 @@ export function AuthScreen({ onSuccess }: AuthScreenProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [successNotice, setSuccessNotice] = useState<string | null>(null);
   const [autoFilled, setAutoFilled] = useState(false);
+
+  // Password requirements calculation
+  const passHasLength = password.length >= 8;
+  const passHasUpper = /[A-Z]/.test(password);
+  const passHasLower = /[a-z]/.test(password);
+  const passHasNumber = /[0-9]/.test(password);
+  const passHasSymbol = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+  const isPasswordStrong = passHasLength && passHasUpper && passHasLower && passHasNumber && passHasSymbol;
 
   const handleFillDefault = () => {
     setMode('login');
     setEmail(DEFAULT_USER_EMAIL);
     setPassword(DEFAULT_USER_PASSWORD);
     setError(null);
+    setSuccessNotice(null);
     setAutoFilled(true);
     setTimeout(() => setAutoFilled(false), 2000);
   };
@@ -45,6 +55,13 @@ export function AuthScreen({ onSuccess }: AuthScreenProps) {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
+    setSuccessNotice(null);
+
+    if (mode === 'register' && !isPasswordStrong) {
+      setIsLoading(false);
+      setError('Password belum memenuhi standar keamanan anti-brute force.');
+      return;
+    }
 
     const endpoint = mode === 'login' ? '/api/auth/login' : '/api/auth/register';
     const payload = mode === 'login' ? { email, password } : { name, email, password, role };
@@ -59,6 +76,13 @@ export function AuthScreen({ onSuccess }: AuthScreenProps) {
       const data = await res.json();
       if (!res.ok) {
         throw new Error(data.error || 'Terjadi kesalahan otentikasi');
+      }
+
+      if (data.pendingApproval) {
+        setSuccessNotice(data.message);
+        setMode('login');
+        setPassword('');
+        return;
       }
 
       onSuccess(data.user);
@@ -146,6 +170,17 @@ export function AuthScreen({ onSuccess }: AuthScreenProps) {
             </button>
           </div>
 
+          {/* Success / Pending Approval Banner */}
+          {successNotice && (
+            <div className="mb-4 p-3.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-start gap-2.5">
+              <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+              <div className="flex flex-col gap-0.5">
+                <span className="font-bold">Menunggu Persetujuan Admin</span>
+                <span className="leading-relaxed">{successNotice}</span>
+              </div>
+            </div>
+          )}
+
           {/* Error Banner */}
           {error && (
             <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-xs flex items-start gap-2">
@@ -205,7 +240,7 @@ export function AuthScreen({ onSuccess }: AuthScreenProps) {
                 <input
                   type={showPassword ? 'text' : 'password'}
                   required
-                  placeholder="Minimal 6 karakter"
+                  placeholder={mode === 'register' ? 'Min. 8 karakter (besar, kecil, angka, simbol)' : 'Masukkan password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full pl-9 pr-9 py-2 bg-white border border-[#DFE1E6] rounded-md text-xs text-[#172B4D] focus:outline-hidden focus:border-[#0052CC] focus:ring-2 focus:ring-[#0052CC]/20"
@@ -218,6 +253,32 @@ export function AuthScreen({ onSuccess }: AuthScreenProps) {
                   {showPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                 </button>
               </div>
+
+              {/* Password Strength Checklist saat registrasi */}
+              {mode === 'register' && password.length > 0 && (
+                <div className="mt-2.5 p-2.5 bg-[#F4F5F7] rounded-md border border-[#DFE1E6] grid grid-cols-2 gap-1.5 text-[10px]">
+                  <span className={`flex items-center gap-1 ${passHasLength ? 'text-emerald-700 font-semibold' : 'text-[#6B778C]'}`}>
+                    <Check className={`w-3 h-3 ${passHasLength ? 'text-emerald-600' : 'text-gray-400'}`} />
+                    Min. 8 Karakter
+                  </span>
+                  <span className={`flex items-center gap-1 ${passHasUpper ? 'text-emerald-700 font-semibold' : 'text-[#6B778C]'}`}>
+                    <Check className={`w-3 h-3 ${passHasUpper ? 'text-emerald-600' : 'text-gray-400'}`} />
+                    Huruf Besar (A-Z)
+                  </span>
+                  <span className={`flex items-center gap-1 ${passHasLower ? 'text-emerald-700 font-semibold' : 'text-[#6B778C]'}`}>
+                    <Check className={`w-3 h-3 ${passHasLower ? 'text-emerald-600' : 'text-gray-400'}`} />
+                    Huruf Kecil (a-z)
+                  </span>
+                  <span className={`flex items-center gap-1 ${passHasNumber ? 'text-emerald-700 font-semibold' : 'text-[#6B778C]'}`}>
+                    <Check className={`w-3 h-3 ${passHasNumber ? 'text-emerald-600' : 'text-gray-400'}`} />
+                    Angka (0-9)
+                  </span>
+                  <span className={`col-span-2 flex items-center gap-1 ${passHasSymbol ? 'text-emerald-700 font-semibold' : 'text-[#6B778C]'}`}>
+                    <Check className={`w-3 h-3 ${passHasSymbol ? 'text-emerald-600' : 'text-gray-400'}`} />
+                    Simbol Khusus (!@#$%^&* dsb.)
+                  </span>
+                </div>
+              )}
             </div>
 
             {mode === 'register' && (

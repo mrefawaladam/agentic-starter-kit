@@ -26,6 +26,27 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Password yang Anda masukkan salah' }, { status: 401 });
     }
 
+    // Cek status persetujuan akun oleh Administrator
+    if (user.status === 'PENDING_APPROVAL') {
+      return NextResponse.json(
+        {
+          error:
+            'Akun Anda masih menunggu persetujuan (approval) dari Administrator. Silakan hubungi admin untuk aktivasi.',
+        },
+        { status: 403 }
+      );
+    }
+
+    if (user.status === 'REJECTED') {
+      return NextResponse.json(
+        {
+          error:
+            'Pendaftaran akun Anda ditolak oleh Administrator. Hubungi administrator sistem.',
+        },
+        { status: 403 }
+      );
+    }
+
     const token = createSessionToken(user.id);
     const response = NextResponse.json({
       success: true,

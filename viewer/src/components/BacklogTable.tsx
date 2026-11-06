@@ -15,6 +15,7 @@ import {
   ChevronsUp,
   ChevronDown,
   Minus,
+  ExternalLink,
 } from 'lucide-react';
 
 interface BacklogTableProps {
@@ -158,13 +159,25 @@ export function BacklogTable({
                       </div>
                     </td>
                     <td className="py-3 px-4 font-medium text-[#172B4D] group-hover:text-[#0052CC] transition-colors">
-                      <div className="flex items-center gap-2">
-                        <span>{task.title}</span>
-                        {task.spec_file && (
-                          <span title="Spesifikasi Tersedia" className="text-[#0052CC]">
-                            <FileText className="w-3.5 h-3.5" />
-                          </span>
-                        )}
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2">
+                          <span>{task.title}</span>
+                          {task.spec_file && (
+                            <span title="Spesifikasi Tersedia" className="text-[#0052CC]">
+                              <FileText className="w-3.5 h-3.5" />
+                            </span>
+                          )}
+                        </div>
+                        <a
+                          href={`/?tab=backlog&taskId=${encodeURIComponent(task.id)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          title="Buka task di tab baru"
+                          className="p-1 rounded text-gray-400 hover:text-[#0052CC] hover:bg-[#DEEBFF] opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5" />
+                        </a>
                       </div>
                     </td>
                     <td className="py-3 px-4" onClick={(e) => e.stopPropagation()}>
