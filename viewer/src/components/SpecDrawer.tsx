@@ -187,13 +187,17 @@ export function SpecDrawer({
   // Mapping role assignee ke Antigravity shortcut (/dev, /pm, /architect, dll)
   const getAgentShortcut = (assignee?: string) => {
     const norm = (assignee || '').toLowerCase();
-    if (norm.includes('product') || norm.includes('pm')) return { slash: '/pm', tag: '@pm', role: 'Product Manager' };
-    if (norm.includes('business') || norm.includes('ba') || norm.includes('analyst')) return { slash: '/ba', tag: '@ba', role: 'Business Analyst' };
+    // Prioritaskan developer (frontend / backend / fullstack / engineer coding) ke /dev
+    if (norm.includes('dev') || norm.includes('frontend') || norm.includes('backend') || norm.includes('fullstack') || norm.includes('coder') || norm.includes('programmer')) {
+      return { slash: '/dev', tag: '@dev', role: assignee || 'Developer' };
+    }
+    if (norm.includes('product') || /\bpm\b/.test(norm)) return { slash: '/pm', tag: '@pm', role: 'Product Manager' };
+    if (norm.includes('business') || /\bba\b/.test(norm) || norm.includes('analyst')) return { slash: '/ba', tag: '@ba', role: 'Business Analyst' };
     if (norm.includes('architect') || norm.includes('solution')) return { slash: '/architect', tag: '@architect', role: 'Solution Architect' };
-    if (norm.includes('quality') || norm.includes('qa') || norm.includes('test')) return { slash: '/qa', tag: '@qa', role: 'Quality Engineer' };
+    if (norm.includes('quality') || /\bqa\b/.test(norm) || norm.includes('tester') || norm.includes('testing')) return { slash: '/qa', tag: '@qa', role: 'Quality Engineer' };
     if (norm.includes('security')) return { slash: '/security', tag: '@security', role: 'Security Engineer' };
     if (norm.includes('ui') || norm.includes('ux') || norm.includes('design')) return { slash: '/ui-ux', tag: '@ui-ux', role: 'UI/UX Designer' };
-    return { slash: '/dev', tag: '@dev', role: 'Developer' };
+    return { slash: '/dev', tag: '@dev', role: assignee || 'Developer' };
   };
 
   const handleCopyTaskId = (e: React.MouseEvent) => {
@@ -239,13 +243,15 @@ Tags: ${task.tags && task.tags.length > 0 ? task.tags.join(', ') : '-'}
 [Acceptance Criteria]:
 ${acList}
 
+[Alur Kerja Engineering & Siklus QA/E2E]:
+1. Developer (@dev): Kerjakan implementasi kode (Frontend / Backend) sesuai Clean Architecture & Acceptance Criteria.
+2. QA Hand-off (@qa): Setiap fitur/task wajib diverifikasi dengan E2E acceptance test (Playwright / Gherkin) dan dibuatkan laporan eksekusi (test summary/reporting).
+3. Setelah implementasi dan verifikasi selesai, perbarui status task di 'data/backlog.json' (atau via \`node scripts/task.js set-status ${task.id} in_qa\` ➔ \`done\`).
+
 [Panduan Eksekusi AI Agent (Antigravity)]:
-1. Anda dapat membaca spesifikasi task ini secara instan di terminal menggunakan:
-   \`node scripts/task.js get ${task.id}\`
-   atau membaca langsung file 'data/backlog.json' dan '${task.spec_file}'.
+1. Baca spesifikasi task instan di terminal: \`node scripts/task.js get ${task.id}\`
 2. Telusuri relasi arsitektur dan endpoint terdampak via 'data/knowledge-graph.json'.
-3. Kerjakan implementasi dan pastikan seluruh Acceptance Criteria di atas terverifikasi.
-4. Setelah selesai, perbarui status task di 'data/backlog.json' menjadi 'in_qa' atau 'done' (atau jalankan \`node scripts/task.js set-status ${task.id} done\`).`;
+3. Eksekusi kode, update checklist AC via \`node scripts/task.js check-ac ${task.id} <AC-ID>\`, dan laporkan hasil pengujian.`;
   };
 
   const handleCopyPrompt = () => {
