@@ -316,7 +316,11 @@ ${acList}
 [Panduan Eksekusi AI Agent (Antigravity)]:
 1. Baca spesifikasi task instan di terminal: \`node scripts/task.js get ${task.id}\`
 2. Telusuri relasi arsitektur dan endpoint terdampak via 'data/knowledge-graph.json'.
-3. Eksekusi kode hingga tuntas dan siapkan hasil deliverable untuk direview.`;
+3. Eksekusi kode hingga tuntas dan siapkan hasil deliverable untuk direview.
+
+[Aturan Git & Version Control]:
+- Setelah implementasi selesai, lakukan COMMIT saja dengan pesan commit deskriptif (misal: \`git add . && git commit -m "feat: ..."\`).
+- DILARANG melakukan PUSH ke remote repository (jangan push, biarkan di local branch untuk direview manual oleh Human Lead).`;
   };
 
   const handleCopyPrompt = () => {
