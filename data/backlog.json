@@ -304,7 +304,7 @@
       "id": "TASK-BOM-001",
       "code": "FEAT-POS-003",
       "title": "Resep Bahan Baku (BOM) & Auto-Deduction Stok Minus (Sprint 2)",
-      "status": "ready_for_dev",
+      "status": "in_qa",
       "priority": "HIGH",
       "type": "FEATURE",
       "assignee": "Fullstack Developer",
@@ -342,30 +342,37 @@
         {
           "id": "AC-BOM-001",
           "text": "Migrasi database membuat tabel recipes dan recipe_ingredients relasional",
-          "checked": false
+          "checked": true
         },
         {
           "id": "AC-BOM-002",
           "text": "Penjualan menu ber-resep di checkout POS otomatis memotong kuantitas bahan baku mentah di outlet_inventory",
-          "checked": false
+          "checked": true
         },
         {
           "id": "AC-BOM-003",
           "text": "Pencatatan kartu mutasi stok inventory_movements dengan tipe OUT_RECIPE_BOM",
-          "checked": false
+          "checked": true
         },
         {
           "id": "AC-BOM-004",
           "text": "Penjualan diizinkan saat bahan baku habis dengan warning stok minus dan alert restock",
-          "checked": false
+          "checked": true
         },
         {
           "id": "AC-BOM-005",
           "text": "Pemulihan stok bahan baku mentah secara atomik saat terjadi void nota",
-          "checked": false
+          "checked": true
         }
       ],
-      "updated_at": "2026-11-06T14:30:00Z"
+      "updated_at": "2026-11-06T14:04:46.280Z",
+      "report": {
+        "status": "PASSED",
+        "summary": "Implementasi BOM resep bahan baku dan pemotongan stok minus selesai sesuai Clean Architecture. Seluruh 5 AC terverifikasi via database migration, Go unit test, dan build Next.js.",
+        "tested_by": "Fullstack Developer (@dev)",
+        "tested_at": "2026-11-06T14:04:46.279Z",
+        "test_environment": "Localhost / Dev Environment"
+      }
     },
     {
       "id": "TASK-HRIS-001",
