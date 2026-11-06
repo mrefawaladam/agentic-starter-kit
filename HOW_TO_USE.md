@@ -1,4 +1,4 @@
-# 📖 SOP & Panduan Lengkap Alur Kerja Multi-Agent (HOW TO USE)
+# SOP & Panduan Lengkap Alur Kerja Multi-Agent (HOW TO USE)
 
 Selamat datang di **Agentic Blueprint Starter Kit** — framework rekayasa perangkat lunak modern berbasis **AI Spec-Driven Development**, **Progressive Disclosure**, dan **Codebase Knowledge Graph**.
 
@@ -6,7 +6,7 @@ Dokumen ini adalah panduan standar operasional (SOP) bagaimana Anda (sebagai *Le
 
 ---
 
-## ⚡ 1. Cara Menjalankan Jira SpecOS Dashboard
+## 1. Cara Menjalankan Jira SpecOS Dashboard
 
 Sebelum mulai bekerja, jalankan dashboard web lokal:
 
@@ -28,24 +28,24 @@ Buka peramban di: **`http://localhost:3000`**
 
 ---
 
-## 🧭 2. Audit Alur Kerja 8 Peran Spesialis (End-to-End Workflow)
+## 2. Audit Alur Kerja 8 Peran Spesialis (End-to-End Workflow)
 
 Setiap fitur baru harus melewati siklus terstruktur agar kode yang dihasilkan 100% sesuai spesifikasi, aman, dan teruji tanpa halusinasi:
 
 ```mermaid
 flowchart TD
-    PO["👨‍💼 1. Anda (Lead / PO)\nIde Fitur Baru"] -->|"Ketik: /pm"| PM["🎯 2. Product Manager\nPRD & User Stories (MoSCoW)\nStatus: IN_REVIEW"]
-    PM -->|"Ketik: /ba"| BA["📊 3. Business Analyst\nBPMN Flow & State Machine (FSM)\nDocs: use-cases.md"]
-    BA -->|"Ketik: /ui-ux"| UI["🎨 4. UI/UX Designer\nDesign System & 5 UI States\nDocs: screens/*.md"]
-    UI -->|"Ketik: /architect"| Arch["📐 5. Solution Architect\nSkema DB, REST/Webhook API, Graph\nStatus: READY_FOR_DEV"]
-    Arch -->|"Ketik: /dev"| Dev["💻 6. Frontend & Backend Dev\nRSC, Clean Hexagonal, Migrations\nStatus: IN_QA"]
-    Dev -->|"Ketik: /security"| Sec["🛡️ 7. Security Engineer\nSTRIDE Threat Model & RBAC Audit\nDocs: threat-models/*.md"]
-    Sec -->|"Ketik: /qa"| QA["🧪 8. Quality Engineer\nPlaywright POM E2E & Gherkin AC\nStatus: DONE"]
+    PO["1. Anda (Lead / PO)\nIde Fitur Baru"] -->|"Ketik: /pm"| PM["2. Product Manager\nPRD & User Stories (MoSCoW)\nStatus: IN_REVIEW"]
+    PM -->|"Ketik: /ba"| BA["3. Business Analyst\nBPMN Flow & State Machine (FSM)\nDocs: use-cases.md"]
+    BA -->|"Ketik: /ui-ux"| UI["4. UI/UX Designer\nDesign System & 5 UI States\nDocs: screens/*.md"]
+    UI -->|"Ketik: /architect"| Arch["5. Solution Architect\nSkema DB, REST/Webhook API, Graph\nStatus: READY_FOR_DEV"]
+    Arch -->|"Ketik: /dev"| Dev["6. Frontend & Backend Dev\nRSC, Clean Hexagonal, Migrations\nStatus: IN_QA"]
+    Dev -->|"Ketik: /security"| Sec["7. Security Engineer\nSTRIDE Threat Model & RBAC Audit\nDocs: threat-models/*.md"]
+    Sec -->|"Ketik: /qa"| QA["8. Quality Engineer\nPlaywright POM E2E & Gherkin AC\nStatus: DONE"]
 ```
 
 ---
 
-## ⌨️ 3. Perintah Slash Command Resmi di Antigravity (`agy`)
+## 3. Perintah Slash Command Resmi di Antigravity (agy)
 
 Di terminal Antigravity CLI (`agy`), panggil agen menggunakan tanda **garis miring (`/`)**:
 
@@ -67,7 +67,7 @@ Di terminal Antigravity CLI (`agy`), panggil agen menggunakan tanda **garis miri
 
 ---
 
-## 🚀 4. Panduan Praktis & Contoh Prompt Langkah-demi-Langkah
+## 4. Panduan Praktis & Contoh Prompt Langkah-demi-Langkah
 
 Gunakan studi kasus nyata: **Fitur Pembayaran SPP Sekolah (`FEAT-002-school-payment`)**:
 
@@ -115,7 +115,7 @@ Ketik di terminal:
 
 ---
 
-## ⚡ 5. Cara Menghemat Token (Token Optimization SOP)
+## 5. Cara Menghemat Token (Token Optimization SOP)
 
 Sebelum meminta agen AI melakukan refactor atau implementasi besar, **jangan memindai seluruh folder proyek**. Lakukan query graph terlebih dahulu:
 
@@ -136,7 +136,7 @@ Dengan hanya memuat file-file tersebut, Anda menghemat **hingga 85% konsumsi tok
 
 ---
 
-## 📦 6. Cara Mengkloning Starter Kit Ini ke Proyek Baru
+## 6. Cara Mengkloning Starter Kit Ini ke Proyek Baru
 
 Untuk menggunakan arsitektur ini di proyek baru Anda:
 

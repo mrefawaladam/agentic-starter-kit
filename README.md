@@ -1,4 +1,4 @@
-# 🚀 Agentic Blueprint Starter Kit
+# Agentic Blueprint Starter Kit
 
 > **A Token-Efficient, Smart, Multi-Agent Development Framework Powered by Docs, Skills, Rules, and Codebase Knowledge Graph.**
 
@@ -6,7 +6,7 @@ Starter kit ini adalah cetak biru (*blueprint*) rekayasa perangkat lunak multi-a
 
 ---
 
-## ⚡ Prinsip Penghematan Token (Progressive Disclosure)
+## Prinsip Penghematan Token (Progressive Disclosure)
 
 Alih-alih memuat seluruh repositori ke dalam context window yang boros token dan memicu halusinasi, sistem menerapkan 5 tahap pemuatan bertahap:
 
@@ -26,7 +26,7 @@ Hasil benchmarking menunjukkan konsumsi context window dapat dihemat **hingga 85
 
 ---
 
-## 🏛️ Pembagian 8 Peran AI Spesialis & Slash Commands
+## Pembagian 8 Peran AI Spesialis & Slash Commands
 
 Panggil peran agen di terminal Antigravity CLI (`agy`) menggunakan **Slash Command** resmi:
 
@@ -40,11 +40,11 @@ Panggil peran agen di terminal Antigravity CLI (`agy`) menggunakan **Slash Comma
 | **`/security`** | **Security Engineer** | [`.agents/skills/security-engineer/`](./.agents/skills/security-engineer/) | STRIDE Threat Model, RBAC Matrix, Webhook HMAC Verification | `docs/07-security-compliance/`, API & DB |
 | **`/qa`** | **Quality Engineer (QE)** | [`.agents/skills/quality-engineer/`](./.agents/skills/quality-engineer/) | Playwright POM E2E, Gherkin Verification, Contract Tests | `docs/08-quality-assurance/`, specs fitur |
 
-> 👉 **Panduan Detail Alur Kerja**: Baca SOP lengkap langkah demi langkah di [**`HOW_TO_USE.md`**](./HOW_TO_USE.md).
+> **Panduan Detail Alur Kerja**: Baca SOP lengkap langkah demi langkah di [**`HOW_TO_USE.md`**](./HOW_TO_USE.md).
 
 ---
 
-## 🧠 Codebase Knowledge Graph
+## Codebase Knowledge Graph
 
 Peta ketergantungan relasional antara Feature, Dokumen PRD, Skema Database, Kontrak REST API, Komponen UI, dan Test Suite:
 
@@ -58,7 +58,7 @@ node scripts/graph-lookup.js --file docs/06-api/billing-endpoints.md
 
 ---
 
-## 🌟 Fitur Dashboard Lokal (Jira Light Web UI)
+## Fitur Dashboard Lokal (Jira Light Web UI)
 
 1. **Kanban Board**: Drag & drop task antar-kolom (*Backlog* ➔ *Spec Drafting* ➔ *In Review* ➔ *Ready for Dev* ➔ *In Progress* ➔ *In QA* ➔ *Done*).
 2. **Backlog Table**: Tampilan tabel ringkas ala Jira List dengan filter prioritas, tipe issue, status, dan assignee.
@@ -68,7 +68,7 @@ node scripts/graph-lookup.js --file docs/06-api/billing-endpoints.md
 
 ---
 
-## ⚡ Memulai Cepat
+## Memulai Cepat
 
 ```bash
 # 1. Masuk ke direktori
@@ -84,7 +84,7 @@ Buka peramban di [http://localhost:3000](http://localhost:3000).
 
 ---
 
-## 📁 Struktur Repositori
+## Struktur Repositori
 
 ```
 agentic-starter-kit/
@@ -126,5 +126,5 @@ agentic-starter-kit/
 
 ---
 
-## 📄 Lisensi
+## Lisensi
 MIT License. Bebas digunakan dan dimodifikasi sebagai starter kit di setiap proyek software rekayasa Anda.
