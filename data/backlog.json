@@ -40,7 +40,7 @@
       "status": "done",
       "priority": "CRITICAL",
       "type": "FEATURE",
-      "assignee": "Backend Developer",
+      "assignee": "Fullstack Developer",
       "spec_file": "docs/03-requirements/features/FEAT-POS-001-sales/README.md",
       "document_references": [
         {
@@ -307,7 +307,7 @@
       "status": "ready_for_dev",
       "priority": "HIGH",
       "type": "FEATURE",
-      "assignee": "Backend Developer",
+      "assignee": "Fullstack Developer",
       "spec_file": "docs/03-requirements/features/FEAT-POS-003-bom/README.md",
       "document_references": [
         {
@@ -374,7 +374,7 @@
       "status": "ready_for_dev",
       "priority": "HIGH",
       "type": "FEATURE",
-      "assignee": "Backend Developer",
+      "assignee": "Fullstack Developer",
       "spec_file": "docs/03-requirements/features/FEAT-HRIS-001-payroll-journal/README.md",
       "document_references": [
         {
@@ -431,7 +431,7 @@
       "status": "ready_for_dev",
       "priority": "MEDIUM",
       "type": "FEATURE",
-      "assignee": "Backend Developer",
+      "assignee": "Fullstack Developer",
       "spec_file": "docs/03-requirements/features/FEAT-POS-004-split-payment/README.md",
       "document_references": [
         {
@@ -493,7 +493,7 @@
       "status": "ready_for_dev",
       "priority": "HIGH",
       "type": "FEATURE",
-      "assignee": "Backend Developer",
+      "assignee": "Fullstack Developer",
       "spec_file": "docs/03-requirements/features/FEAT-INVENTORY-001-stock/README.md",
       "document_references": [
         {
