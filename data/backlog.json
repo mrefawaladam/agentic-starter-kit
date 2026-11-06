@@ -1,7 +1,7 @@
 {
   "project_name": "KasirSakti Spec-Driven Engineering Hub",
   "description": "AI Spec-Driven Development Workspace & Multi-Agent Kanban for KasirSakti",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "columns": [
     { "id": "backlog", "title": "Backlog" },
     { "id": "spec_drafting", "title": "Spec Drafting" },
@@ -21,6 +21,28 @@
       "type": "FEATURE",
       "assignee": "Backend Developer",
       "spec_file": "docs/03-requirements/features/FEAT-POS-001-sales/README.md",
+      "document_references": [
+        {
+          "title": "PRD-001: KasirSakti Retail & Simkopdes POS",
+          "path": "docs/03-requirements/prd/PRD-001-kasirsakti.md",
+          "type": "prd"
+        },
+        {
+          "title": "EPIC-POS: Point of Sale & Kasir Retail",
+          "path": "docs/03-requirements/epics/EPIC-POS.md",
+          "type": "epic"
+        },
+        {
+          "title": "UC-POS-004: Petty Cash & Shift Cash In/Out",
+          "path": "docs/03-requirements/features/FEAT-POS-001-sales/use-cases/UC-POS-004-petty-cash-shift.md",
+          "type": "feature"
+        },
+        {
+          "title": "Aturan Bisnis (Business Rules) POS Sales & Shift",
+          "path": "docs/03-requirements/features/FEAT-POS-001-sales/business-rules.md",
+          "type": "feature"
+        }
+      ],
       "tags": ["pos", "shift", "petty-cash", "sprint-1"],
       "story_points": 5,
       "acceptance_criteria": [
@@ -28,7 +50,7 @@
         { "id": "AC-POS-002", "text": "Checkout ditolak HTTP 400 jika tidak memiliki shift kasir OPEN", "checked": true },
         { "id": "AC-POS-003", "text": "Blind shift closing rekonsiliasi pengeluaran kas laci (expectedCash formula)", "checked": true }
       ],
-      "updated_at": "2026-11-06T11:18:00Z"
+      "updated_at": "2026-11-06T14:10:00Z"
     },
     {
       "id": "TASK-POS-002",
@@ -39,13 +61,35 @@
       "type": "FEATURE",
       "assignee": "Backend Developer",
       "spec_file": "docs/03-requirements/features/FEAT-POS-001-sales/use-cases/UC-POS-003-void-transaction.md",
+      "document_references": [
+        {
+          "title": "PRD-001: KasirSakti Retail & Simkopdes POS",
+          "path": "docs/03-requirements/prd/PRD-001-kasirsakti.md",
+          "type": "prd"
+        },
+        {
+          "title": "EPIC-POS: Point of Sale & Kasir Retail",
+          "path": "docs/03-requirements/epics/EPIC-POS.md",
+          "type": "epic"
+        },
+        {
+          "title": "EPIC-FINANCE: Akuntansi & Jurnal Pembalik",
+          "path": "docs/03-requirements/epics/EPIC-FINANCE.md",
+          "type": "epic"
+        },
+        {
+          "title": "ADR-002: Double-Entry Bookkeeping Accounting Engine",
+          "path": "docs/05-architecture/adr/ADR-002-double-entry-bookkeeping.md",
+          "type": "architecture"
+        }
+      ],
       "tags": ["pos", "void", "accounting", "audit-trail", "sprint-1"],
       "story_points": 5,
       "acceptance_criteria": [
         { "id": "AC-POS-004", "text": "Otorisasi void manajer menerbitkan 4 baris jurnal pembalik dan batalkan piutang kasbon", "checked": true },
         { "id": "AC-POS-005", "text": "Pencatatan otomatis audit trail pada void, shift, price update, dan opname", "checked": true }
       ],
-      "updated_at": "2026-11-06T11:18:00Z"
+      "updated_at": "2026-11-06T14:10:00Z"
     },
     {
       "id": "TASK-INV-001",
@@ -56,12 +100,29 @@
       "type": "FEATURE",
       "assignee": "Backend Developer",
       "spec_file": "docs/03-requirements/features/FEAT-INVENTORY-001-stock/README.md",
+      "document_references": [
+        {
+          "title": "PRD-001: KasirSakti Retail & Simkopdes POS",
+          "path": "docs/03-requirements/prd/PRD-001-kasirsakti.md",
+          "type": "prd"
+        },
+        {
+          "title": "EPIC-INVENTORY: Multi-Unit Inventory & Stock Movement",
+          "path": "docs/03-requirements/epics/EPIC-INVENTORY.md",
+          "type": "epic"
+        },
+        {
+          "title": "ERD & Skema Basis Data Relasional",
+          "path": "docs/05-architecture/database/erd.md",
+          "type": "architecture"
+        }
+      ],
       "tags": ["inventory", "multi-unit", "stocks"],
       "story_points": 5,
       "acceptance_criteria": [
         { "id": "AC-INV-001", "text": "Pemotongan stok unit dasar otomatis sesuai rasio konversi unit bertingkat", "checked": true }
       ],
-      "updated_at": "2026-11-06T09:00:00Z"
+      "updated_at": "2026-11-06T14:10:00Z"
     },
     {
       "id": "TASK-KDS-001",
@@ -72,6 +133,28 @@
       "type": "FEATURE",
       "assignee": "Solution Architect",
       "spec_file": "docs/03-requirements/features/FEAT-POS-005-kds/README.md",
+      "document_references": [
+        {
+          "title": "PRD-001: KasirSakti Retail & Simkopdes POS",
+          "path": "docs/03-requirements/prd/PRD-001-kasirsakti.md",
+          "type": "prd"
+        },
+        {
+          "title": "EPIC-POS: Point of Sale & Kasir Retail",
+          "path": "docs/03-requirements/epics/EPIC-POS.md",
+          "type": "epic"
+        },
+        {
+          "title": "UC-KDS-001: Realtime Kitchen Order Ticket Stream",
+          "path": "docs/03-requirements/features/FEAT-POS-005-kds/use-cases/UC-KDS-001-order-stream.md",
+          "type": "feature"
+        },
+        {
+          "title": "BR-KDS: Kitchen Display Workflow Rules",
+          "path": "docs/03-requirements/features/FEAT-POS-005-kds/business-rules.md",
+          "type": "feature"
+        }
+      ],
       "tags": ["kds", "kitchen", "frontend", "sprint-2"],
       "story_points": 5,
       "acceptance_criteria": [
@@ -79,7 +162,7 @@
         { "id": "AC-KDS-002", "text": "Pembaruan status memasak realtime di backend & frontend", "checked": false },
         { "id": "AC-KDS-003", "text": "Peringatan visual tiket dibatalkan (void)", "checked": false }
       ],
-      "updated_at": "2026-11-06T11:19:00Z"
+      "updated_at": "2026-11-06T14:10:00Z"
     },
     {
       "id": "TASK-BOM-001",
@@ -90,6 +173,28 @@
       "type": "FEATURE",
       "assignee": "Solution Architect",
       "spec_file": "docs/03-requirements/features/FEAT-POS-003-bom/README.md",
+      "document_references": [
+        {
+          "title": "PRD-001: KasirSakti Retail & Simkopdes POS",
+          "path": "docs/03-requirements/prd/PRD-001-kasirsakti.md",
+          "type": "prd"
+        },
+        {
+          "title": "EPIC-INVENTORY: Multi-Unit Inventory & Stock Movement",
+          "path": "docs/03-requirements/epics/EPIC-INVENTORY.md",
+          "type": "epic"
+        },
+        {
+          "title": "UC-BOM-001: Auto-Deduction Bahan Baku & Negative Stock Handling",
+          "path": "docs/03-requirements/features/FEAT-POS-003-bom/use-cases/UC-BOM-001-recipe-deduction.md",
+          "type": "feature"
+        },
+        {
+          "title": "BR-BOM: Aturan Stok Minus & Formula Resep",
+          "path": "docs/03-requirements/features/FEAT-POS-003-bom/business-rules.md",
+          "type": "feature"
+        }
+      ],
       "tags": ["bom", "recipes", "inventory", "sprint-2"],
       "story_points": 8,
       "acceptance_criteria": [
@@ -97,7 +202,7 @@
         { "id": "AC-BOM-002", "text": "Penjualan diizinkan saat bahan baku habis dengan warning stok minus & alert restock", "checked": false },
         { "id": "AC-BOM-003", "text": "Pemulihan stok bahan baku mentah saat terjadi void nota", "checked": false }
       ],
-      "updated_at": "2026-11-06T11:19:00Z"
+      "updated_at": "2026-11-06T14:10:00Z"
     },
     {
       "id": "TASK-HRIS-001",
@@ -108,13 +213,35 @@
       "type": "FEATURE",
       "assignee": "Solution Architect",
       "spec_file": "docs/03-requirements/features/FEAT-HRIS-001-payroll-journal/README.md",
+      "document_references": [
+        {
+          "title": "PRD-001: KasirSakti Retail & Simkopdes POS",
+          "path": "docs/03-requirements/prd/PRD-001-kasirsakti.md",
+          "type": "prd"
+        },
+        {
+          "title": "EPIC-HRIS: Manajemen Karyawan & Payroll",
+          "path": "docs/03-requirements/epics/EPIC-HRIS.md",
+          "type": "epic"
+        },
+        {
+          "title": "EPIC-FINANCE: Akuntansi & Jurnal Umum Buku Besar",
+          "path": "docs/03-requirements/epics/EPIC-FINANCE.md",
+          "type": "epic"
+        },
+        {
+          "title": "ADR-002: Double-Entry Bookkeeping Accounting Engine",
+          "path": "docs/05-architecture/adr/ADR-002-double-entry-bookkeeping.md",
+          "type": "architecture"
+        }
+      ],
       "tags": ["hris", "payroll", "accounting", "sprint-3"],
       "story_points": 5,
       "acceptance_criteria": [
         { "id": "AC-HRIS-001", "text": "Pembayaran gaji menerbitkan jurnal beban gaji 5201, bank 1102, kasbon 1104 seimbang", "checked": false },
         { "id": "AC-HRIS-002", "text": "Otorisasi role finance/owner wajib dipenuhi", "checked": false }
       ],
-      "updated_at": "2026-11-06T11:19:00Z"
+      "updated_at": "2026-11-06T14:10:00Z"
     },
     {
       "id": "TASK-SPLIT-001",
@@ -125,13 +252,35 @@
       "type": "FEATURE",
       "assignee": "Solution Architect",
       "spec_file": "docs/03-requirements/features/FEAT-POS-004-split-payment/README.md",
+      "document_references": [
+        {
+          "title": "PRD-001: KasirSakti Retail & Simkopdes POS",
+          "path": "docs/03-requirements/prd/PRD-001-kasirsakti.md",
+          "type": "prd"
+        },
+        {
+          "title": "EPIC-POS: Point of Sale & Kasir Retail",
+          "path": "docs/03-requirements/epics/EPIC-POS.md",
+          "type": "epic"
+        },
+        {
+          "title": "UC-POS-005: Multi-Payment Settlement",
+          "path": "docs/03-requirements/features/FEAT-POS-004-split-payment/use-cases/UC-POS-005-split-payment.md",
+          "type": "feature"
+        },
+        {
+          "title": "ADR-002: Double-Entry Bookkeeping Accounting Engine",
+          "path": "docs/05-architecture/adr/ADR-002-double-entry-bookkeeping.md",
+          "type": "architecture"
+        }
+      ],
       "tags": ["pos", "split-payment", "accounting", "sprint-3"],
       "story_points": 5,
       "acceptance_criteria": [
         { "id": "AC-POS-006", "text": "Checkout multi-metode (CASH + QRIS) dengan multi-debit accounting seimbang", "checked": false },
         { "id": "AC-POS-007", "text": "Validasi ketat SUM(payments.amount) == TotalPrice", "checked": false }
       ],
-      "updated_at": "2026-11-06T11:19:00Z"
+      "updated_at": "2026-11-06T14:10:00Z"
     },
     {
       "id": "TASK-CREDIT-001",
@@ -142,12 +291,29 @@
       "type": "FEATURE",
       "assignee": "Product Manager",
       "spec_file": "docs/03-requirements/features/FEAT-CREDIT-001-kasbon/README.md",
+      "document_references": [
+        {
+          "title": "PRD-001: KasirSakti Retail & Simkopdes POS",
+          "path": "docs/03-requirements/prd/PRD-001-kasirsakti.md",
+          "type": "prd"
+        },
+        {
+          "title": "EPIC-CREDIT: Simpan Pinjam & Kasbon Koperasi",
+          "path": "docs/03-requirements/epics/EPIC-CREDIT.md",
+          "type": "epic"
+        },
+        {
+          "title": "Simkopdes Integration & Plafond Verification",
+          "path": "docs/05-architecture/integrations/simkopdes-integration-design.md",
+          "type": "architecture"
+        }
+      ],
       "tags": ["credit", "kasbon", "cooperative"],
       "story_points": 5,
       "acceptance_criteria": [
         { "id": "AC-CREDIT-001", "text": "Pemeriksaan plafon credit limit anggota sebelum checkout tempo", "checked": false }
       ],
-      "updated_at": "2026-11-06T09:00:00Z"
+      "updated_at": "2026-11-06T14:10:00Z"
     },
     {
       "id": "TASK-LEGAL-001",
@@ -158,12 +324,24 @@
       "type": "FEATURE",
       "assignee": "Product Manager",
       "spec_file": "docs/03-requirements/features/FEAT-LEGAL-001-agreement/README.md",
+      "document_references": [
+        {
+          "title": "PRD-001: KasirSakti Retail & Simkopdes POS",
+          "path": "docs/03-requirements/prd/PRD-001-kasirsakti.md",
+          "type": "prd"
+        },
+        {
+          "title": "EPIC-CREDIT: Simpan Pinjam & Kasbon Koperasi",
+          "path": "docs/03-requirements/epics/EPIC-CREDIT.md",
+          "type": "epic"
+        }
+      ],
       "tags": ["legal", "agreement", "digital-signature"],
       "story_points": 5,
       "acceptance_criteria": [
         { "id": "AC-LEGAL-001", "text": "Penerbitan surat perjanjian bernomor unik AGR-YYYYMM-XXXXX untuk kasbon > 100rb", "checked": false }
       ],
-      "updated_at": "2026-11-06T09:00:00Z"
+      "updated_at": "2026-11-06T14:10:00Z"
     }
   ]
 }

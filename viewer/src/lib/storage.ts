@@ -7,6 +7,13 @@ export interface AcceptanceCriterion {
   checked: boolean;
 }
 
+export interface DocumentReference {
+  id?: string;
+  title: string;
+  path: string;
+  type?: 'prd' | 'epic' | 'feature' | 'architecture' | 'api' | 'security' | 'qa' | 'governance' | 'other';
+}
+
 export interface TaskItem {
   id: string;
   code: string;
@@ -16,6 +23,7 @@ export interface TaskItem {
   type: 'FEATURE' | 'STORY' | 'TASK' | 'BUG' | 'SPIKE';
   assignee?: string;
   spec_file?: string;
+  document_references?: DocumentReference[];
   tags?: string[];
   story_points?: number;
   acceptance_criteria?: AcceptanceCriterion[];
@@ -352,3 +360,61 @@ export function getAllAgents(): AgentInfo[] {
 
   return result;
 }
+
+export interface FlattenedDocItem {
+  title: string;
+  path: string;
+  category: string;
+  type: 'prd' | 'epic' | 'feature' | 'architecture' | 'api' | 'security' | 'qa' | 'governance' | 'other';
+}
+
+export function getAllDocFiles(): FlattenedDocItem[] {
+  const root = getProjectRoot();
+  const docsDir = path.join(root, 'docs');
+  const result: FlattenedDocItem[] = [];
+
+  function walk(dir: string, relBase: string) {
+    if (!fs.existsSync(dir)) return;
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      if (entry.name.startsWith('.')) continue;
+      const full = path.join(dir, entry.name);
+      const rel = path.join(relBase, entry.name);
+      if (entry.isDirectory()) {
+        walk(full, rel);
+      } else if (entry.name.endsWith('.md')) {
+        let type: FlattenedDocItem['type'] = 'other';
+        if (rel.includes('/prd/')) type = 'prd';
+        else if (rel.includes('/epics/')) type = 'epic';
+        else if (rel.includes('/features/')) type = 'feature';
+        else if (rel.includes('/05-architecture/')) type = 'architecture';
+        else if (rel.includes('/06-api/')) type = 'api';
+        else if (rel.includes('/07-security-compliance/')) type = 'security';
+        else if (rel.includes('/08-quality-assurance/')) type = 'qa';
+        else if (rel.includes('/00-governance/')) type = 'governance';
+
+        let title = entry.name.replace(/\.md$/, '');
+        try {
+          const content = fs.readFileSync(full, 'utf-8');
+          const titleMatch = content.match(/^#\s+(.+)$/m) || content.match(/title:\s*["']?([^"'\n]+)["']?/m);
+          if (titleMatch && titleMatch[1]) {
+            title = titleMatch[1].trim();
+          }
+        } catch {
+          // ignore
+        }
+
+        result.push({
+          title,
+          path: rel,
+          category: rel.split('/')[1] || 'docs',
+          type,
+        });
+      }
+    }
+  }
+
+  walk(docsDir, 'docs');
+  return result;
+}
+

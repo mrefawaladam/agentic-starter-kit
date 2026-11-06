@@ -151,6 +151,17 @@ export function TaskCard({ task, onSelect, onDragStart }: TaskCardProps) {
             </span>
           )}
 
+          {/* Document References Badge */}
+          {task.document_references && task.document_references.length > 0 && (
+            <span
+              title={`${task.document_references.length} Dokumen Referensi (PRD/Epics/ADR)`}
+              className="flex items-center gap-1 text-[10px] font-mono px-1.5 py-0.5 rounded bg-purple-50 text-purple-700 font-semibold border border-purple-200"
+            >
+              <FileText className="w-2.5 h-2.5 text-purple-600" />
+              {task.document_references.length} doc{task.document_references.length > 1 ? 's' : ''}
+            </span>
+          )}
+
           {/* Story Points */}
           {task.story_points !== undefined && (
             <span className="text-[10px] font-mono bg-[#DFE1E6] text-[#172B4D] font-bold px-1.5 py-0.5 rounded-full">
