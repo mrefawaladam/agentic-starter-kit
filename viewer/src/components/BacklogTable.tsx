@@ -40,6 +40,7 @@ export function BacklogTable({
   const filteredTasks = tasks.filter((task) => {
     const matchesSearch =
       task.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      task.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
       task.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
       task.tags?.some((t) => t.toLowerCase().includes(searchTerm.toLowerCase()));
 
@@ -114,7 +115,7 @@ export function BacklogTable({
         <table className="w-full text-left text-xs">
           <thead className="bg-[#F4F5F7] border-b border-[#DFE1E6] text-[#5E6C84] font-bold uppercase text-[11px] tracking-wider">
             <tr>
-              <th className="py-3 px-4 w-32">Kode</th>
+              <th className="py-3 px-4 w-44">Task ID & Kode</th>
               <th className="py-3 px-4">Judul Task</th>
               <th className="py-3 px-4 w-44">Status</th>
               <th className="py-3 px-4 w-28">Prioritas</th>
@@ -144,11 +145,16 @@ export function BacklogTable({
                     className="hover:bg-[#F4F5F7]/80 cursor-pointer transition-colors group"
                   >
                     <td className="py-3 px-4">
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1.5 flex-wrap">
                         {typeInfo.icon}
-                        <span className="font-mono font-semibold text-[#0052CC]">
-                          {task.code || task.id}
+                        <span className="font-mono text-xs font-bold text-[#0747A6] bg-[#DEEBFF] px-1.5 py-0.5 rounded border border-[#B3D4FF]">
+                          {task.id}
                         </span>
+                        {task.code && task.code !== task.id && (
+                          <span className="font-mono text-[10px] text-[#5E6C84] bg-[#F4F5F7] px-1 py-0.5 rounded border border-[#EBECF0]">
+                            {task.code}
+                          </span>
+                        )}
                       </div>
                     </td>
                     <td className="py-3 px-4 font-medium text-[#172B4D] group-hover:text-[#0052CC] transition-colors">

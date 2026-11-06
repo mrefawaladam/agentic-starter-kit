@@ -120,17 +120,30 @@ export function TaskCard({ task, onSelect, onDragStart }: TaskCardProps) {
 
       {/* Card Footer: Jira Issue Key, Type Icon, Priority, AC and Avatar */}
       <div className="flex items-center justify-between pt-2 border-t border-[#EBECF0] text-xs">
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1.5 flex-wrap">
           {/* Type Icon */}
           <span title={task.type}>{currentType.icon}</span>
 
-          {/* Issue Code */}
-          <span className="font-mono text-[11px] font-semibold text-[#5E6C84] group-hover:text-[#0052CC] transition-colors">
-            {task.code || task.id}
+          {/* Task ID (Nomor Task) */}
+          <span
+            title={`Task ID: ${task.id}`}
+            className="font-mono text-[11px] font-bold text-[#0747A6] bg-[#DEEBFF] px-1.5 py-0.5 rounded border border-[#B3D4FF] group-hover:border-[#0052CC] transition-colors"
+          >
+            {task.id}
           </span>
 
+          {/* Feature Code (jika berbeda dari ID) */}
+          {task.code && task.code !== task.id && (
+            <span
+              title={`Feature Code: ${task.code}`}
+              className="font-mono text-[10px] text-[#5E6C84] bg-[#F4F5F7] px-1 py-0.5 rounded border border-[#EBECF0]"
+            >
+              {task.code}
+            </span>
+          )}
+
           {/* Priority */}
-          <span title={`Priority: ${currentPriority.label}`} className="ml-1">
+          <span title={`Priority: ${currentPriority.label}`} className="ml-0.5">
             {currentPriority.icon}
           </span>
         </div>

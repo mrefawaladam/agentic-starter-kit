@@ -60,6 +60,14 @@
       "path": "docs/03-requirements/features/FEAT-HRIS-001-payroll-journal/README.md"
     },
     {
+      "id": "FEAT-SEC-001",
+      "type": "feature",
+      "title": "Centralized Audit Trail Logging",
+      "status": "APPROVED",
+      "owner": "product-manager",
+      "path": "docs/03-requirements/features/FEAT-SEC-001-audit-trail/README.md"
+    },
+    {
       "id": "PRD-MASTER",
       "type": "document",
       "title": "Master PRD — KasirSakti Platform",
@@ -150,6 +158,11 @@
     {
       "from": "EPIC-POS",
       "to": "FEAT-POS-005",
+      "relation": "breaks_down_into"
+    },
+    {
+      "from": "EPIC-POS",
+      "to": "FEAT-SEC-001",
       "relation": "breaks_down_into"
     },
     {
