@@ -20,11 +20,17 @@ npm run board
 Buka peramban di: **`http://localhost:3000`**
 
 ### Fitur Utama di Dashboard:
-1. **Kanban Board**: Drag & drop task melintasi 7 tahapan *Readiness Gates*.
-2. **Backlog Table**: Tampilan list tabular ala Jira untuk sorting dan filter prioritas.
-3. **Documentation Hub**: File explorer 11 modul dokumen (`00-governance` s.d. `10-operations`) dengan rendering otomatis diagram **Mermaid** dan formula.
-4. **Knowledge Graph & Scope Navigator**: Visualisasi peta dependensi dan tombol 1-klik *"Copy Context Scope"* untuk prompt hemat token.
-5. **Agents Hub**: Katalog 8 peran dan 30+ skill standar industri ([UI-Skills](https://www.ui-skills.com/), [Skills.sh](https://www.skills.sh/), dll.) dengan tombol salin prompt terstruktur.
+1. **Sistem Autentikasi & Akun Default**:
+   - **Default Email**: `admin@kasirsakti.local`
+   - **Default Password**: `password123`
+   - Tombol 1-klik *"Isi Akun"* untuk auto-fill instan tanpa perlu mengetik manual.
+   - Pendaftaran akun baru (*Register*) dengan peran tim (Lead Dev, Product Owner, Architect, QA).
+   - Profil avatar dengan menu dropdown dan tombol *Logout*.
+2. **Kanban Board**: Drag & drop task melintasi 7 tahapan *Readiness Gates*.
+3. **Backlog Table**: Tampilan list tabular ala Jira untuk sorting dan filter prioritas.
+4. **Documentation Hub**: File explorer 11 modul dokumen (`00-governance` s.d. `10-operations`) dengan rendering otomatis diagram **Mermaid** dan formula.
+5. **Knowledge Graph & Scope Navigator**: Visualisasi peta dependensi dan tombol 1-klik *"Copy Context Scope"* untuk prompt hemat token.
+6. **Agents Hub**: Katalog 8 peran dan 30+ skill standar industri ([UI-Skills](https://www.ui-skills.com/), [Skills.sh](https://www.skills.sh/), dll.) dengan tombol salin prompt terstruktur.
 
 ---
 
@@ -60,10 +66,13 @@ Di terminal Antigravity CLI (`agy`), panggil agen menggunakan tanda **garis miri
 | **`/qa`** | **Quality Engineer** | Acceptance Criteria | Otomasi Playwright E2E (POM), Contract Tests, Checklist AC |
 
 > [!TIP]
-> **Catatan Simbol `@` vs `/` pada CLI:**
-> - Simbol **`@`** pada CLI digunakan untuk **melampirkan berkas** (contoh: `@AGENTS.md`).
-> - Simbol **`/`** pada CLI digunakan untuk **menjalankan skill peran** (contoh: `/pm`).
-> - Jika Anda terlanjur mengetik `@pm ...`, abaikan dropdown file dan langsung tekan **Enter**—AI tetap memahami maksud peran Anda.
+> **Cara Memanggil Agen di Antigravity CLI (`agy`):**
+> 1. **Perintah Slash `/pm` (Skill Execution - Paling Direkomendasikan)**:
+>    Ketik `/pm [instruksi]` untuk memuat skill Product Manager langsung ke memori kerja Antigravity (contoh: `/pm buatkan PRD fitur A`).
+> 2. **Teks Alami `@pm`**:
+>    Jika Anda mengetik `@pm buatin fitur A`, sistem AI otomatis mendeteksi peran PM dan mengeksekusi instruksi dengan batasan Product Manager.
+> 3. **File Mention `@agents/...`**:
+>    Jika ingin melampirkan file instruksi peran secara eksplisit, ketik `@agents/` lalu pilih `AGENT.md` peran terkait (contoh: `@agents/pm/AGENT.md tolong review scope`).
 
 ---
 

@@ -22,22 +22,47 @@ Dilarang memuat seluruh isi repository ke dalam konteks percakapan. Terapkan 5 t
 
 ---
 
-## 2. Pembagian 8 Peran Spesialis & Lokasi Panduan
+## 2. Pembagian 8 Peran Spesialis & Shortcut Panggilan
 
-| Peran AI Agent | Lokasi Skill Utama | Tanggung Jawab Deliverable | Scope Dokumen yang Dibaca |
-| :--- | :--- | :--- | :--- |
-| **Product Manager (PM)** | [`.agents/skills/product-manager/`](./.agents/skills/product-manager/) | PRD, Use Cases, User Stories, MoSCoW, Roadmap, Risk Register | `docs/01-product/`, `docs/03-requirements/` |
-| **Business Analyst (BA)** | [`.agents/skills/business-analyst/`](./.agents/skills/business-analyst/) | BPMN Process, FSM Transitions, Ubiquitous Glossary, RACI | `docs/02-discovery/`, `docs/03-requirements/workflows/` |
-| **UI/UX Designer** | [`.agents/skills/ui-ux/`](./.agents/skills/ui-ux/) | Design System, Screen Specs (Empty, Loading, Error, Success), UI-Skills | `docs/04-ux-design/` |
-| **Solution Architect** | [`.agents/skills/solution-architect/`](./.agents/skills/solution-architect/) | C4 Diagrams, HLD/LLD, Database Schemas, REST/gRPC API Contracts, ADR | `docs/05-architecture/`, `docs/06-api/` |
-| **Frontend Developer** | [`.agents/skills/frontend-developer/`](./.agents/skills/frontend-developer/) | UI Components, State/Form Handling, API Integration, Component Tests | `docs/03-requirements/`, `docs/04-ux-design/`, `docs/06-api/` |
-| **Backend Developer** | [`.agents/skills/backend-developer/`](./.agents/skills/backend-developer/) | Clean Architecture, Services, Database Migrations, Unit Tests | `docs/03-requirements/`, `docs/05-architecture/`, `docs/06-api/` |
-| **Quality Engineer (QE)**| [`.agents/skills/quality-engineer/`](./.agents/skills/quality-engineer/) | Automated E2E Tests (Playwright), Contract Tests, Test Plans, Bugs | `docs/08-quality-assurance/`, specs fitur |
-| **Security Engineer** | [`.agents/skills/security-engineer/`](./.agents/skills/security-engineer/) | STRIDE Threat Model, RBAC Matrix, SAST/DAST, Security Audit | `docs/07-security-compliance/`, API & DB |
+| Peran AI Agent | Shortcut Skill (`/`) | File Konteks (`@`) | Lokasi Panduan Lengkap | Scope Dokumen yang Dibaca |
+| :--- | :--- | :--- | :--- | :--- |
+| **Product Manager (PM)** | `/pm` | `@agents/pm/AGENT.md` | [`.agents/skills/product-manager/`](./.agents/skills/product-manager/) | `docs/01-product/`, `docs/03-requirements/` |
+| **Business Analyst (BA)** | `/ba` | `@agents/business-analyst/AGENT.md` | [`.agents/skills/business-analyst/`](./.agents/skills/business-analyst/) | `docs/02-discovery/`, `docs/03-requirements/workflows/` |
+| **UI/UX Designer** | `/ui-ux` | `@agents/ui-ux/AGENT.md` | [`.agents/skills/ui-ux/`](./.agents/skills/ui-ux/) | `docs/04-ux-design/` |
+| **Solution Architect** | `/architect` | `@agents/solution-architect/AGENT.md` | [`.agents/skills/solution-architect/`](./.agents/skills/solution-architect/) | `docs/05-architecture/`, `docs/06-api/` |
+| **Frontend Developer** | `/dev` | `@agents/frontend-developer/AGENT.md` | [`.agents/skills/frontend-developer/`](./.agents/skills/frontend-developer/) | `docs/03-requirements/`, `docs/04-ux-design/`, `docs/06-api/` |
+| **Backend Developer** | `/dev` | `@agents/backend-developer/AGENT.md` | [`.agents/skills/backend-developer/`](./.agents/skills/backend-developer/) | `docs/03-requirements/`, `docs/05-architecture/`, `docs/06-api/` |
+| **Quality Engineer (QE)**| `/qa` | `@agents/quality-engineer/AGENT.md` | [`.agents/skills/quality-engineer/`](./.agents/skills/quality-engineer/) | `docs/08-quality-assurance/`, specs fitur |
+| **Security Engineer** | `/security` | `@agents/security-engineer/AGENT.md` | [`.agents/skills/security-engineer/`](./.agents/skills/security-engineer/) | `docs/07-security-compliance/`, API & DB |
 
 ---
 
-## 3. Aturan Status Kesiapan (Readiness Gates)
+## 3. Cara Memanggil Role di Terminal Antigravity CLI (`agy`)
+
+Tersedia 3 metode pemanggilan yang fleksibel:
+
+1. **Metode Slash Command (`/`) (Paling Praktis)**:
+   Ketik `/pm`, `/ba`, `/architect`, `/dev`, `/qa`, `/security`, atau `/ui-ux` untuk memuat skill langsung ke memori kerja Antigravity.
+   Contoh:
+   ```bash
+   > /pm buatkan PRD fitur loyalty points
+   ```
+2. **Metode Teks Alami (`@role`)**:
+   Jika Anda mengetik `@pm`, `@ba`, `@dev` langsung di dalam kalimat, AI secara otomatis mengenali peran yang diminta dan langsung memuat aturan yang bersangkutan.
+   Contoh:
+   ```bash
+   > @pm buatkan kriteria penerimaan untuk modul autentikasi
+   ```
+3. **Metode File Mention (`@agents/...`)**:
+   Ketik `@agents/` lalu pilih file `AGENT.md` spesifik dari folder `agents/` jika ingin melampirkan instruksi peran secara eksplisit.
+   Contoh:
+   ```bash
+   > @agents/pm/AGENT.md tolong analisa risiko rilis fitur pembayaran
+   ```
+
+---
+
+## 4. Aturan Status Kesiapan (Readiness Gates)
 
 ```
 [DRAFT / IN_REVIEW] ──(Human Approval)──> [APPROVED] ──(Architect & UI/UX Ready)──> [READY_FOR_DEV] ──> [IN_DEV] ──> [IN_QA] ──> [DONE]
@@ -51,7 +76,7 @@ Dilarang memuat seluruh isi repository ke dalam konteks percakapan. Terapkan 5 t
 
 ---
 
-## 4. Aturan Kolaborasi & Handoff Antar-Agent
+## 5. Aturan Kolaborasi & Handoff Antar-Agent
 
 Setiap handoff wajib mencakup 5 elemen:
 1. **Goal**: Tujuan fitur atau tugas.

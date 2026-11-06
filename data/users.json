@@ -1,0 +1,11 @@
+[
+  {
+    "id": "usr_default_admin",
+    "name": "Lead Developer",
+    "email": "admin@kasirsakti.local",
+    "role": "LEAD_DEVELOPER",
+    "passwordHash": "519aec48acf548924026a7fab3fe69787dd357be738e5c7ac8818d329421f8ec9d12d4a38d62d44c64c5f3d4a092e83255f4408425b15b263ec97ca8cfc03c9b",
+    "passwordSalt": "551372b1131bd8fe67f0500758ea3867",
+    "createdAt": "2026-11-06T06:20:25.177Z"
+  }
+]

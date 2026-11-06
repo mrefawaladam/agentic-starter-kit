@@ -60,7 +60,11 @@ node scripts/graph-lookup.js --file docs/06-api/billing-endpoints.md
 
 ## Fitur Dashboard Lokal (Jira Light Web UI)
 
-1. **Kanban Board**: Drag & drop task antar-kolom (*Backlog* ➔ *Spec Drafting* ➔ *In Review* ➔ *Ready for Dev* ➔ *In Progress* ➔ *In QA* ➔ *Done*).
+1. **Sistem Login & Registrasi (Local-First Auth)**:
+   - Akun Default: `admin@kasirsakti.local` | Password: `password123`
+   - Tombol 1-klik *"Isi Akun"* untuk login instan.
+   - Pendaftaran akun baru dengan peran tim dan sesi cookie terenkripsi aman di [`data/users.json`](./data/users.json).
+2. **Kanban Board**: Drag & drop task antar-kolom (*Backlog* ➔ *Spec Drafting* ➔ *In Review* ➔ *Ready for Dev* ➔ *In Progress* ➔ *In QA* ➔ *Done*).
 2. **Backlog Table**: Tampilan tabel ringkas ala Jira List dengan filter prioritas, tipe issue, status, dan assignee.
 3. **Documentation Hub**: File tree browser 11 modul (`00-governance` s.d. `10-operations`) dengan dukungan penuh **Mermaid diagrams** dan preview simbol.
 4. **Knowledge Graph & Scope Navigator**: Visualisasi ketergantungan fitur dan tombol satu-klik *"Copy Context Scope"* untuk prompt AI.

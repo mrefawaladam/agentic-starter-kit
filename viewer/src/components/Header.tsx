@@ -14,8 +14,12 @@ import {
   Sparkles,
   Share2,
   Zap,
+  LogOut,
+  User,
+  Shield,
 } from 'lucide-react';
 import { TaskItem } from '@/lib/storage';
+import { PublicUser } from '@/lib/auth-types';
 
 export type ActiveTab = 'board' | 'backlog' | 'docs' | 'graph' | 'agents';
 
@@ -27,6 +31,8 @@ interface HeaderProps {
   onOpenNewTask: () => void;
   searchTerm: string;
   setSearchTerm: (term: string) => void;
+  currentUser?: PublicUser | null;
+  onLogout?: () => void;
 }
 
 export function Header({
@@ -37,10 +43,22 @@ export function Header({
   onOpenNewTask,
   searchTerm,
   setSearchTerm,
+  currentUser,
+  onLogout,
 }: HeaderProps) {
+  const [isUserMenuOpen, setIsUserMenuOpen] = React.useState(false);
   const readyCount = tasks.filter((t) => t.status === 'ready_for_dev').length;
   const inProgressCount = tasks.filter((t) => t.status === 'in_progress').length;
   const doneCount = tasks.filter((t) => t.status === 'done').length;
+
+  const initials = currentUser?.name
+    ? currentUser.name
+        .split(' ')
+        .map((n) => n[0])
+        .slice(0, 2)
+        .join('')
+        .toUpperCase()
+    : 'LD';
 
   return (
     <header className="border-b border-[#DFE1E6] bg-white sticky top-0 z-40 shadow-xs">
@@ -103,12 +121,53 @@ export function Header({
             <span>Create</span>
           </button>
 
-          {/* User Avatar */}
-          <div
-            title="Lead Developer (Human)"
-            className="w-8 h-8 rounded-full bg-[#0052CC] text-white text-xs font-bold flex items-center justify-center ring-2 ring-blue-100 shadow-xs cursor-pointer"
-          >
-            LD
+          {/* User Avatar with Profile Dropdown */}
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+              title={currentUser ? `${currentUser.name} (${currentUser.role})` : 'Lead Developer'}
+              className="w-8 h-8 rounded-full bg-[#0052CC] text-white text-xs font-bold flex items-center justify-center ring-2 ring-blue-100 shadow-xs cursor-pointer hover:ring-blue-300 transition-all"
+            >
+              {initials}
+            </button>
+
+            {isUserMenuOpen && (
+              <>
+                <div
+                  className="fixed inset-0 z-40"
+                  onClick={() => setIsUserMenuOpen(false)}
+                />
+                <div className="absolute right-0 mt-2 w-64 bg-white border border-[#DFE1E6] rounded-xl shadow-lg z-50 p-2 animate-fade-in text-[#172B4D]">
+                  <div className="p-3 border-b border-[#EBECF0]">
+                    <p className="text-xs font-bold text-[#172B4D] truncate">
+                      {currentUser?.name || 'Lead Developer'}
+                    </p>
+                    <p className="text-[11px] font-mono text-[#5E6C84] truncate">
+                      {currentUser?.email || 'admin@kasirsakti.local'}
+                    </p>
+                    <div className="mt-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-sm bg-[#DEEBFF] text-[#0747A6] text-[10px] font-bold uppercase font-mono">
+                      <Shield className="w-3 h-3" />
+                      {currentUser?.role || 'LEAD_DEVELOPER'}
+                    </div>
+                  </div>
+
+                  <div className="p-1">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsUserMenuOpen(false);
+                        if (onLogout) onLogout();
+                      }}
+                      className="w-full flex items-center gap-2 px-3 py-2 text-xs text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer font-semibold"
+                    >
+                      <LogOut className="w-3.5 h-3.5" />
+                      <span>Keluar (Logout)</span>
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

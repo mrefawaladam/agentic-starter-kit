@@ -10,9 +10,13 @@ import { AgentsHub } from '@/components/AgentsHub';
 import { KnowledgeGraphHub } from '@/components/KnowledgeGraphHub';
 import { SpecDrawer } from '@/components/SpecDrawer';
 import { NewTaskModal } from '@/components/NewTaskModal';
+import { AuthScreen } from '@/components/AuthScreen';
+import { PublicUser } from '@/lib/auth-types';
 import { Loader2, AlertCircle } from 'lucide-react';
 
 export default function Home() {
+  const [currentUser, setCurrentUser] = useState<PublicUser | null>(null);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [data, setData] = useState<BacklogData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -23,6 +27,28 @@ export default function Home() {
   const [docsInitialFile, setDocsInitialFile] = useState<string>(
     'docs/03-requirements/features/FEAT-001-user-auth/README.md'
   );
+
+  // Check auth session
+  useEffect(() => {
+    fetch('/api/auth/me')
+      .then((res) => res.json())
+      .then((resData) => {
+        if (resData.user) {
+          setCurrentUser(resData.user);
+        }
+      })
+      .catch((err) => console.error('Auth check error:', err))
+      .finally(() => setIsCheckingAuth(false));
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+      setCurrentUser(null);
+    } catch (err) {
+      console.error('Logout error:', err);
+    }
+  };
 
   // Fetch initial backlog data
   useEffect(() => {
@@ -105,6 +131,19 @@ export default function Home() {
     setActiveTab('docs');
   };
 
+  if (isCheckingAuth) {
+    return (
+      <div className="min-h-screen bg-[#F4F5F7] flex flex-col items-center justify-center text-[#5E6C84] gap-3">
+        <Loader2 className="w-8 h-8 animate-spin text-[#0052CC]" />
+        <p className="text-xs font-mono font-medium">Memverifikasi sesi pengguna...</p>
+      </div>
+    );
+  }
+
+  if (!currentUser) {
+    return <AuthScreen onSuccess={(user) => setCurrentUser(user)} />;
+  }
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#F4F5F7] flex flex-col items-center justify-center text-[#5E6C84] gap-3">
@@ -137,6 +176,8 @@ export default function Home() {
         onOpenNewTask={() => setIsNewTaskOpen(true)}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
+        currentUser={currentUser}
+        onLogout={handleLogout}
       />
 
       {/* Main Workspace Body */}
