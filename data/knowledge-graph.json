@@ -1,0 +1,143 @@
+{
+  "version": "1.0.0",
+  "project": "Agentic Blueprint Starter",
+  "description": "Codebase Knowledge Graph for token-efficient dependency navigation and impact analysis",
+  "nodes": [
+    {
+      "id": "FEAT-001-user-auth",
+      "type": "feature",
+      "title": "User Authentication & Session Management",
+      "status": "APPROVED",
+      "owner": "product-manager",
+      "path": "docs/03-requirements/features/FEAT-001-user-auth/README.md"
+    },
+    {
+      "id": "FEAT-002-school-payment",
+      "type": "feature",
+      "title": "School Tuition & Billing Payment System",
+      "status": "READY_FOR_DEV",
+      "owner": "product-manager",
+      "path": "docs/03-requirements/features/FEAT-002-school-payment/README.md"
+    },
+    {
+      "id": "DOC-AUTH-PRD",
+      "type": "document",
+      "title": "PRD User Authentication",
+      "path": "docs/03-requirements/features/FEAT-001-user-auth/README.md"
+    },
+    {
+      "id": "DOC-PAYMENT-PRD",
+      "type": "document",
+      "title": "PRD School Tuition Payment System",
+      "path": "docs/03-requirements/features/FEAT-002-school-payment/prd-payment-system.md"
+    },
+    {
+      "id": "DOC-PAYMENT-WORKFLOW",
+      "type": "document",
+      "title": "BPMN Payment Flow & State Transitions",
+      "path": "docs/03-requirements/features/FEAT-002-school-payment/use-cases.md"
+    },
+    {
+      "id": "DOC-PAYMENT-AC",
+      "type": "document",
+      "title": "Acceptance Criteria School Payment",
+      "path": "docs/03-requirements/features/FEAT-002-school-payment/acceptance-criteria.md"
+    },
+    {
+      "id": "ARCH-C4-CONTAINER",
+      "type": "architecture",
+      "title": "Container Architecture Specification",
+      "path": "docs/05-architecture/02-container-diagram.md"
+    },
+    {
+      "id": "ARCH-PAYMENT-SCHEMA",
+      "type": "data_model",
+      "title": "Billing & Invoicing Relational Schema",
+      "path": "docs/05-architecture/schemas/billing-schema.md"
+    },
+    {
+      "id": "API-BILLS-ENDPOINT",
+      "type": "api_endpoint",
+      "title": "REST API: Bills & Tuition Billing",
+      "method": "GET, POST",
+      "path": "docs/06-api/billing-endpoints.md"
+    },
+    {
+      "id": "API-WEBHOOK-ENDPOINT",
+      "type": "api_endpoint",
+      "title": "Payment Gateway Webhook Callback",
+      "method": "POST",
+      "path": "docs/06-api/webhook-endpoints.md"
+    },
+    {
+      "id": "SEC-STRIDE-PAYMENT",
+      "type": "security_spec",
+      "title": "STRIDE Threat Model for School Payment",
+      "path": "docs/07-security-compliance/threat-models/payment-threat-model.md"
+    },
+    {
+      "id": "COMP-PAYMENT-CARD",
+      "type": "ui_component",
+      "title": "StudentBillCard & PaymentModal",
+      "path": "viewer/src/components/StudentBillCard.tsx"
+    },
+    {
+      "id": "TEST-PAYMENT-E2E",
+      "type": "test_suite",
+      "title": "Playwright E2E: School Payment Journey",
+      "path": "tests/e2e/payment-journey.spec.ts"
+    }
+  ],
+  "edges": [
+    {
+      "from": "FEAT-002-school-payment",
+      "to": "DOC-PAYMENT-PRD",
+      "relation": "specifies"
+    },
+    {
+      "from": "FEAT-002-school-payment",
+      "to": "DOC-PAYMENT-WORKFLOW",
+      "relation": "models_workflow"
+    },
+    {
+      "from": "FEAT-002-school-payment",
+      "to": "DOC-PAYMENT-AC",
+      "relation": "defines_criteria"
+    },
+    {
+      "from": "DOC-PAYMENT-PRD",
+      "to": "ARCH-PAYMENT-SCHEMA",
+      "relation": "architectural_design"
+    },
+    {
+      "from": "DOC-PAYMENT-PRD",
+      "to": "API-BILLS-ENDPOINT",
+      "relation": "api_contract"
+    },
+    {
+      "from": "API-BILLS-ENDPOINT",
+      "to": "API-WEBHOOK-ENDPOINT",
+      "relation": "reconciliation_callback"
+    },
+    {
+      "from": "API-BILLS-ENDPOINT",
+      "to": "SEC-STRIDE-PAYMENT",
+      "relation": "threat_modeled_by"
+    },
+    {
+      "from": "API-BILLS-ENDPOINT",
+      "to": "COMP-PAYMENT-CARD",
+      "relation": "consumed_by_ui"
+    },
+    {
+      "from": "DOC-PAYMENT-AC",
+      "to": "TEST-PAYMENT-E2E",
+      "relation": "verified_by"
+    },
+    {
+      "from": "COMP-PAYMENT-CARD",
+      "to": "TEST-PAYMENT-E2E",
+      "relation": "tested_by"
+    }
+  ]
+}

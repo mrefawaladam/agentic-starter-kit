@@ -1,0 +1,18 @@
+{
+  "name": "agentic-starter-kit",
+  "version": "1.0.0",
+  "description": "AI Spec-Driven Development Starter Kit with Local Kanban & Markdown Spec Hub",
+  "scripts": {
+    "board": "cd viewer && pnpm dev",
+    "board:build": "cd viewer && pnpm build",
+    "board:start": "cd viewer && pnpm start"
+  },
+  "keywords": [
+    "ai-spec-driven",
+    "agentic",
+    "kanban",
+    "starter-kit"
+  ],
+  "author": "",
+  "license": "MIT"
+}

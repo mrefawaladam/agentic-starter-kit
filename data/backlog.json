@@ -1,0 +1,155 @@
+{
+  "project_name": "Agentic Blueprint Starter",
+  "description": "AI Spec-Driven Development Workspace",
+  "version": "1.0.0",
+  "columns": [
+    { "id": "backlog", "title": "Backlog" },
+    { "id": "spec_drafting", "title": "Spec Drafting" },
+    { "id": "in_review", "title": "In Review" },
+    { "id": "ready_for_dev", "title": "Ready for Dev" },
+    { "id": "in_progress", "title": "In Progress" },
+    { "id": "in_qa", "title": "In QA" },
+    { "id": "done", "title": "Done" }
+  ],
+  "tasks": [
+    {
+      "id": "TASK-001",
+      "code": "FEAT-AUTH-001",
+      "title": "Autentikasi Pengguna & Manajemen Sesi (JWT)",
+      "status": "ready_for_dev",
+      "priority": "HIGH",
+      "type": "FEATURE",
+      "assignee": "Backend Developer",
+      "spec_file": "docs/03-requirements/features/FEAT-001-user-auth/README.md",
+      "tags": ["auth", "security", "backend"],
+      "story_points": 5,
+      "acceptance_criteria": [
+        { "id": "AC-1", "text": "Registrasi akun dengan validasi password BR-AUTH-001", "checked": true },
+        { "id": "AC-2", "text": "Login berhasil dan mengembalikan JWT Access Token", "checked": true },
+        { "id": "AC-3", "text": "Rate limiting 5 kali gagal dalam 15 menit", "checked": false },
+        { "id": "AC-4", "text": "Refresh token rotation 7 hari", "checked": false }
+      ],
+      "updated_at": "2026-11-06T08:50:00Z"
+    },
+    {
+      "id": "TASK-002",
+      "code": "FEAT-DASH-002",
+      "title": "Desain UI Dashboard & Ringkasan Metrik",
+      "status": "spec_drafting",
+      "priority": "MEDIUM",
+      "type": "FEATURE",
+      "assignee": "UI/UX Designer",
+      "spec_file": "docs/04-ux-design/screen-specifications/dashboard.md",
+      "tags": ["frontend", "ui-ux"],
+      "story_points": 3,
+      "acceptance_criteria": [
+        { "id": "AC-201", "text": "Menampilkan kartu ringkasan metrik statistik", "checked": false },
+        { "id": "AC-202", "text": "Responsif pada ukuran layar ponsel dan tablet", "checked": false }
+      ],
+      "updated_at": "2026-11-06T08:51:00Z"
+    },
+    {
+      "id": "TASK-003",
+      "code": "BUG-001",
+      "title": "Fix token expiration edge case pada background refresh",
+      "status": "in_progress",
+      "priority": "CRITICAL",
+      "type": "BUG",
+      "assignee": "Human Lead",
+      "spec_file": "docs/03-requirements/features/FEAT-001-user-auth/edge-cases.md",
+      "tags": ["bug", "auth", "security"],
+      "story_points": 2,
+      "acceptance_criteria": [
+        { "id": "AC-301", "text": "Cegah race condition pada multi-tab token renewal", "checked": false }
+      ],
+      "updated_at": "2026-11-06T08:52:00Z"
+    },
+    {
+      "id": "TASK-004",
+      "code": "FEAT-NOTIF-003",
+      "title": "Notifikasi Email Transaksional & Webhook",
+      "status": "backlog",
+      "priority": "LOW",
+      "type": "STORY",
+      "assignee": "Unassigned",
+      "spec_file": "docs/03-requirements/epics/README.md",
+      "tags": ["notification", "email"],
+      "story_points": 8,
+      "acceptance_criteria": [
+        { "id": "AC-401", "text": "Integrasi provider email Resend / SendGrid", "checked": false },
+        { "id": "AC-402", "text": "Template email selamat datang dinamis", "checked": false }
+      ],
+      "updated_at": "2026-11-06T08:53:00Z"
+    },
+    {
+      "id": "TASK-005",
+      "code": "INFRA-INIT-001",
+      "title": "Setup Repository & AI Engineering Guidelines",
+      "status": "done",
+      "priority": "HIGH",
+      "type": "TASK",
+      "assignee": "Product Manager",
+      "spec_file": "AGENTS.md",
+      "tags": ["setup", "governance"],
+      "story_points": 1,
+      "acceptance_criteria": [
+        { "id": "AC-501", "text": "Inisialisasi folder docs/ dan agents/", "checked": true },
+        { "id": "AC-502", "text": "Dokumentasi standar dan guideline terintegrasi", "checked": true }
+      ],
+      "updated_at": "2026-11-06T08:54:00Z"
+    },
+    {
+      "id": "TASK-006",
+      "code": "FEAT-PAY-001",
+      "title": "Core Billing Engine & Webhook Settlement Gateway",
+      "status": "ready_for_dev",
+      "priority": "HIGH",
+      "type": "FEATURE",
+      "assignee": "Backend Developer",
+      "spec_file": "docs/03-requirements/features/FEAT-002-school-payment/README.md",
+      "tags": ["billing", "payment", "backend", "hexagonal"],
+      "story_points": 5,
+      "acceptance_criteria": [
+        { "id": "AC-PAY-1", "text": "Penerbitan tagihan siswa dengan kode unik BILL-YYYY-XXXX", "checked": true },
+        { "id": "AC-PAY-2", "text": "Penerimaan webhook gateway dengan verifikasi signature HMAC-SHA256", "checked": false },
+        { "id": "AC-PAY-3", "text": "Proteksi idempotency terhadap pengiriman webhook callback duplikat", "checked": false }
+      ],
+      "updated_at": "2026-11-06T12:05:00Z"
+    },
+    {
+      "id": "TASK-007",
+      "code": "FEAT-PAY-002",
+      "title": "Student Bill Card UI & Modal Pembayaran QRIS",
+      "status": "ready_for_dev",
+      "priority": "HIGH",
+      "type": "FEATURE",
+      "assignee": "Frontend Developer",
+      "spec_file": "docs/03-requirements/features/FEAT-002-school-payment/user-stories.md",
+      "tags": ["frontend", "ui-ux", "tailwind", "baseline-ui"],
+      "story_points": 3,
+      "acceptance_criteria": [
+        { "id": "AC-PAY-4", "text": "Menampilkan kartu tagihan dengan font-mono tabular-nums", "checked": false },
+        { "id": "AC-PAY-5", "text": "Modal pop-up QRIS dengan hitung mundur expired 15 menit", "checked": false },
+        { "id": "AC-PAY-6", "text": "Skeleton loader saat memuat data tagihan tanpa layout shift", "checked": false }
+      ],
+      "updated_at": "2026-11-06T12:05:00Z"
+    },
+    {
+      "id": "TASK-008",
+      "code": "TEST-PAY-001",
+      "title": "Automated E2E Playwright Suite: School Payment Journey",
+      "status": "ready_for_dev",
+      "priority": "HIGH",
+      "type": "TASK",
+      "assignee": "Quality Engineer",
+      "spec_file": "docs/03-requirements/features/FEAT-002-school-payment/acceptance-criteria.md",
+      "tags": ["qa", "playwright", "e2e", "gherkin"],
+      "story_points": 3,
+      "acceptance_criteria": [
+        { "id": "AC-PAY-7", "text": "E2E: Happy path checkout pembayaran QRIS sampai lunas", "checked": false },
+        { "id": "AC-PAY-8", "text": "Security test: Penolakan webhook palsu tanpa signature valid", "checked": false }
+      ],
+      "updated_at": "2026-11-06T12:05:00Z"
+    }
+  ]
+}
