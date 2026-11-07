@@ -17,6 +17,7 @@ import {
   LogOut,
   User,
   Shield,
+  UserCheck,
 } from 'lucide-react';
 import { TaskItem } from '@/lib/storage';
 import { PublicUser } from '@/lib/auth-types';
@@ -33,6 +34,7 @@ interface HeaderProps {
   setSearchTerm: (term: string) => void;
   currentUser?: PublicUser | null;
   onLogout?: () => void;
+  onOpenUserApproval?: () => void;
 }
 
 export function Header({
@@ -45,11 +47,17 @@ export function Header({
   setSearchTerm,
   currentUser,
   onLogout,
+  onOpenUserApproval,
 }: HeaderProps) {
   const [isUserMenuOpen, setIsUserMenuOpen] = React.useState(false);
   const readyCount = tasks.filter((t) => t.status === 'ready_for_dev').length;
   const inProgressCount = tasks.filter((t) => t.status === 'in_progress').length;
   const doneCount = tasks.filter((t) => t.status === 'done').length;
+
+  const isAdmin =
+    currentUser?.role === 'ADMINISTRATOR' ||
+    currentUser?.role === 'LEAD_DEVELOPER' ||
+    currentUser?.id === 'usr_default_admin';
 
   const initials = currentUser?.name
     ? currentUser.name
@@ -152,7 +160,21 @@ export function Header({
                     </div>
                   </div>
 
-                  <div className="p-1">
+                  <div className="p-1 space-y-0.5">
+                    {isAdmin && onOpenUserApproval && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsUserMenuOpen(false);
+                          onOpenUserApproval();
+                        }}
+                        className="w-full flex items-center gap-2 px-3 py-2 text-xs text-[#0052CC] hover:bg-[#DEEBFF]/60 rounded-lg transition-colors cursor-pointer font-semibold"
+                      >
+                        <UserCheck className="w-3.5 h-3.5" />
+                        <span>Approval Pengguna Baru</span>
+                      </button>
+                    )}
+
                     <button
                       type="button"
                       onClick={() => {

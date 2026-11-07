@@ -11,6 +11,7 @@ import { KnowledgeGraphHub } from '@/components/KnowledgeGraphHub';
 import { SpecDrawer } from '@/components/SpecDrawer';
 import { NewTaskModal } from '@/components/NewTaskModal';
 import { AuthScreen } from '@/components/AuthScreen';
+import { UserApprovalModal } from '@/components/UserApprovalModal';
 import { PublicUser } from '@/lib/auth-types';
 import { Loader2, AlertCircle } from 'lucide-react';
 
@@ -23,10 +24,66 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('board');
   const [selectedTask, setSelectedTask] = useState<TaskItem | null>(null);
   const [isNewTaskOpen, setIsNewTaskOpen] = useState(false);
+  const [isUserApprovalOpen, setIsUserApprovalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [docsInitialFile, setDocsInitialFile] = useState<string>(
     'docs/03-requirements/features/FEAT-001-user-auth/README.md'
   );
+
+  // Deep linking: Sinkronisasi Tab & Selected Task dengan URL query params
+  // Sehingga saat user refresh atau buka link baru, tetap di tab yang sama dan tidak reset
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const params = new URLSearchParams(window.location.search);
+    const tabParam = params.get('tab') as ActiveTab | null;
+    if (tabParam && ['board', 'backlog', 'docs', 'graph', 'agents'].includes(tabParam)) {
+      setActiveTab(tabParam);
+    }
+
+    const docParam = params.get('doc');
+    if (docParam) {
+      setDocsInitialFile(docParam);
+    }
+  }, []);
+
+  // Update browser URL query saat tab atau dokumen berubah tanpa reload
+  const handleTabChange = (tab: ActiveTab) => {
+    setActiveTab(tab);
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      url.searchParams.set('tab', tab);
+      if (tab !== 'docs') {
+        url.searchParams.delete('doc');
+      }
+      window.history.replaceState({}, '', url.toString());
+    }
+  };
+
+  const handleOpenDocInHub = (docPath: string) => {
+    setDocsInitialFile(docPath);
+    setActiveTab('docs');
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      url.searchParams.set('tab', 'docs');
+      url.searchParams.set('doc', docPath);
+      window.history.replaceState({}, '', url.toString());
+    }
+  };
+
+  // Sync selected task with URL taskId query
+  const handleSelectTask = (task: TaskItem | null) => {
+    setSelectedTask(task);
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      if (task) {
+        url.searchParams.set('taskId', task.id);
+      } else {
+        url.searchParams.delete('taskId');
+      }
+      window.history.replaceState({}, '', url.toString());
+    }
+  };
 
   // Check auth session
   useEffect(() => {
@@ -60,6 +117,18 @@ export default function Home() {
       .then((resData: BacklogData) => {
         setData(resData);
         setIsLoading(false);
+
+        // Check if URL has taskId query, open drawer directly
+        if (typeof window !== 'undefined') {
+          const params = new URLSearchParams(window.location.search);
+          const taskId = params.get('taskId');
+          if (taskId) {
+            const found = resData.tasks.find((t) => t.id.toLowerCase() === taskId.toLowerCase());
+            if (found) {
+              setSelectedTask(found);
+            }
+          }
+        }
       })
       .catch((err) => {
         setError(err.message);
@@ -126,11 +195,6 @@ export default function Home() {
     persistBacklog(updatedData);
   };
 
-  const handleOpenDocInHub = (docPath: string) => {
-    setDocsInitialFile(docPath);
-    setActiveTab('docs');
-  };
-
   if (isCheckingAuth) {
     return (
       <div className="min-h-screen bg-[#F4F5F7] flex flex-col items-center justify-center text-[#5E6C84] gap-3">
@@ -172,12 +236,13 @@ export default function Home() {
         projectName={data.project_name}
         tasks={data.tasks}
         activeTab={activeTab}
-        setActiveTab={setActiveTab}
+        setActiveTab={handleTabChange}
         onOpenNewTask={() => setIsNewTaskOpen(true)}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
         currentUser={currentUser}
         onLogout={handleLogout}
+        onOpenUserApproval={() => setIsUserApprovalOpen(true)}
       />
 
       {/* Main Workspace Body */}
@@ -200,7 +265,7 @@ export default function Home() {
                   key={column.id}
                   column={column}
                   tasks={columnTasks}
-                  onSelectTask={setSelectedTask}
+                  onSelectTask={handleSelectTask}
                   onDropTask={handleDropTask}
                   onDragStartTask={handleDragStartTask}
                 />
@@ -213,7 +278,7 @@ export default function Home() {
           <BacklogTable
             tasks={data.tasks}
             columns={data.columns}
-            onSelectTask={setSelectedTask}
+            onSelectTask={handleSelectTask}
             onUpdateTaskStatus={(id, status) => handleDropTask(id, status)}
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
@@ -231,7 +296,7 @@ export default function Home() {
       <SpecDrawer
         task={selectedTask}
         columns={data.columns}
-        onClose={() => setSelectedTask(null)}
+        onClose={() => handleSelectTask(null)}
         onUpdateTask={handleUpdateTask}
         onOpenDocInHub={handleOpenDocInHub}
       />
@@ -243,6 +308,15 @@ export default function Home() {
         onClose={() => setIsNewTaskOpen(false)}
         onAddTask={handleAddTask}
       />
+
+      {/* Modal User Approval for Administrator */}
+      {currentUser && (
+        <UserApprovalModal
+          isOpen={isUserApprovalOpen}
+          onClose={() => setIsUserApprovalOpen(false)}
+          currentUser={currentUser}
+        />
+      )}
     </div>
   );
 }

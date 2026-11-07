@@ -3,6 +3,7 @@ export interface PublicUser {
   name: string;
   email: string;
   role: string;
+  status?: 'ACTIVE' | 'PENDING_APPROVAL' | 'REJECTED';
   createdAt: string;
 }
 
