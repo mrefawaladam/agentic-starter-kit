@@ -16,15 +16,18 @@ const CANONICAL_ASSIGNEES = [
   {
     group: '🤖 AI Specialist Agents',
     options: [
-      'Fullstack Developer',
-      'Backend Developer',
-      'Frontend Developer',
+      'Orchestrator',
       'Product Manager',
       'Business Analyst',
       'UI/UX Designer',
       'Solution Architect',
+      'Fullstack Developer',
+      'Frontend Developer',
+      'Backend Developer',
+      'Code Reviewer',
       'Quality Engineer',
       'Security Engineer',
+      'DevOps Engineer',
     ],
   },
 ];

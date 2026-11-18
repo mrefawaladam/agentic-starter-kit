@@ -24,11 +24,26 @@ export interface TaskReport {
   notes?: string;
 }
 
+export type TaskStatus =
+  | 'discovery'
+  | 'specification'
+  | 'in_review'
+  | 'ready_for_dev'
+  | 'implementation'
+  | 'code_review'
+  | 'in_qa'
+  | 'security_check'
+  | 'ready_for_release'
+  | 'done'
+  | 'backlog'
+  | 'spec_drafting'
+  | 'in_progress';
+
 export interface TaskItem {
   id: string;
   code: string;
   title: string;
-  status: 'backlog' | 'spec_drafting' | 'in_review' | 'ready_for_dev' | 'in_progress' | 'in_qa' | 'done';
+  status: TaskStatus;
   priority: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
   type: 'FEATURE' | 'STORY' | 'TASK' | 'BUG' | 'SPIKE';
   assignee?: string;
