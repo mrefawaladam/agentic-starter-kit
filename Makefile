@@ -1,4 +1,4 @@
-.PHONY: help board board-build board-start sakti-status sakti-inspect sakti-impact sakti-context sakti-handoff sakti-map task-list task-get task-status task-check task-report git-status git-branch git-log
+.PHONY: help board board-build board-start sakti-status sakti-inspect sakti-impact sakti-context sakti-handoff sakti-map task-list task-get task-status task-check task-report git-status git-branch git-log upstream-init upstream-sync
 
 # Default target
 help:
@@ -24,7 +24,11 @@ help:
 	@echo "   make task-check ID=x AC=x   Centang kriteria penerimaan (Acceptance Criteria)"
 	@echo "   make task-report ID=x RES=x SUM=\"...\" [BY=x] Simpan laporan QA & bukti pengujian"
 	@echo ""
-	@echo "4. Git & Branch Control:"
+	@echo "4. Upstream Sync (Untuk Project Turunan Template):"
+	@echo "   make upstream-init          Daftarkan starter-kit induk sebagai remote upstream (1x diawal)"
+	@echo "   make upstream-sync          Tarik & gabungkan update terbaru dari agentic-starter-kit"
+	@echo ""
+	@echo "5. Git & Branch Control:"
 	@echo "   make git-status             Cek status working directory git"
 	@echo "   make git-branch             Tampilkan daftar branch aktif"
 	@echo "   make git-log                Lihat riwayat commit terbaru"
@@ -82,7 +86,31 @@ task-report:
 	@if [ -z "$(ID)" ] || [ -z "$(RES)" ] || [ -z "$(SUM)" ]; then echo "❌ Error: Format: make task-report ID=TASK-001 RES=passed SUM=\"Semua AC lolos\" [BY=\"QA Specialist\"]"; exit 1; fi
 	node scripts/task.js report $(ID) $(RES) "$(SUM)" "$(or $(BY),QA Specialist)"
 
-# 4. Git & Branch Management
+# 4. Upstream Sync (Untuk Project Turunan Template)
+UPSTREAM_REPO ?= git@github.com:mrefawaladam/agentic-starter-kit.git
+
+upstream-init:
+	@if git remote | grep -q "^upstream$$"; then \
+		echo "✅ Remote upstream sudah terdaftar:"; \
+		git remote -v | grep "^upstream"; \
+	else \
+		git remote add upstream $(UPSTREAM_REPO); \
+		echo "✅ Berhasil mendaftarkan remote upstream:"; \
+		git remote -v | grep "^upstream"; \
+	fi
+
+upstream-sync:
+	@if ! git remote | grep -q "^upstream$$"; then \
+		echo "⚠️  Remote upstream belum terdaftar. Menjalankan make upstream-init otomatis..."; \
+		git remote add upstream $(UPSTREAM_REPO); \
+	fi
+	@echo "🔄 Mengambil update terbaru dari upstream..."
+	git fetch upstream
+	@echo "🔀 Menggabungkan update dari upstream/main ke branch aktif..."
+	git merge upstream/main --allow-unrelated-histories -m "chore: sync latest updates from agentic-starter-kit"
+	@echo "🚀 Update berhasil digabungkan! Anda sekarang bisa menjalankan: git push origin main"
+
+# 5. Git & Branch Management
 git-status:
 	git status
 
