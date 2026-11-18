@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "KasirSakti AI Spec-Driven Engineering Hub with Local Kanban & Markdown Spec Hub",
   "scripts": {
+    "sakti": "node scripts/sakti.js",
+    "inspect": "node scripts/sakti.js inspect",
+    "impact": "node scripts/sakti.js impact",
+    "context": "node scripts/sakti.js context",
     "board": "cd viewer && pnpm dev",
     "board:build": "cd viewer && pnpm build",
     "board:start": "cd viewer && pnpm start",
