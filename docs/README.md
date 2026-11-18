@@ -1,6 +1,6 @@
-# 📚 KasirSakti Project Documentation System
+# 📚 Agentic Starter Kit Project Documentation System
 
-Selamat datang di Sistem Dokumentasi Rekayasa Produk KasirSakti (**KasirSakti Product Engineering Documentation System**).
+Selamat datang di Sistem Dokumentasi Rekayasa Produk Agentic Starter Kit (**Agentic Starter Kit Product Engineering Documentation System**).
 
 Dokumentasi ini dirancang mengikuti blueprint **Agentic Product Engineering** dan prinsip **AI Spec-Driven Development**, berfungsi sebagai kontrak kerja tunggal (*single source of truth*) bagi seluruh tim pengembang manusia dan AI Agent (PM, BA, Solution Architect, UI/UX, Developer, QA, dan Security).
 

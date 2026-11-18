@@ -11,7 +11,7 @@ Provides structured design recipes to solve recurring software design problems w
 
 ### Factory Method & Abstract Factory
 - **Use When**: A system should be independent of how its products are created, or when families of related objects must work together without coupling to concrete classes.
-- **Example in KasirSakti / POS**: Multi-payment gateway instantiation (QRIS, Virtual Account, EDC, Cash).
+- **Example in POS / Retail**: Multi-payment gateway instantiation (QRIS, Virtual Account, EDC, Cash).
 ```typescript
 interface PaymentGateway {
   charge(amount: number): Promise<PaymentResult>;

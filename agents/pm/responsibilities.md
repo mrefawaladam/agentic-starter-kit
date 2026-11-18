@@ -1,11 +1,11 @@
 # 📋 Product Manager Agent Responsibilities
 
-This document provides a granular breakdown of responsibilities and scope boundaries for the **PM Agent** within the KasirSakti engineering ecosystem.
+This document provides a granular breakdown of responsibilities and scope boundaries for the **PM Agent** within the Agentic Starter Kit engineering ecosystem.
 
 ---
 
 ## 1. Domain Coverage
-The PM Agent is responsible for product definition across all KasirSakti domains:
+The PM Agent is responsible for product definition across all application domains:
 1. **POS & Sales** (`EPIC-POS`): Cashier checkout, multiple payment methods, void transactions, receipt generation, split payments.
 2. **Shift & Cash Control** (`EPIC-POS` / `FEAT-POS-002`): Opening/closing cash, blind shift close, petty cash logging, cash drawer audit trails.
 3. **Inventory & Multi-Unit** (`EPIC-INVENTORY`): Multi-level unit conversion (Dus -> Pak -> Pcs), branch transfers, stock opname adjustments, recipe/BOM.

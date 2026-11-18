@@ -16,7 +16,7 @@ make board
 
 ### Fitur Utama di Dashboard:
 1. **Local-First Authentication**:
-   - Akun Default: `admin@kasirsakti.local` | Password: `password123` (tersedia tombol 1-klik *"Isi Akun"*).
+   - Akun Default: `admin@agentic.local` | Password: `password123` (tersedia tombol 1-klik *"Isi Akun"*).
 2. **Kanban Board (Readiness Gates 2.0)**:
    - Memantau pergerakan task melintasi 10 status gerbang kesiapan (*Discovery* $\to$ *Specification* $\to$ *In Review* $\to$ *Ready for Dev* $\to$ *Implementation* $\to$ *Code Review* $\to$ *In QA* $\to$ *Security Check* $\to$ *Release Candidate* $\to$ *Done*).
 3. **Spec Drawer & Evidence Hub**:

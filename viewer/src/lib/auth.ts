@@ -17,7 +17,7 @@ export interface UserRecord {
 
 export type { PublicUser };
 
-const SESSION_SECRET = process.env.SESSION_SECRET || 'kasirsakti-specos-local-auth-secret-key-2026';
+const SESSION_SECRET = process.env.SESSION_SECRET || 'agentic-starter-kit-specos-local-auth-secret-key-2026';
 const SESSION_COOKIE_NAME = 'specos_session';
 
 function getUsersFilePath(): string {

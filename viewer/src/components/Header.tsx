@@ -152,7 +152,7 @@ export function Header({
                       {currentUser?.name || 'Lead Developer'}
                     </p>
                     <p className="text-[11px] font-mono text-[#5E6C84] truncate">
-                      {currentUser?.email || 'admin@kasirsakti.local'}
+                      {currentUser?.email || 'admin@agentic.local'}
                     </p>
                     <div className="mt-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-sm bg-[#DEEBFF] text-[#0747A6] text-[10px] font-bold uppercase font-mono">
                       <Shield className="w-3 h-3" />

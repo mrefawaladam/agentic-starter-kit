@@ -47,7 +47,7 @@ Akun default untuk mengakses Board Viewer:
 
 | Keterangan | Nilai |
 | :--- | :--- |
-| **Email** | `admin@kasirsakti.local` |
+| **Email** | `admin@agentic.local` |
 | **Password** | `password123` |
 | **Role** | `LEAD_DEVELOPER` |
 

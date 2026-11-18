@@ -34,8 +34,8 @@ const CANONICAL_ASSIGNEES = [
 
 const COMMON_DOC_REFERENCES: DocumentReference[] = [
   {
-    title: 'Master PRD — KasirSakti Platform',
-    path: 'docs/03-requirements/prd/PRD-001-kasirsakti.md',
+    title: 'Master PRD — Agentic Starter Kit Platform',
+    path: 'docs/03-requirements/prd/PRD-001-agentic-starter-kit.md',
     type: 'prd',
   },
   {
@@ -81,7 +81,7 @@ export function NewTaskModal({ columns, isOpen, onClose, onAddTask }: NewTaskMod
   const [isCustomAssignee, setIsCustomAssignee] = useState(false);
   const [customAssigneeVal, setCustomAssigneeVal] = useState('');
   const [specFile, setSpecFile] = useState('docs/03-requirements/features/FEAT-POS-001-sales/README.md');
-  const [tagsInput, setTagsInput] = useState('kasirsakti, backend');
+  const [tagsInput, setTagsInput] = useState('agentic-starter-kit, backend');
   const [storyPoints, setStoryPoints] = useState(5);
   const [selectedDocRefs, setSelectedDocRefs] = useState<DocumentReference[]>([]);
 

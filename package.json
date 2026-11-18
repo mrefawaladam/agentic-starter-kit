@@ -1,7 +1,7 @@
 {
-  "name": "sakti-agent",
+  "name": "agentic-starter-kit",
   "version": "1.0.0",
-  "description": "KasirSakti AI Spec-Driven Engineering Hub with Local Kanban & Markdown Spec Hub",
+  "description": "Agentic Starter Kit AI Spec-Driven Engineering Hub with Local Kanban & Markdown Spec Hub",
   "scripts": {
     "sakti": "node scripts/sakti.js",
     "inspect": "node scripts/sakti.js inspect",
@@ -13,12 +13,12 @@
     "task": "node scripts/task.js"
   },
   "keywords": [
-    "kasirsakti",
+    "agentic-starter-kit",
     "sakti-agent",
     "ai-spec-driven",
     "agentic",
     "kanban",
-    "pos-retail"
+    "ai-seos"
   ],
   "author": "",
   "license": "MIT"

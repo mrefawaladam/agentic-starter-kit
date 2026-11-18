@@ -33,7 +33,7 @@ function saveBacklog(data) {
 
 function printUsage() {
   console.log(`
-KasirSakti / Agentic Starter Kit — Task Management Utility
+Agentic Starter Kit — Task Management Utility
 ==========================================================
 Perintah yang tersedia:
   node scripts/task.js list [status]             Daftar semua task (opsional filter status)

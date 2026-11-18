@@ -8,7 +8,7 @@ Untuk menjaga ketertelusuran (*traceability*) lintas dokumen, seluruh entitas do
 
 | Prefix | Entitas | Contoh ID | Keterangan & Lokasi File |
 | :--- | :--- | :--- | :--- |
-| **PRD** | Product Requirements Document | `PRD-001-kasirsakti` | Dokumen induk produk (`docs/03-requirements/prd/`) |
+| **PRD** | Product Requirements Document | `PRD-001-agentic-starter-kit` | Dokumen induk produk (`docs/03-requirements/prd/`) |
 | **EPIC** | Bisnis Epic | `EPIC-POS`, `EPIC-CREDIT` | Pengelompokan kapabilitas (`docs/03-requirements/epics/`) |
 | **FEAT** | Feature Specification | `FEAT-CREDIT-001-kasbon` | Folder spesifikasi fitur (`docs/03-requirements/features/`) |
 | **UC** | Use Case | `UC-CREDIT-001` | Skenario interaksi aktor-sistem (`features/.../use-cases/`) |

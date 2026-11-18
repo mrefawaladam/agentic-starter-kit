@@ -1,4 +1,4 @@
-# Glosarium Istilah Bisnis & Teknis KasirSakti (Glossary)
+# Glosarium Istilah Bisnis & Teknis Agentic Starter Kit (Glossary)
 
 Glosarium ini menetapkan definisi baku untuk seluruh terminologi agar tercipta pemahaman yang seragam di antara AI Agent, Product Owner, Developer, dan QA.
 

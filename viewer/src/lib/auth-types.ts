@@ -7,5 +7,5 @@ export interface PublicUser {
   createdAt: string;
 }
 
-export const DEFAULT_USER_EMAIL = 'admin@kasirsakti.local';
+export const DEFAULT_USER_EMAIL = 'admin@agentic.local';
 export const DEFAULT_USER_PASSWORD = 'password123';

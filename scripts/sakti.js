@@ -56,7 +56,7 @@ function handleStatus() {
   console.log('\n================================================================');
   console.log('🚀 SAKTI-AGENT: ENGINEERING COMMAND CENTER STATUS');
   console.log('================================================================');
-  console.log(`• Project Name     : Sakti-Agent (KasirSakti AI-SEOS)`);
+  console.log(`• Project Name     : Agentic Starter Kit (AI-SEOS)`);
   console.log(`• Operating System : Local-first AI Software Engineering OS`);
   console.log(`• Total Backlog    : ${taskCounts.total} tasks`);
   console.log('• Status Breakdown :');

@@ -1,6 +1,6 @@
-# 📜 Standar Dokumentasi Rekayasa Produk KasirSakti
+# 📜 Standar Dokumentasi Rekayasa Produk Agentic Starter Kit
 
-Dokumen ini mendefinisikan aturan baku penulisan, pemeliharaan, metadata, dan versioning untuk seluruh dokumen di KasirSakti.
+Dokumen ini mendefinisikan aturan baku penulisan, pemeliharaan, metadata, dan versioning untuk seluruh dokumen di Agentic Starter Kit.
 
 ---
 
