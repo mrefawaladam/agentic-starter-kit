@@ -1,0 +1,55 @@
+# Context Budget and Token Economy Policy
+
+version: "2.0"
+
+context_policy:
+  default_budget_tokens: 16000
+  maximum_budget_tokens: 32000
+  compression_threshold: 0.80
+
+  stages:
+    task: 1000
+    skill: 2000
+    repository_map: 3000
+    symbols: 4000
+    implementation: 12000
+    verification: 6000
+
+  priorities:
+    1: current_task
+    2: acceptance_criteria
+    3: directly_affected_code_and_symbols
+    4: direct_dependencies
+    5: business_rules
+    6: architecture_decisions
+    7: relevant_tests
+    8: documentation
+    9: unrelated_repository_content
+
+  rules:
+    - never_load_entire_repository
+    - symbol_first_region_second_file_third
+    - enforce_bounded_search_output
+    - deduplicate_references
+    - preserve_critical_constraints
+    - track_context_usage
+
+search_limits:
+  max_files: 20
+  max_matches_per_file: 10
+  max_output_tokens: 2000
+
+ignored_paths:
+  - "node_modules/**"
+  - ".git/**"
+  - ".next/**"
+  - "dist/**"
+  - "build/**"
+  - "coverage/**"
+  - "vendor/**"
+  - "tmp/**"
+  - "logs/**"
+  - "*.lock"
+  - "*.min.js"
+  - "*.map"
+  - "*.generated.*"

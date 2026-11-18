@@ -1,0 +1,138 @@
+# Agent Permission Boundaries & Autonomy Level Matrix
+
+version: "2.0"
+
+autonomy_levels:
+  L1_assisted: "AI analyzes and proposes; human executes"
+  L2_supervised: "AI drafts and implements within boundary; human approves risky gates"
+  L3_autonomous: "AI executes bounded tasks with automated tests, subject to policy restrictions"
+
+agent_permissions:
+  orchestrator:
+    code_write: false
+    doc_write: true
+    task_write: true
+    allowed_write_paths:
+      - "docs/**"
+      - "data/**"
+      - ".context/**"
+
+  product-manager:
+    code_write: false
+    doc_write: true
+    task_write: true
+    allowed_write_paths:
+      - "docs/01-product/**"
+      - "docs/02-discovery/**"
+      - "docs/03-requirements/**"
+      - "data/backlog.json"
+
+  business-analyst:
+    code_write: false
+    doc_write: true
+    task_write: true
+    allowed_write_paths:
+      - "docs/02-discovery/**"
+      - "docs/03-requirements/**"
+      - ".context/**"
+
+  ui-ux:
+    code_write: false
+    doc_write: true
+    task_write: false
+    allowed_write_paths:
+      - "docs/04-ux-design/**"
+
+  solution-architect:
+    code_write: false
+    doc_write: true
+    task_write: true
+    allowed_write_paths:
+      - "docs/00-governance/decision-log.md"
+      - "docs/05-architecture/**"
+      - "docs/06-api/**"
+
+  frontend-developer:
+    code_write: true
+    doc_write: true
+    task_write: true
+    allowed_write_paths:
+      - "src/**"
+      - "app/**"
+      - "components/**"
+      - "viewer/src/**"
+      - "tests/**"
+      - "data/backlog.json"
+
+  backend-developer:
+    code_write: true
+    doc_write: true
+    task_write: true
+    allowed_write_paths:
+      - "src/**"
+      - "cmd/**"
+      - "internal/**"
+      - "app/**"
+      - "migrations/**"
+      - "tests/**"
+      - "data/backlog.json"
+
+  fullstack-developer:
+    code_write: true
+    doc_write: true
+    task_write: true
+    allowed_write_paths:
+      - "src/**"
+      - "cmd/**"
+      - "internal/**"
+      - "app/**"
+      - "components/**"
+      - "viewer/src/**"
+      - "migrations/**"
+      - "tests/**"
+      - "data/backlog.json"
+
+  code-reviewer:
+    code_write: false
+    doc_write: true
+    task_write: true
+    allowed_write_paths:
+      - "docs/00-governance/**"
+      - "data/backlog.json"
+      - ".context/**"
+
+  quality-engineer:
+    code_write: true  # ONLY for test suites & mocks
+    doc_write: true
+    task_write: true
+    allowed_write_paths:
+      - "tests/**"
+      - "e2e/**"
+      - "docs/08-quality-assurance/**"
+      - "data/backlog.json"
+
+  security-engineer:
+    code_write: false
+    doc_write: true
+    task_write: true
+    allowed_write_paths:
+      - "docs/07-security-compliance/**"
+      - "data/backlog.json"
+
+  devops-engineer:
+    code_write: true  # ONLY for CI/CD, Docker, scripts
+    doc_write: true
+    task_write: true
+    allowed_write_paths:
+      - ".github/**"
+      - "Dockerfile"
+      - "docker-compose*.yml"
+      - "scripts/**"
+      - "docs/09-delivery/**"
+      - "docs/10-operations/**"
+
+forbidden_actions:
+  - "destructive database deletion or raw drop tables"
+  - "exposing plaintext credentials or secrets"
+  - "unapproved production deployment bypass"
+  - "bypassing failing unit or integration tests to mark done"

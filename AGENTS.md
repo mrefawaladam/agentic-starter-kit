@@ -1,91 +1,104 @@
-# 🤖 Sakti-Agent — KasirSakti Engineering Ecosystem AI Master Guidelines
+# 🤖 Sakti-Agent — Autonomous AI Software Engineering OS (AI-SEOS) Master Guidelines
 
-Dokumen ini adalah pedoman operasional terpusat (*Single Source of Truth*) untuk seluruh AI Assistant, Agent Spesialis (`agents/` & `.agents/skills/`), dan tim rekayasa perangkat lunak dalam merancang, mendokumentasikan, dan mengimplementasikan solusi pada ekosistem **KasirSakti** (Backend `kasirsakti-be`, Frontend `kasirsakti-fe`, dan E2E Testing `kasirsakti-e2e`).
+Dokumen ini adalah konstitusi operasional terpusat (*Single Source of Truth*) untuk seluruh AI Assistant, Agent Spesialis (`agents/` & `.agents/skills/`), dan solo software developer dalam merancang, mendokumentasikan, dan mengimplementasikan solusi perangkat lunak *production-grade*.
 
-Framework ini mengadopsi metodologi **AI Spec-Driven Development** yang hemat token, terstruktur, dan terverifikasi secara multi-agent.
-
----
-
-## 1. Prinsip Utama Penghematan Token (Progressive Disclosure)
-
-Dilarang memuat seluruh isi repository ke dalam konteks percakapan. Terapkan 5 tahap bertahap:
-
-```
-[Tahap 1: Kenali Tugas] ➔ [Tahap 2: Baca 1 Skill Relevan] ➔ [Tahap 3: Muat Referensi Seperlunya] ➔ [Tahap 4: Telusuri Graph Dependensi] ➔ [Tahap 5: Eksekusi Deliverable]
-```
-
-1. **Kenali Tugas**: Identifikasi peran mana yang bertanggung jawab (PM, BA, UI/UX, Architect, Frontend, Backend, QE, atau Security).
-2. **Baca 1 Skill Saja**: Muat file `.agents/skills/<role>/SKILL.md` atau `agents/<role>/AGENT.md` yang spesifik untuk tugas tersebut.
-3. **Ambil Referensi Seperlunya**: Hanya baca file dokumen di `docs/` atau `.agents/skills/<role>/references/` yang dibutuhkan secara langsung.
-4. **Telusuri Dependensi**: Gunakan `data/knowledge-graph.json` dan skrip `scripts/graph-lookup.js` untuk menavigasi modul, tipe data, dan endpoint yang terdampak tanpa memindai seluruh folder source code.
-5. **Hasilkan Deliverable**: Buat dokumen atau kode sesuai standar, catat asumsi terbuka (`[TODO: PENDING_CONFIRMATION]`), dan perbarui `data/backlog.json`.
-   - **Khusus untuk PM (`/pm`)**: Setiap pengerjaan analisis/fitur/task **wajib menghasilkan file dokumen fisik** yang disimpan ke direktori starterkit ini (`docs/01-product/`, `docs/02-discovery/`, atau `docs/03-requirements/features/...`), tidak boleh hanya berhenti di chat.
-   - **Khusus untuk QA (`/qa`)**: Setiap verifikasi/pengujian task **wajib menyertakan bukti hasil uji (*test evidence*)** berupa file screenshot UI (disimpan ke `docs/08-quality-assurance/evidence/`), log terminal/unit test, atau respons API, dan dilampirkan ke task report/review di `data/backlog.json`. Dashboard Viewer mendukung preview visual langsung untuk gambar/screenshot ini.
+> **Core Philosophy**:
+> "One Developer. One Engineering System. Multiple AI Specialists. One Source of Truth. Production-Grade Software."
 
 ---
 
-## 2. Pembagian 9 Peran Spesialis & Shortcut Panggilan
+## 1. Konstitusi Penghematan Token (Sakti Token Economy Policy)
 
-| Peran AI Agent | Shortcut Skill (`/`) | File Konteks (`@`) | Lokasi Panduan Lengkap | Scope Dokumen yang Dibaca |
-| :--- | :--- | :--- | :--- | :--- |
-| **Product Manager (PM)** | `/pm` | `@agents/pm/AGENT.md` | [`.agents/skills/product-manager/`](./.agents/skills/product-manager/) | `docs/01-product/`, `docs/03-requirements/` |
-| **Business Analyst (BA)** | `/ba` | `@agents/business-analyst/AGENT.md` | [`.agents/skills/business-analyst/`](./.agents/skills/business-analyst/) | `docs/02-discovery/`, `docs/03-requirements/workflows/` |
-| **UI/UX Designer** | `/ui-ux` | `@agents/ui-ux/AGENT.md` | [`.agents/skills/ui-ux/`](./.agents/skills/ui-ux/) | `docs/04-ux-design/` |
-| **Solution Architect** | `/architect` | `@agents/solution-architect/AGENT.md` | [`.agents/skills/solution-architect/`](./.agents/skills/solution-architect/) | `docs/05-architecture/`, `docs/06-api/` |
-| **Fullstack Developer** | `/fullstack` | `@agents/fullstack-developer/AGENT.md` | [`.agents/skills/fullstack-developer/`](./.agents/skills/fullstack-developer/) | `docs/03-requirements/`, `docs/04-ux-design/`, `docs/05-architecture/`, `docs/06-api/` |
-| **Frontend Developer** | `/dev` | `@agents/frontend-developer/AGENT.md` | [`.agents/skills/frontend-developer/`](./.agents/skills/frontend-developer/) | `docs/03-requirements/`, `docs/04-ux-design/`, `docs/06-api/` |
-| **Backend Developer** | `/dev` | `@agents/backend-developer/AGENT.md` | [`.agents/skills/backend-developer/`](./.agents/skills/backend-developer/) | `docs/03-requirements/`, `docs/05-architecture/`, `docs/06-api/` |
-| **Quality Engineer (QE)**| `/qa` | `@agents/quality-engineer/AGENT.md` | [`.agents/skills/quality-engineer/`](./.agents/skills/quality-engineer/) | `docs/08-quality-assurance/`, specs fitur |
-| **Security Engineer** | `/security` | `@agents/security-engineer/AGENT.md` | [`.agents/skills/security-engineer/`](./.agents/skills/security-engineer/) | `docs/07-security-compliance/`, API & DB |
+AI **DILARANG KERAS** memindai atau membaca seluruh repository secara membabi buta. Setiap proses harus mematuhi **Context Budget Protocol** dan **7-Level Progressive Disclosure**:
 
----
-
-## 3. Cara Memanggil Role di Terminal Antigravity CLI (`agy`)
-
-Tersedia 3 metode pemanggilan yang fleksibel:
-
-1. **Metode Slash Command (`/`) (Paling Praktis)**:
-   Ketik `/pm`, `/ba`, `/architect`, `/fullstack`, `/dev`, `/qa`, `/security`, atau `/ui-ux` untuk memuat skill langsung ke memori kerja Antigravity.
-   Contoh:
-   ```bash
-   > /pm buatkan PRD fitur loyalty points
-   ```
-2. **Metode Teks Alami (`@role`)**:
-   Jika Anda mengetik `@pm`, `@ba`, `@dev` langsung di dalam kalimat, AI secara otomatis mengenali peran yang diminta dan langsung memuat aturan yang bersangkutan.
-   Contoh:
-   ```bash
-   > @pm buatkan kriteria penerimaan untuk modul autentikasi
-   ```
-3. **Metode File Mention (`@agents/...`)**:
-   Ketik `@agents/` lalu pilih file `AGENT.md` spesifik dari folder `agents/` jika ingin melampirkan instruksi peran secara eksplisit.
-   Contoh:
-   ```bash
-   > @agents/pm/AGENT.md tolong analisa risiko rilis fitur pembayaran
-   ```
-
----
-
-## 4. Aturan Status Kesiapan (Readiness Gates)
-
-```
-[DRAFT / IN_REVIEW] ──(Human Approval)──> [APPROVED] ──(Architect & UI/UX Ready)──> [READY_FOR_DEV] ──> [IN_DEV] ──> [IN_QA] ──> [DONE]
+### A. 7-Level Progressive Disclosure Protocol
+```text
+LEVEL 0 — Pahami Inti Tugas (Task Classification & Scope Lock)
+       ↓
+LEVEL 1 — Muat 1 Skill Relevan (Skill Activation)
+       ↓
+LEVEL 2 — Inspeksi Repository Map & Graph (Struktur direktori & modul terdampak)
+       ↓
+LEVEL 3 — Cari Simbol Relevan (Symbol First: functions, interfaces, routes)
+       ↓
+LEVEL 4 — Baca Region Kode Spesifik (Region Read: hanya baris/fungsi yang diubah)
+       ↓
+LEVEL 5 — Hubungkan Dependencies, Specs & Test Cases Terkait
+       ↓
+LEVEL 6 — Deep Investigation (HANYA jika terjadi ambiguitas tinggi atau parameter --deep aktif)
 ```
 
-- `DRAFT` / `IN_REVIEW`: Dokumen sedang dirancang. Developer **DILARANG** menulis kode aplikasi.
-- `APPROVED`: Disetujui oleh Human Product Owner.
-- `READY_FOR_DEV`: Dokumen fungsional, UI screen spec, database schema, dan API contract lengkap. Developer **BOLEH** mulai implementasi.
-- `IN_QA`: Implementasi selesai, Quality Engineer menjalankan verifikasi Acceptance Criteria.
-- `DONE`: Semua test pass dan siap rilis.
+### B. Aturan Emas Token & Batasan Konteks (*Bounded Context*)
+1. **Symbol-First, Region-Second, File-Third**: Jangan membaca file 800 baris jika hanya memerlukan fungsi 40 baris. Gunakan pencarian simbol dan baris spesifik.
+2. **Context Budget (Default: 16k tokens, Max: 32k tokens)**: Jika utilisasi melebihi 80%, kompres konteks, buang referensi sekunder, dan gunakan artefak ringkasan (*Context Summary*).
+3. **Pencarian Terbatas (Bounded Search)**: Maksimal 20 file dan 10 match per file untuk pencarian teks.
+4. **Jalur yang Wajib Diabaikan (Ignored Paths)**:
+   `node_modules/**`, `.git/**`, `.next/**`, `dist/**`, `build/**`, `coverage/**`, `vendor/**`, `tmp/**`, `logs/**`, `*.lock`, `*.min.js`.
+5. **Context Reuse**: Gunakan artefak keluaran agen sebelumnya (misal temuan BA di `.context/` atau `docs/03-requirements/`) sebagai input untuk Architect/Developer. Jangan melakukan scan repo ulang.
+6. **Output Economy**: Agen dilarang mengulang deskripsi peran, basa-basi pembuka, atau mengulang teks instruksi pengguna. Sajikan langsung hasil rekayasa terstruktur: `Finding` $\to$ `Evidence` $\to$ `Impact` $\to$ `Recommendation`.
 
 ---
 
-## 5. Aturan Kolaborasi & Handoff Antar-Agent
+## 2. Pembagian 12 Canonical Agent & Shortcut Panggilan
 
-Setiap handoff wajib mencakup 5 elemen:
-1. **Goal**: Tujuan fitur atau tugas.
-2. **Source Docs**: Tautan file dokumen sumber di `docs/`.
-3. **Approval Status**: Status persetujuan (harus diverifikasi, tidak boleh diasumsikan).
-4. **Dependencies**: Komponen atau modul lain yang terkait.
-5. **Open Questions**: Hal yang masih memerlukan konfirmasi pengguna.
+| Canonical Agent ID | Shortcut (`/`) | Context File (`@`) | Scope Tanggung Jawab & Batasan |
+| :--- | :---: | :--- | :--- |
+| **Orchestrator** | `/orchestrator` | `@agents/orchestrator/AGENT.md` | Routing, task planning, context compilation, delegasi, dan pemantauan lintas peran. |
+| **Product Manager (PM)** | `/pm` | `@agents/product-manager/AGENT.md` | Product vision, PRD, MoSCoW prioritization, user stories. **Wajib simpan file fisik** ke `docs/01-product/` atau `docs/03-requirements/`. |
+| **Business Analyst (BA)** | `/ba` | `@agents/business-analyst/AGENT.md` | BPMN process, state machine transitions, edge cases, business rules. |
+| **UI/UX Designer** | `/ui` | `@agents/ui-ux/AGENT.md` | Design system, visual hierarchy, interaction states, WCAG AA accessibility specs. |
+| **Solution Architect** | `/architect` | `@agents/solution-architect/AGENT.md` | C4 Model, ADR, database schemas, API contracts (OpenAPI/RFC 7807). |
+| **Fullstack Developer** | `/fullstack` | `@agents/fullstack-developer/AGENT.md` | End-to-end Vertical Slice implementation (UI + API + DB migration + Unit tests). |
+| **Frontend Developer** | `/frontend` | `@agents/frontend-developer/AGENT.md` | Client UI, React Server Components, responsive layout, client-side state. |
+| **Backend Developer** | `/backend` | `@agents/backend-developer/AGENT.md` | Domain logic, clean architecture, transactional database persistence, API resilience. |
+| **Code Reviewer** | `/review` | `@agents/code-reviewer/AGENT.md` | Review kode independen, deteksi arsitektur violation, race condition, dan code smell sebelum QA. |
+| **Quality Engineer (QE)**| `/qa` | `@agents/quality-engineer/AGENT.md` | Playwright E2E, Gherkin validation. **Wajib melampirkan screenshot & test evidence** ke `docs/08-quality-assurance/evidence/`. |
+| **Security Engineer** | `/security` | `@agents/security-engineer/AGENT.md` | STRIDE threat modeling, OWASP Top 10 mitigation, SAST/DAST verification, RBAC/ABAC. |
+| **DevOps Engineer** | `/devops` | `@agents/devops-engineer/AGENT.md` | Docker containerization, CI/CD pipelines, build automation, telemetry & deployment. |
 
-Agent penerima handoff **TIDAK BOLEH** mengasumsikan hasil kerja sebelumnya otomatis 100% benar; jika ada inkonsistensi, catat dan minta klarifikasi sebelum berasumsi.
+---
+
+## 3. Matriks Hak Akses & Batasan Agen (Agent Boundaries)
+
+| Agent Role | Izin Edit Kode (`src/`, `app/`) | Izin Edit Dokumen (`docs/`) | Izin Edit Task (`data/`) | Batasan Mutlak |
+| :--- | :---: | :---: | :---: | :--- |
+| **Orchestrator** | ❌ Tidak | ✅ Ya | ✅ Ya | Koordinasi & delegasi; tidak mengubah kode langsung. |
+| **PM / BA / UI-UX** | ❌ Tidak | ✅ Ya | ✅ Ya | Dilarang menulis implementasi kode aplikasi atau mengubah database. |
+| **Architect** | ❌ Tidak | ✅ Ya | ✅ Ya | Menetapkan kontrak API/ADR; tidak menulis implementasi aplikasi. |
+| **Developer (FE/BE/FS)** | ✅ Ya | ✅ Ya | ✅ Ya | Dilarang koding jika task masih `DRAFT`/`IN_REVIEW`. Wajib lolos linter & typecheck. |
+| **Code Reviewer** | ❌ Tidak | ✅ Ya | ✅ Ya | Hanya mereview diff dan memberikan catatan review (PASS/CHANGES_REQUESTED). |
+| **Quality Engineer** | ⚠️ Test Saja | ✅ Ya | ✅ Ya | Hanya boleh menulis file test (`tests/`, `e2e/`). Wajib sertakan screenshot/bukti. |
+| **Security Engineer**| ❌ Tidak | ✅ Ya | ✅ Ya | Melakukan audit keamanan; tidak mengubah kode fitur secara langsung. |
+| **DevOps Engineer** | ⚠️ Infra Saja | ✅ Ya | ✅ Ya | Hanya mengedit file CI/CD, Docker, scripts, dan konfigurasi release. |
+
+---
+
+## 4. Siklus Kesiapan & Validasi (Readiness Gates 2.0)
+
+Perubahan status task **TIDAK BOLEH** terjadi hanya karena klaim teks AI. Setiap perpindahan status harus memvalidasi prasyarat teknis:
+
+```text
+[DISCOVERY] ──> [SPECIFICATION] ──> [IN_REVIEW] ──(Human Approval)──> [READY_FOR_DEV]
+      │
+      └──> [IMPLEMENTATION] ──> [CODE_REVIEW] ──> [IN_QA] ──> [SECURITY_CHECK] ──> [RELEASE] ──> [DONE]
+```
+
+- **DISCOVERY $\to$ SPECIFICATION**: Ruang lingkup masalah dan batas fitur jelas.
+- **IN_REVIEW $\to$ READY_FOR_DEV**: Disetujui oleh Human Developer (*Human Quality Gate*).
+- **READY_FOR_DEV $\to$ IMPLEMENTATION**: Dokumen fungsional, API contract, dan Acceptance Criteria lengkap.
+- **IMPLEMENTATION $\to$ CODE_REVIEW**: Kode terkompilasi, build & lint bersih.
+- **CODE_REVIEW $\to$ IN_QA**: Code Reviewer menyatakan *Approved* tanpa blocker.
+- **IN_QA $\to$ SECURITY_CHECK**: Seluruh skenario Acceptance Criteria lolos pengujian dengan bukti visual/log.
+- **SECURITY_CHECK $\to$ RELEASE**: Tidak ada kerentanan kritis / privilege escalation.
+- **RELEASE $\to$ DONE**: Verifikasi produksi / live smoke test terkonfirmasi.
+
+---
+
+## 5. Protokol Handoff Antar Agen
+
+Setiap kali terjadi delegasi tugas antar agen (misal `/ba` $\to$ `/architect` $\to$ `/frontend`), agen pengirim wajib menyerahkan ringkasan terstruktur:
+1. **Task ID & Feature Goal**: Sasaran fitur yang sedang dikerjakan.
+2. **Key Findings / Artifacts**: Lokasi file dokumen yang dihasilkan (misal `docs/03-requirements/...`).
+3. **Relevant Files & Symbols**: Fungsi, komponen, atau endpoint yang relevan.
+4. **Decisions & Constraints**: Keputusan teknis/ADR yang mengikat.
+5. **Open Questions / Risks**: Hal yang masih membutuhkan konfirmasi pengguna.

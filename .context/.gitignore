@@ -1,0 +1,4 @@
+# .context/
+# Temporary and active session context artifacts for Sakti-Agent AI-SEOS
+*.tmp.json
+*.tmp.md
