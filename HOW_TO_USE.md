@@ -1,165 +1,128 @@
-# SOP & Panduan Lengkap Alur Kerja Multi-Agent (HOW TO USE)
+# SOP & Panduan Operasional AI-SEOS 2.0 (HOW TO USE)
 
-Selamat datang di **Agentic Blueprint Starter Kit** — framework rekayasa perangkat lunak modern berbasis **AI Spec-Driven Development**, **Progressive Disclosure**, dan **Codebase Knowledge Graph**.
-
-Dokumen ini adalah panduan standar operasional (SOP) bagaimana Anda (sebagai *Lead Developer / Product Owner*) berkolaborasi secara efisien bersama 8 AI Agent spesialis tanpa pemborosan token (*anti-slop*).
+Selamat datang di panduan operasional **Sakti-Agent — Autonomous AI Software Engineering OS (AI-SEOS)**.
+Dokumen ini adalah Standard Operating Procedure (SOP) harian bagi Anda (*Solo Developer / Human Lead*) untuk memimpin 12 agen AI spesialis dalam membangun perangkat lunak *production-grade* secara efisien, bebas halusinasi, dan hemat token (*Context Budget Protocol*).
 
 ---
 
-## 1. Cara Menjalankan Jira SpecOS Dashboard
+## 1. Menjalankan Dashboard Engineering Command Center
 
-Sebelum mulai bekerja, jalankan dashboard web lokal:
+Jalankan dashboard web lokal Next.js 16 (Turbopack):
 
 ```bash
-# Di root folder proyek:
-pnpm board
-# atau
-npm run board
+make board
+# Dashboard berjalan di: http://localhost:3000
 ```
 
-Buka peramban di: **`http://localhost:3000`**
-
 ### Fitur Utama di Dashboard:
-1. **Sistem Autentikasi & Akun Default**:
-   - **Default Email**: `admin@kasirsakti.local`
-   - **Default Password**: `password123`
-   - Tombol 1-klik *"Isi Akun"* untuk auto-fill instan tanpa perlu mengetik manual.
-   - Pendaftaran akun baru (*Register*) dengan peran tim (Lead Dev, Product Owner, Architect, QA).
-   - Profil avatar dengan menu dropdown dan tombol *Logout*.
-2. **Kanban Board**: Drag & drop task melintasi 7 tahapan *Readiness Gates*.
-3. **Backlog Table**: Tampilan list tabular ala Jira untuk sorting dan filter prioritas.
-4. **Documentation Hub**: File explorer 11 modul dokumen (`00-governance` s.d. `10-operations`) dengan rendering otomatis diagram **Mermaid** dan formula.
-5. **Knowledge Graph & Scope Navigator**: Visualisasi peta dependensi dan tombol 1-klik *"Copy Context Scope"* untuk prompt hemat token.
-6. **Agents Hub**: Katalog 8 peran dan 30+ skill standar industri ([UI-Skills](https://www.ui-skills.com/), [Skills.sh](https://www.skills.sh/), dll.) dengan tombol salin prompt terstruktur.
+1. **Local-First Authentication**:
+   - Akun Default: `admin@kasirsakti.local` | Password: `password123` (tersedia tombol 1-klik *"Isi Akun"*).
+2. **Kanban Board (Readiness Gates 2.0)**:
+   - Memantau pergerakan task melintasi 10 status gerbang kesiapan (*Discovery* $\to$ *Specification* $\to$ *In Review* $\to$ *Ready for Dev* $\to$ *Implementation* $\to$ *Code Review* $\to$ *In QA* $\to$ *Security Check* $\to$ *Release Candidate* $\to$ *Done*).
+3. **Spec Drawer & Evidence Hub**:
+   - Menampilkan rincian dokumen spesifikasi markdown, checklist kriteria penerimaan, dan **preview visual langsung untuk screenshot / hasil uji pengujian QA** (via `/api/evidence`).
+4. **Agents Hub & Documentation Hub**:
+   - Direktori 12 spesialis canonical dan penjelajah modul dokumentasi `00-governance` s.d. `10-operations` dengan diagram Mermaid otomatis.
 
 ---
 
-## 2. Audit Alur Kerja 8 Peran Spesialis (End-to-End Workflow)
-
-Setiap fitur baru harus melewati siklus terstruktur agar kode yang dihasilkan 100% sesuai spesifikasi, aman, dan teruji tanpa halusinasi:
+## 2. Alur Kerja Harian Solo Developer (End-to-End Workflow)
 
 ```mermaid
 flowchart TD
-    PO["1. Anda (Lead / PO)\nIde Fitur Baru"] -->|"Ketik: /pm"| PM["2. Product Manager\nPRD & User Stories (MoSCoW)\nStatus: IN_REVIEW"]
-    PM -->|"Ketik: /ba"| BA["3. Business Analyst\nBPMN Flow & State Machine (FSM)\nDocs: use-cases.md"]
-    BA -->|"Ketik: /ui-ux"| UI["4. UI/UX Designer\nDesign System & 5 UI States\nDocs: screens/*.md"]
-    UI -->|"Ketik: /architect"| Arch["5. Solution Architect\nSkema DB, REST/Webhook API, Graph\nStatus: READY_FOR_DEV"]
-    Arch -->|"Ketik: /dev"| Dev["6. Frontend & Backend Dev\nRSC, Clean Hexagonal, Migrations\nStatus: IN_QA"]
-    Dev -->|"Ketik: /security"| Sec["7. Security Engineer\nSTRIDE Threat Model & RBAC Audit\nDocs: threat-models/*.md"]
-    Sec -->|"Ketik: /qa"| QA["8. Quality Engineer\nPlaywright POM E2E & Gherkin AC\nStatus: DONE"]
+    User["1. Human Lead (Anda)\nMisi / Permintaan Fitur"] --> Orc["2. /orchestrator\nKlasifikasi, Scope Lock, Budgeting"]
+    Orc --> PM["3. /pm\nPRD, User Stories & Backlog\nStatus: DISCOVERY ➔ SPECIFICATION"]
+    PM --> BA["4. /ba\nBPMN Workflow, FSM, Edge Cases\nDocs: use-cases.md, business-rules.md"]
+    BA --> Arch["5. /architect\nADR, Skema DB, OpenAPI Contract\nStatus: IN_REVIEW"]
+    Arch --> Gate1{"6. Human Approval\n(Human Quality Gate)"}
+    Gate1 -- Approved --> Dev["7. /fullstack (atau /frontend /backend)\nVertical Slice Implementation\nStatus: READY_FOR_DEV ➔ IMPLEMENTATION"]
+    Dev --> CR["8. /review (Code Reviewer)\nReview Diff, Anti-Race Condition, ADR Check\nStatus: CODE_REVIEW"]
+    CR --> QA["9. /qa (Quality Engineer)\nPlaywright E2E, Screenshot Evidence\nStatus: IN_QA"]
+    QA --> Sec["10. /security\nSTRIDE Threat Model, SAST Check\nStatus: SECURITY_CHECK"]
+    Sec --> DevOps["11. /devops\nDocker Build, CI/CD, Migration Verify\nStatus: READY_FOR_RELEASE"]
+    DevOps --> Gate2{"12. Final Human Verification"}
+    Gate2 -- Verified --> Done["13. DONE & Production Release\nUpdate Decision Memory & Graph"]
 ```
 
 ---
 
-## 3. Perintah Slash Command Resmi di Antigravity (agy)
+## 3. Protokol Pemanggilan Agen & Perintah Terminal
 
-Di terminal Antigravity CLI (`agy`), panggil agen menggunakan tanda **garis miring (`/`)**:
+Panggil spesialis menggunakan **Slash Command (`/`)** di terminal Antigravity CLI (`agy`):
 
-| Slash Command | Peran AI Agent | Scope yang Dibaca | Deliverable yang Dihasilkan |
+| Panggilan Slash | Peran Spesialis | Scope Dokumen | Deliverable Wajib & Batasan |
 | :--- | :--- | :--- | :--- |
-| **`/pm`** | **Product Manager** | `docs/01-product/` | `prd-<fitur>.md`, `user-stories.md`, `risk-register.md` |
-| **`/ba`** | **Business Analyst** | PRD fitur terkait | `use-cases.md` (BPMN Mermaid), FSM Matrix, `glossary.md` |
-| **`/ui-ux`** | **UI/UX Designer** | PRD & `docs/04-ux-design/` | 5 UI States (Empty/Loading/Error/Partial/Success), Baseline UI |
-| **`/architect`**| **Solution Architect** | PRD, BPMN Flow | C4 Diagrams, Skema DB DDL, Kontrak API, Update Knowledge Graph |
-| **`/dev`** | **Full-Stack Developer** | Scoped API & UI Specs | Komponen React Server, Service Domain, Database Migrations |
-| **`/security`** | **Security Engineer** | API Contracts & DB | Analisis STRIDE, Validasi HMAC Webhook, RBAC Matrix |
-| **`/qa`** | **Quality Engineer** | Acceptance Criteria | Otomasi Playwright E2E (POM), Contract Tests, Checklist AC |
-
-> [!TIP]
-> **Cara Memanggil Agen di Antigravity CLI (`agy`):**
-> 1. **Perintah Slash `/pm` (Skill Execution - Paling Direkomendasikan)**:
->    Ketik `/pm [instruksi]` untuk memuat skill Product Manager langsung ke memori kerja Antigravity (contoh: `/pm buatkan PRD fitur A`).
-> 2. **Teks Alami `@pm`**:
->    Jika Anda mengetik `@pm buatin fitur A`, sistem AI otomatis mendeteksi peran PM dan mengeksekusi instruksi dengan batasan Product Manager.
-> 3. **File Mention `@agents/...`**:
->    Jika ingin melampirkan file instruksi peran secara eksplisit, ketik `@agents/` lalu pilih `AGENT.md` peran terkait (contoh: `@agents/pm/AGENT.md tolong review scope`).
+| **`/orc`** | **Orchestrator** | Seluruh repositori & graph | Rencana orkestrasi, scope lock, anggaran token. Dilarang modifikasi kode langsung. |
+| **`/pm`** | **Product Manager** | `docs/01-product/`, `03-requirements/` | PRD, User Stories (MoSCoW). **Wajib simpan file dokumen fisik** ke repositori. |
+| **`/ba`** | **Business Analyst** | `docs/02-discovery/`, PRD | BPMN process diagrams, FSM transitions, edge case matrix. |
+| **`/ui`** | **UI/UX Designer** | `docs/04-ux-design/` | 5 interaction states (Default, Loading, Empty, Error, Success), design tokens. |
+| **`/architect`**| **Solution Architect** | `docs/05-architecture/`, `06-api/` | C4 model, ADR di `decision-log.md`, database ERD, OpenAPI specs. |
+| **`/fullstack`**| **Fullstack Developer** | Specs fitur & API contracts | Vertical Slice (UI + API + DB migration + tests). Dilarang coding jika status `IN_REVIEW`. |
+| **`/frontend`** | **Frontend Developer** | `src/`, `viewer/`, UI specs | React Server Components, responsive layout, form validation. |
+| **`/backend`**  | **Backend Developer** | `internal/`, `src/`, DB specs | Domain logic, clean architecture, transactional database persistence. |
+| **`/review`**   | **Code Reviewer** | Git diff & ADRs | Laporan review independen (`APPROVED` atau `CHANGES_REQUESTED`). |
+| **`/qa`**       | **Quality Engineer** | Acceptance Criteria & evidence | Playwright E2E. **Wajib simpan screenshot bukti uji** ke `docs/08-quality-assurance/evidence/`. |
+| **`/security`** | **Security Engineer** | API, DB, config | STRIDE threat model, validasi RBAC/ABAC, OWASP mitigations. |
+| **`/devops`**   | **DevOps Engineer** | Dockerfile, CI/CD, scripts | Multi-stage Docker, migration safety, telemetry, health check. |
 
 ---
 
-## 4. Panduan Praktis & Contoh Prompt Langkah-demi-Langkah
+## 4. Panduan Eksekusi Hemat Token (Token Economy)
 
-Gunakan studi kasus nyata: **Fitur Pembayaran SPP Sekolah (`FEAT-002-school-payment`)**:
+Gunakan perintah `make` untuk memeriksa repositori sebelum memuat file besar ke context AI:
 
-### Langkah 1: Merumuskan PRD & User Stories (`/pm`)
-Ketik di terminal:
+### A. Cari Simbol Dahulu (*Symbol-First Protocol*)
+Jangan memuat file ratusan baris jika hanya butuh satu fungsi atau komponen:
 ```bash
-/pm Saya ingin membuat fitur pembayaran SPP sekolah (FEAT-002). Tolong susun PRD lengkap di docs/03-requirements/features/FEAT-002-school-payment/ berisi problem statement, target persona orang tua & TU, scope in/out, user stories (MoSCoW), dan risk register. Status awal IN_REVIEW.
+# Temukan lokasi baris kode spesifik secara instan:
+make sakti-inspect SYMBOL=calculateContextBudget
 ```
+*Hasil menampilkan nama file dan nomor baris; AI cukup membaca baris tersebut (Region Read).*
 
-### Langkah 2: Memetakan Alur Proses & State Machine (`/ba`)
-Ketik di terminal:
+### B. Analisis Risiko & Dependensi Sebelum Refaktor
 ```bash
-/ba Dari PRD FEAT-002, tolong buatkan diagram alur interaksi multi-aktor (Orang Tua, Portal Siswa, Core Billing, Payment Gateway) menggunakan Mermaid sequence diagram di use-cases.md, beserta tabel Finite State Machine (FSM) untuk siklus tagihan (DRAFT -> PUBLISHED -> PENDING_PAYMENT -> PAID).
+make sakti-impact FILE=viewer/src/lib/storage.ts
 ```
+*Hasil mengidentifikasi modul terdampak, file dokumen terkait, serta daftar test suite yang wajib diuji ulang.*
 
-### Langkah 3: Menentukan Standar Visual & 5 State UI (`/ui-ux`)
-Ketik di terminal:
+### C. Cek Utilisasi Anggaran Token
 ```bash
-/ui-ux Rancang spesifikasi antarmuka kartu tagihan siswa dan modal pembayaran QRIS untuk FEAT-002. Terapkan aturan baseline-ui (angka tabular-nums, animasi <200ms, touch target 44px) dan sertakan 5 state: Ideal, Loading skeleton, Empty, Error banner, dan Expired state.
+make sakti-context FILES="AGENTS.md scripts/sakti.js"
 ```
+*Memastikan pemuatan konteks berada di bawah batas 16.000 tokens (aman).*
 
-### Langkah 4: Merancang Database & Kontrak API (`/architect`)
-Ketik di terminal:
+### D. Delegasi Antar Agen Tanpa Scan Ulang (*Context Reuse*)
+Setelah agen selesai menganalisis (misal `/ba`), simpan artefak serah terima untuk agen berikutnya:
 ```bash
-/architect Rancang skema database PostgreSQL (tabel bills, payment_transactions, receipts) di docs/05-architecture/schemas/billing-schema.md dan kontrak REST API serta Webhook receiver di docs/06-api/. Daftarkan relasi node baru ini ke data/knowledge-graph.json dan ubah status fitur menjadi READY_FOR_DEV.
-```
-
-### Langkah 5: Implementasi Kode Aplikasi (`/dev`)
-Ketik di terminal:
-```bash
-/dev Implementasikan komponen antarmuka kartu tagihan siswa dan endpoint webhook settlement untuk FEAT-002. Rujuk hanya pada file yang tercantum dalam knowledge graph scope. Terapkan Clean Architecture dan proteksi idempotency key.
-```
-
-### Langkah 6: Audit Keamanan STRIDE (`/security`)
-Ketik di terminal:
-```bash
-/security Lakukan audit STRIDE threat modeling pada endpoint /api/webhooks/payment dan verifikasi mekanisme HMAC-SHA256 signature serta pencegahan vulnerability IDOR/BOLA pada pencarian tagihan siswa.
-```
-
-### Langkah 7: Verifikasi Acceptance Criteria & E2E Test (`/qa`)
-Ketik di terminal:
-```bash
-/qa Verifikasi kriteria penerimaan Gherkin FEAT-002. Buatkan skrip otomasi Playwright menggunakan Page Object Model (POM) yang menguji alur pembayaran QRIS hingga lunas serta simulasi penolakan webhook palsu tanpa signature otentik.
+make sakti-handoff ROLE=solution-architect SUMMARY="Review routing dan integrasi notifikasi"
 ```
 
 ---
 
-## 5. Cara Menghemat Token (Token Optimization SOP)
+## 5. Alur Pengujian & Pelaporan Hasil QA
 
-Sebelum meminta agen AI melakukan refactor atau implementasi besar, **jangan memindai seluruh folder proyek**. Lakukan query graph terlebih dahulu:
-
-```bash
-# 1. Dapatkan daftar file minimal yang terkait dengan fitur:
-node scripts/graph-lookup.js --feature FEAT-002-school-payment
-
-# 2. Atau klik tombol "Copy Context Scope" di tab Knowledge Graph pada Web UI.
-```
-
-Hasilnya akan memberikan daftar presisi (~4 file spesifik):
-- `[DOCUMENT]` PRD & Use Cases
-- `[DATA_MODEL]` Billing Relational Schema
-- `[API_ENDPOINT]` REST & Webhook Contracts
-- `[TEST_SUITE]` Playwright E2E Journey
-
-Dengan hanya memuat file-file tersebut, Anda menghemat **hingga 85% konsumsi token** per sesi chat!
-
----
-
-## 6. Cara Mengkloning Starter Kit Ini ke Proyek Baru
-
-Untuk menggunakan arsitektur ini di proyek baru Anda:
-
-1. **Salin Folder Starter Kit:**
+Ketika agen `/qa` menguji fitur:
+1. Simpan screenshot visual ke folder bukti pengujian:
+   `docs/08-quality-assurance/evidence/evidence-[TASK-ID]-[deskripsi].png`
+2. Simpan laporan pengujian ke backlog via `make`:
    ```bash
-   cp -r /home/revwmt/Documents/learning/agentic-starter-kit /path/ke/proyek-baru
-   cd /path/ke/proyek-baru
+   make task-report ID=TASK-001 RES=passed SUM="Seluruh 3 AC terverifikasi via Playwright" BY="QA Specialist"
    ```
-2. **Bersihkan Sample Data (Opsional):**
-   - Hapus atau sesuaikan folder contoh `docs/03-requirements/features/FEAT-002-school-payment/`.
-   - Buka `data/backlog.json` dan ganti nama proyek Anda di field `"project_name"`.
-3. **Jalankan Dashboard:**
-   ```bash
-   pnpm install
-   pnpm board
-   ```
-4. **Mulai Bekerja:** Panggil `/pm` untuk merancang fitur pertama Anda!
+3. Buka tab **Review & Laporan** di Dashboard Viewer: Screenshot UI akan langsung dirender secara visual untuk memudahkan verifikasi Anda (*Human Lead*).
+
+---
+
+## 6. Lembar Pintas Perintah Makefile (Cheatsheet)
+
+| Kategori | Perintah `make` | Fungsi Singkat |
+| :--- | :--- | :--- |
+| **Dashboard** | `make board` | Jalankan Next.js Web UI di port 3000 |
+| **Kesehatan OS**| `make sakti-status` | Cek status AI-SEOS, backlog & 12 agen |
+| **Symbol Search**| `make sakti-inspect SYMBOL=nama` | Cari definisi simbol/fungsi tanpa scan file utuh |
+| **Impact Check** | `make sakti-impact FILE=path` | Prediksi dampak modul & risiko perubahan |
+| **Token Budget** | `make sakti-context FILES="f1 f2"`| Hitung alokasi token terhadap batas 16k tokens |
+| **Repo Map** | `make sakti-map DEPTH=2` | Tampilkan hierarki direktori bersih |
+| **Task Detail** | `make task-get ID=TASK-XXX` | Baca spesifikasi lengkap task |
+| **Ganti Gate** | `make task-status ID=x GATE=ready_for_dev` | Alihkan status task ke gate berikutnya |
+| **Laporan QA** | `make task-report ID=x RES=passed SUM="..."` | Simpan hasil pengujian & link evidence |
+| **Git Control** | `make git-status`, `make git-branch` | Pantau status working tree & branch aktif |

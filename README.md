@@ -1,134 +1,145 @@
-# Sakti-Agent — KasirSakti Spec-Driven Engineering Hub
+# 🤖 Sakti-Agent — Autonomous AI Software Engineering OS (AI-SEOS)
 
-> **A Token-Efficient, Smart, Multi-Agent Development Framework Powered by Docs, Skills, Rules, and Codebase Knowledge Graph for KasirSakti Ecosystem.**
+> **"One Developer. One Engineering System. Multiple AI Specialists. One Source of Truth. Production-Grade Software."**
 
-`sakti-agent` adalah repositori terpusat (*Single Source of Truth*) dan pusat kendali rekayasa perangkat lunak multi-agent untuk ekosistem **KasirSakti** (`kasirsakti-be`, `kasirsakti-fe`, `kasirsakti-e2e`). Dilengkapi dengan **Web UI Kanban & Documentation Hub lokal (Next.js 16)** bergaya **Jira Light** yang beroperasi secara *local-first* (JSON + Markdown) tanpa dependensi database eksternal.
+`sakti-agent` adalah sistem operasi rekayasa perangkat lunak otonom (*Autonomous AI Software Engineering OS / AI-SEOS*) untuk solo-developer. Dirancang untuk merancang, mendokumentasikan, mengimplementasikan, mereview, menguji, dan merilis aplikasi *production-grade* secara terstruktur, deterministik, dan hemat token (*Token Economy*).
+
+Dilengkapi dengan **Command Center Kanban & Documentation Hub lokal (Next.js 16 Turbopack)** yang beroperasi secara *local-first* (JSON + Markdown), mesin kecerdasan repositori (*Repository Intelligence*), CLI terpadu (`make` / `scripts/sakti.js`), dan 12 peran AI spesialis (*Canonical Specialists*).
 
 ---
 
-## Prinsip Penghematan Token (Progressive Disclosure)
+## 🚀 Prinsip Utama: 7-Level Progressive Disclosure (Token Economy)
 
-Alih-alih memuat seluruh repositori ke dalam context window yang boros token dan memicu halusinasi, sistem menerapkan 5 tahap pemuatan bertahap:
+AI **DILARANG KERAS** memindai atau membaca seluruh repositori sekaligus. Sistem menerapkan protokol 7 level bertahap:
 
+```text
+LEVEL 0 — Pahami Inti Tugas (Task Classification & Scope Lock)
+       ↓
+LEVEL 1 — Muat 1 Skill Relevan (Skill Activation)
+       ↓
+LEVEL 2 — Inspeksi Repository Map & Graph (Struktur direktori & modul terdampak)
+       ↓
+LEVEL 3 — Cari Simbol Relevan (Symbol First: functions, interfaces, routes)
+       ↓
+LEVEL 4 — Baca Region Kode Spesifik (Region Read: baris/fungsi yang terdampak)
+       ↓
+LEVEL 5 — Hubungkan Dependencies, Specs & Test Cases Terkait
+       ↓
+LEVEL 6 — Deep Investigation (HANYA jika parameter --deep aktif)
 ```
-[1. Kenali Tugas & Peran]
-         ⬇
-[2. Muat 1 Skill Relevan (.agents/skills/<role>/SKILL.md)]
-         ⬇
-[3. Ambil Referensi Seperlunya (references/)]
-         ⬇
-[4. Query Knowledge Graph (data/knowledge-graph.json)]
-         ⬇
-[5. Eksekusi Deliverable & Perbarui Backlog]
+
+- **Default Context Budget**: 16.000 tokens (Maksimal: 32.000 tokens).
+- **Auto-Compression Trigger**: Peringatan aktif jika pemakaian token melampaui 80% (12.8k tokens).
+- **Context Reuse**: Hasil analisis agen sebelumnya disimpan di `.context/` dan dioper ke agen berikutnya (*Handoff*) tanpa pemindaian ulang.
+
+---
+
+## 👥 Ekosistem 12 Canonical AI Specialists
+
+Panggil peran spesialis di terminal Antigravity CLI (`agy`) menggunakan **Slash Command** (`/`) atau teks alami (`@`):
+
+| Canonical Role ID | Shortcut (`/`) | File Konteks (`@`) | Tanggung Jawab & Batasan |
+| :--- | :---: | :--- | :--- |
+| **Orchestrator** | `/orchestrator`, `/orc` | `@agents/orchestrator/AGENT.md` | Routing cerdas, scope lock, context compilation, delegasi, dan pemantauan lintas peran. |
+| **Product Manager (PM)** | `/pm` | `@agents/product-manager/AGENT.md` | PRD, MoSCoW prioritization, user stories. **Wajib simpan file fisik** ke `docs/01-product/` atau `docs/03-requirements/`. |
+| **Business Analyst (BA)** | `/ba` | `@agents/business-analyst/AGENT.md` | Pemodelan proses BPMN, FSM state machine transitions, business rules, dan edge cases. |
+| **UI/UX Designer** | `/ui`, `/ui-ux` | `@agents/ui-ux/AGENT.md` | Design system, visual hierarchy, interaction states, dan kepatuhan WCAG AA. |
+| **Solution Architect** | `/architect` | `@agents/solution-architect/AGENT.md` | C4 Model diagrams, ADR, API contracts (OpenAPI/RFC 7807), dan skema relasional database. |
+| **Fullstack Developer** | `/fullstack` | `@agents/fullstack-developer/AGENT.md` | Eksekusi fitur vertikal (*Vertical Slice Architecture*): UI + API + DB migration + Unit tests. |
+| **Frontend Developer** | `/frontend`, `/dev` | `@agents/frontend-developer/AGENT.md` | Client UI, React Server Components (RSC), responsive layout, client-side state. |
+| **Backend Developer** | `/backend`, `/dev` | `@agents/backend-developer/AGENT.md` | Domain logic, Clean Architecture (Ports & Adapters), persistensi ACID, resiliensi API. |
+| **Code Reviewer** | `/review` | `@agents/code-reviewer/AGENT.md` | Review kode independen, deteksi pelanggaran ADR, race condition, dan code smell sebelum QA. |
+| **Quality Engineer (QE)**| `/qa` | `@agents/quality-engineer/AGENT.md` | Playwright E2E, Gherkin validation. **Wajib simpan screenshot & bukti uji** ke `docs/08-quality-assurance/evidence/`. |
+| **Security Engineer** | `/security` | `@agents/security-engineer/AGENT.md` | STRIDE threat modeling, mitigasi OWASP Top 10, SAST/DAST verification, RBAC/ABAC. |
+| **DevOps Engineer** | `/devops` | `@agents/devops-engineer/AGENT.md` | Docker multi-stage, CI/CD pipeline, verifikasi migrasi database, dan kesiapan rilis. |
+
+---
+
+## 🚦 Siklus Kesiapan & Validasi: Readiness Gates 2.0
+
+Perubahan status task **tidak boleh** terjadi hanya karena klaim teks AI. Setiap perpindahan status harus memvalidasi prasyarat teknis:
+
+```text
+[DISCOVERY] ──> [SPECIFICATION] ──> [IN_REVIEW] ──(Human Approval)──> [READY_FOR_DEV]
+      │
+      └──> [IMPLEMENTATION] ──> [CODE_REVIEW] ──> [IN_QA] ──> [SECURITY_CHECK] ──> [READY_FOR_RELEASE] ──> [DONE]
 ```
 
-Hasil benchmarking menunjukkan konsumsi context window dapat dihemat **hingga 85%** dibandingkan metode scanning repository konvensional.
+1. **DISCOVERY $\to$ SPECIFICATION**: Ruang lingkup masalah, latar belakang, dan batas fitur jelas.
+2. **IN_REVIEW $\to$ READY_FOR_DEV**: Disetujui oleh Developer/Human Lead (*Human Quality Gate*).
+3. **READY_FOR_DEV $\to$ IMPLEMENTATION**: Dokumen spesifikasi fungsional, API contract, dan Acceptance Criteria lengkap.
+4. **IMPLEMENTATION $\to$ CODE_REVIEW**: Kode terkompilasi, build linter dan typecheck bersih.
+5. **CODE_REVIEW $\to$ IN_QA**: Code Reviewer menyatakan *Approved* tanpa pelanggaran arsitektur/race condition.
+6. **IN_QA $\to$ SECURITY_CHECK**: Seluruh skenario Acceptance Criteria lolos pengujian dengan bukti screenshot visual dan log.
+7. **SECURITY_CHECK $\to$ READY_FOR_RELEASE**: Tidak ada kerentanan kritis / privilege escalation.
+8. **READY_FOR_RELEASE $\to$ DONE**: Verifikasi produksi / live smoke test terkonfirmasi.
 
 ---
 
-## Pembagian 8 Peran AI Spesialis & Slash Commands
+## 🛠️ Perintah Praktis (Makefile Control Plane)
 
-Panggil peran agen di terminal Antigravity CLI (`agy`) menggunakan **Slash Command** resmi:
+Gunakan perintah `make` untuk mengontrol seluruh sistem rekayasa secara mudah:
 
-| Slash Command | Peran AI Agent | Folder Skill | Tanggung Jawab Deliverable | Scope Dokumen |
-| :--- | :--- | :--- | :--- | :--- |
-| **`/pm`** | **Product Manager (PM)** | [`.agents/skills/product-manager/`](./.agents/skills/product-manager/) | PRD, User Stories, MoSCoW Prioritization, Risk Register | `docs/01-product/`, `docs/03-requirements/` |
-| **`/ba`** | **Business Analyst (BA)** | [`.agents/skills/business-analyst/`](./.agents/skills/business-analyst/) | BPMN Process Flows, State Machine (FSM), Ubiquitous Glossary | `docs/02-discovery/`, `docs/03-requirements/workflows/` |
-| **`/ui-ux`** | **UI/UX Designer** | [`.agents/skills/ui-ux/`](./.agents/skills/ui-ux/) | Design System, 5 UI States (Empty/Loading/Error/etc), Baseline UI | `docs/04-ux-design/` |
-| **`/architect`** | **Solution Architect** | [`.agents/skills/solution-architect/`](./.agents/skills/solution-architect/) | C4 Diagrams, ADR Decisions, Relational Schema, REST Contracts | `docs/05-architecture/`, `docs/06-api/` |
-| **`/dev`** | **Frontend & Backend Dev** | [`.agents/skills/frontend-developer/`](./.agents/skills/frontend-developer/) | RSC Components, Hexagonal Architecture, Zod Validation | `docs/03-requirements/`, `docs/05-architecture/`, `docs/06-api/` |
-| **`/security`** | **Security Engineer** | [`.agents/skills/security-engineer/`](./.agents/skills/security-engineer/) | STRIDE Threat Model, RBAC Matrix, Webhook HMAC Verification | `docs/07-security-compliance/`, API & DB |
-| **`/qa`** | **Quality Engineer (QE)** | [`.agents/skills/quality-engineer/`](./.agents/skills/quality-engineer/) | Playwright POM E2E, Gherkin Verification, Contract Tests | `docs/08-quality-assurance/`, specs fitur |
-
-> **Panduan Detail Alur Kerja**: Baca SOP lengkap langkah demi langkah di [**`HOW_TO_USE.md`**](./HOW_TO_USE.md).
-
----
-
-## Codebase Knowledge Graph
-
-Peta ketergantungan relasional antara Feature, Dokumen PRD, Skema Database, Kontrak REST API, Komponen UI, dan Test Suite:
-
+### 1. Dashboard & Viewer
 ```bash
-# Query seluruh lingkup dokumen & komponen yang dibutuhkan untuk suatu fitur
-node scripts/graph-lookup.js --feature FEAT-002-school-payment
-
-# Query upstream dependencies & downstream impacts dari suatu file
-node scripts/graph-lookup.js --file docs/06-api/billing-endpoints.md
+make board                  # Menjalankan Dashboard Kanban & Docs Hub (http://localhost:3000)
+make board-build            # Build Next.js viewer mode produksi
+make board-start            # Menjalankan viewer mode produksi
 ```
 
----
-
-## Fitur Dashboard Lokal (Jira Light Web UI)
-
-1. **Sistem Login & Registrasi (Local-First Auth)**:
-   - Akun Default: `admin@kasirsakti.local` | Password: `password123`
-   - Tombol 1-klik *"Isi Akun"* untuk login instan.
-   - Pendaftaran akun baru dengan peran tim dan sesi cookie terenkripsi aman di [`data/users.json`](./data/users.json).
-2. **Kanban Board**: Drag & drop task antar-kolom (*Backlog* ➔ *Spec Drafting* ➔ *In Review* ➔ *Ready for Dev* ➔ *In Progress* ➔ *In QA* ➔ *Done*).
-2. **Backlog Table**: Tampilan tabel ringkas ala Jira List dengan filter prioritas, tipe issue, status, dan assignee.
-3. **Documentation Hub**: File tree browser 11 modul (`00-governance` s.d. `10-operations`) dengan dukungan penuh **Mermaid diagrams** dan preview simbol.
-4. **Knowledge Graph & Scope Navigator**: Visualisasi ketergantungan fitur dan tombol satu-klik *"Copy Context Scope"* untuk prompt AI.
-5. **Agents Hub & Skill Catalog**: Integrasi 30+ skills standar industri ([UI-Skills](https://www.ui-skills.com/), [Skills.sh](https://www.skills.sh/), [AgentNative](https://www.agentnative.dev/skills), [Skill-Atlas](https://github.com/luongs3/skill-atlas)) dalam format bahasa Inggris unabridged dengan YAML frontmatter.
-
----
-
-## Memulai Cepat
-
+### 2. Repository Intelligence & Token Economy
 ```bash
-# 1. Masuk ke direktori
-cd sakti-agent
-
-# 2. Jalankan Jira Light SpecOS Dashboard
-pnpm board
-# atau
-npm run board
+make sakti-status           # Cek status kesehatan AI-SEOS, backlog & 12 spesialis
+make sakti-inspect SYMBOL=calculateContextBudget # Cari definisi simbol/fungsi (Symbol-First)
+make sakti-impact FILE=viewer/src/lib/storage.ts # Analisis modul & test terdampak perubahan
+make sakti-context FILES="AGENTS.md scripts/sakti.js" # Hitung estimasi penggunaan token budget
+make sakti-handoff ROLE=solution-architect SUMMARY="Review routing" # Buat artefak serah terima di .context/
+make sakti-map DEPTH=2      # Tampilkan hierarki direktori bersih (tanpa sampah)
 ```
 
-Buka peramban di [http://localhost:3000](http://localhost:3000).
+### 3. Manajemen Task Kanban
+```bash
+make task-list              # Daftar semua task kanban (atau: make task-list STATUS=ready_for_dev)
+make task-get ID=TASK-001   # Baca rincian spesifikasi lengkap sebuah task
+make task-status ID=TASK-001 GATE=ready_for_dev # Pindahkan status task ke gate berikutnya
+make task-check ID=TASK-001 AC=AC-1 # Centang checklist Acceptance Criteria
+make task-report ID=TASK-001 RES=passed SUM="3 AC lolos" BY="QA Specialist" # Simpan laporan QA
+```
+
+### 4. Git & Branch Management
+```bash
+make git-status             # Cek status working directory git
+make git-branch             # Tampilkan daftar branch aktif beserta status tracking
+make git-log                # Lihat 10 commit riwayat terbaru
+```
 
 ---
 
-## Struktur Repositori
+## 📚 Struktur Direktori AI-SEOS 2.0
 
 ```
 agentic-starter-kit/
-│
-├── AGENTS.md                  # Instruksi global & 5 tahap progressive disclosure
-├── README.md                  # Dokumentasi arsitektur sistem
-├── package.json               # Script runner ("pnpm board")
-│
-├── .agents/                   # Konfigurasi native AI Engineering
-│   ├── skills/                # 8 peran spesialis (SKILL.md + references/)
-│   └── rules/                 # Contextual rules (docs, dev, product, security)
-│
-├── agents/                    # Persona definisi peran untuk AI prompt
-│
-├── data/
-│   ├── backlog.json           # Single source of truth untuk kartu Kanban & status
-│   └── knowledge-graph.json   # Directed dependency graph antar-komponen
-│
-├── docs/                      # Struktur folder dokumentasi standar (00 s.d. 10)
-│   ├── 00-governance/         # Naming conventions, glossary, templates
-│   ├── 01-product/            # Product vision, strategy, roadmap
-│   ├── 02-discovery/          # Problem statement, assumptions
-│   ├── 03-requirements/       # Epics & feature specs (FEAT-001 & FEAT-002)
-│   ├── 04-ux-design/          # Design system, screen specifications
-│   ├── 05-architecture/       # HLD, LLD, C4 diagrams, database schemas, ADRs
-│   ├── 06-api/                # API conventions, REST/webhook endpoints
-│   ├── 07-security-compliance/# STRIDE threat models, RBAC matrix
-│   ├── 08-quality-assurance/  # Test strategy, Playwright E2E cases
-│   ├── 09-delivery/           # Release plans, sprint plans
-│   └── 10-operations/         # Monitoring, backup & recovery
-│
-├── scripts/
-│   └── graph-lookup.js        # CLI utility untuk query scope Knowledge Graph
-│
-├── skills/                    # Katalog lengkap unabridged English skills (UI-Skills, QA, dll.)
-│
-└── viewer/                    # Next.js 16 Web Dashboard (Kanban, Docs, Graph, Agents)
+├── .agents/
+│   ├── policies/            # Kebijakan token-economy & agent-boundaries
+│   └── skills/              # Definisi skill terstandarisasi untuk LLM
+├── .context/                # Artefak serah terima (handoff) & ringkasan konteks aktif
+├── agents/                  # Panduan peran spesialis & batasan mutlak (AGENT.md)
+├── data/                    # JSON persistence (backlog.json, knowledge-graph.json, users.json)
+├── docs/                    # Hierarki dokumentasi bernomor (00-governance s.d. 10-operations)
+│   ├── 00-governance/       # Decision log (ADR), glossary, standar dokumentasi
+│   └── 08-quality-assurance/evidence/ # Penyimpanan screenshot UI & log eksekusi test
+├── engine/                  # Context engine & token budget calculator
+├── intelligence/            # Repository indexer & change impact analyzer
+├── scripts/                 # CLI utilities (sakti.js, task.js, graph-lookup.js)
+├── viewer/                  # Next.js 16 Web Dashboard (Kanban, Docs Hub, Evidence Viewer)
+├── AGENTS.md                # Konstitusi operasional Single Source of Truth
+├── Makefile                 # Pusat kontrol perintah developer
+└── package.json             # Root workspace scripts & package metadata
 ```
 
 ---
 
-## Lisensi
-MIT License. Bebas digunakan dan dimodifikasi sebagai starter kit di setiap proyek software rekayasa Anda.
+## 📖 Dokumentasi Lengkap
+- [**`HOW_TO_USE.md`**](./HOW_TO_USE.md): Panduan SOP operasional harian langkah demi langkah.
+- [**`IMPLEMENTATION_SUMMARY_AI_SEOS_2.0.md`**](./IMPLEMENTATION_SUMMARY_AI_SEOS_2.0.md): Detail teknis arsitektur 5 batch yang telah diimplementasikan.
+- [**`AGENTS.md`**](./AGENTS.md): Konstitusi tata kelola agen dan matriks batasan peran.
