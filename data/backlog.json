@@ -1,35 +1,47 @@
 {
-  "project_name": "Spec-Driven Engineering Hub",
-  "description": "AI Spec-Driven Development Workspace & Multi-Agent Kanban",
-  "version": "1.0.0",
+  "project_name": "Sakti-Agent Autonomous AI-SEOS",
+  "description": "Autonomous AI Software Engineering Operating System & Multi-Agent Kanban Hub",
+  "version": "2.0.0",
   "columns": [
     {
-      "id": "backlog",
-      "title": "Backlog"
+      "id": "discovery",
+      "title": "Discovery"
     },
     {
-      "id": "spec_drafting",
-      "title": "Spec Drafting"
+      "id": "specification",
+      "title": "Specification"
     },
     {
       "id": "in_review",
-      "title": "In Review"
+      "title": "In Review (Human Approval)"
     },
     {
       "id": "ready_for_dev",
       "title": "Ready for Dev"
     },
     {
-      "id": "in_progress",
-      "title": "In Progress"
+      "id": "implementation",
+      "title": "Implementation"
+    },
+    {
+      "id": "code_review",
+      "title": "Code Review"
     },
     {
       "id": "in_qa",
-      "title": "In QA"
+      "title": "In QA & Evidence"
+    },
+    {
+      "id": "security_check",
+      "title": "Security Check"
+    },
+    {
+      "id": "ready_for_release",
+      "title": "Release Candidate"
     },
     {
       "id": "done",
-      "title": "Done"
+      "title": "Done / Verified"
     }
   ],
   "tasks": []

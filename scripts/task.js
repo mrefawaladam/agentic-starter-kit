@@ -162,10 +162,32 @@ function setTaskStatus(taskId, newStatus) {
     process.exit(1);
   }
 
-  const validStatuses = ['backlog', 'spec_drafting', 'in_review', 'ready_for_dev', 'in_progress', 'in_qa', 'done'];
+  const validStatuses = [
+    'discovery',
+    'specification',
+    'in_review',
+    'ready_for_dev',
+    'implementation',
+    'code_review',
+    'in_qa',
+    'security_check',
+    'ready_for_release',
+    'done',
+    // Backward compatibility aliases
+    'backlog',
+    'spec_drafting',
+    'in_progress',
+  ];
   const normStatus = newStatus.toLowerCase();
+  const canonicalMap = {
+    backlog: 'discovery',
+    spec_drafting: 'specification',
+    in_progress: 'implementation',
+  };
+  const targetStatus = canonicalMap[normStatus] || normStatus;
+
   if (!validStatuses.includes(normStatus)) {
-    console.error(`[ERROR] Status '${newStatus}' tidak valid. Pilihan status: ${validStatuses.join(', ')}`);
+    console.error(`[ERROR] Status '${newStatus}' tidak valid. Pilihan status: discovery, specification, in_review, ready_for_dev, implementation, code_review, in_qa, security_check, ready_for_release, done`);
     process.exit(1);
   }
 
@@ -177,7 +199,7 @@ function setTaskStatus(taskId, newStatus) {
   }
 
   const oldStatus = task.status;
-  task.status = normStatus;
+  task.status = targetStatus;
   task.updated_at = new Date().toISOString();
   saveBacklog(data);
 
