@@ -195,40 +195,63 @@ export function getAllAgents(): AgentInfo[] {
   const result: AgentInfo[] = [];
 
   const icons: Record<string, string> = {
+    orchestrator: 'cpu',
+    orc: 'cpu',
     'product-manager': 'target',
     pm: 'target',
     'business-analyst': 'bar-chart',
+    ba: 'bar-chart',
     'ui-ux': 'palette',
+    ui: 'palette',
     'solution-architect': 'compass',
+    architect: 'compass',
     'frontend-developer': 'layout',
+    frontend: 'layout',
     'backend-developer': 'settings',
+    backend: 'settings',
     'fullstack-developer': 'layers',
     fullstack: 'layers',
     developer: 'code',
+    'code-reviewer': 'check-circle-2',
+    review: 'check-circle-2',
     'quality-engineer': 'flask',
     qa: 'flask',
     'security-engineer': 'shield',
     security: 'shield',
+    'devops-engineer': 'terminal',
+    devops: 'terminal',
   };
 
   const titles: Record<string, string> = {
+    orchestrator: 'Orchestrator',
+    orc: 'Orchestrator',
     'product-manager': 'Product Manager (PM)',
     pm: 'Product Manager (PM)',
     'business-analyst': 'Business Analyst (BA)',
+    ba: 'Business Analyst (BA)',
     'ui-ux': 'UI/UX Designer',
+    ui: 'UI/UX Designer',
     'solution-architect': 'Solution Architect',
+    architect: 'Solution Architect',
     'frontend-developer': 'Frontend Developer',
+    frontend: 'Frontend Developer',
     'backend-developer': 'Backend Developer',
+    backend: 'Backend Developer',
     'fullstack-developer': 'Fullstack Developer',
     fullstack: 'Fullstack Developer',
     developer: 'Developer (Full-Stack)',
+    'code-reviewer': 'Code Reviewer',
+    review: 'Code Reviewer',
     'quality-engineer': 'Quality Engineer (QE)',
     qa: 'QA Engineer',
     'security-engineer': 'Security Engineer',
     security: 'Security Engineer',
+    'devops-engineer': 'DevOps Engineer',
+    devops: 'DevOps Engineer',
   };
 
   const canonicalRoles = [
+    'orchestrator',
     'product-manager',
     'business-analyst',
     'ui-ux',
@@ -236,18 +259,28 @@ export function getAllAgents(): AgentInfo[] {
     'frontend-developer',
     'backend-developer',
     'fullstack-developer',
+    'code-reviewer',
     'quality-engineer',
     'security-engineer',
+    'devops-engineer',
   ];
 
   for (const folder of agentFolders) {
     if (!folder.isDirectory()) continue;
     // Skip duplicate legacy aliases if canonical roles exist
-    if (['pm', 'qa', 'security', 'developer', 'fullstack'].includes(folder.name)) {
+    if (['pm', 'qa', 'security', 'developer', 'fullstack', 'review', 'devops', 'orc', 'ba', 'ui', 'architect', 'frontend', 'backend'].includes(folder.name)) {
       const canonicalName = folder.name === 'pm' ? 'product-manager' :
                             folder.name === 'qa' ? 'quality-engineer' :
                             folder.name === 'security' ? 'security-engineer' :
-                            folder.name === 'fullstack' ? 'fullstack-developer' : 'backend-developer';
+                            folder.name === 'fullstack' ? 'fullstack-developer' :
+                            folder.name === 'review' ? 'code-reviewer' :
+                            folder.name === 'devops' ? 'devops-engineer' :
+                            folder.name === 'orc' ? 'orchestrator' :
+                            folder.name === 'ba' ? 'business-analyst' :
+                            folder.name === 'ui' ? 'ui-ux' :
+                            folder.name === 'architect' ? 'solution-architect' :
+                            folder.name === 'frontend' ? 'frontend-developer' :
+                            folder.name === 'backend' ? 'backend-developer' : 'backend-developer';
       if (agentFolders.some(f => f.name === canonicalName)) {
         continue;
       }
