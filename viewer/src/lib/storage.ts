@@ -202,6 +202,8 @@ export function getAllAgents(): AgentInfo[] {
     'solution-architect': 'compass',
     'frontend-developer': 'layout',
     'backend-developer': 'settings',
+    'fullstack-developer': 'layers',
+    fullstack: 'layers',
     developer: 'code',
     'quality-engineer': 'flask',
     qa: 'flask',
@@ -217,6 +219,8 @@ export function getAllAgents(): AgentInfo[] {
     'solution-architect': 'Solution Architect',
     'frontend-developer': 'Frontend Developer',
     'backend-developer': 'Backend Developer',
+    'fullstack-developer': 'Fullstack Developer',
+    fullstack: 'Fullstack Developer',
     developer: 'Developer (Full-Stack)',
     'quality-engineer': 'Quality Engineer (QE)',
     qa: 'QA Engineer',
@@ -231,6 +235,7 @@ export function getAllAgents(): AgentInfo[] {
     'solution-architect',
     'frontend-developer',
     'backend-developer',
+    'fullstack-developer',
     'quality-engineer',
     'security-engineer',
   ];
@@ -238,10 +243,11 @@ export function getAllAgents(): AgentInfo[] {
   for (const folder of agentFolders) {
     if (!folder.isDirectory()) continue;
     // Skip duplicate legacy aliases if canonical roles exist
-    if (['pm', 'qa', 'security', 'developer'].includes(folder.name)) {
+    if (['pm', 'qa', 'security', 'developer', 'fullstack'].includes(folder.name)) {
       const canonicalName = folder.name === 'pm' ? 'product-manager' :
                             folder.name === 'qa' ? 'quality-engineer' :
-                            folder.name === 'security' ? 'security-engineer' : 'backend-developer';
+                            folder.name === 'security' ? 'security-engineer' :
+                            folder.name === 'fullstack' ? 'fullstack-developer' : 'backend-developer';
       if (agentFolders.some(f => f.name === canonicalName)) {
         continue;
       }

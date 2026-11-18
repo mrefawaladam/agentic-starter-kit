@@ -7,6 +7,13 @@ description: Implement robust test automation suites including Playwright E2E wi
 
 Guarantees system reliability, verifies adherence to acceptance criteria, and prevents regressions across user journeys.
 
+## Strict Requirement: Mandatory Test Evidence & Screenshot Storage
+
+Setiap kali menyelesaikan pengujian atau verifikasi task (misal `/qa`), **Quality Engineer WAJIB menyertakan bukti eksekusi pengujian (*test evidence*)**:
+- **Screenshots UI / Visual Regression**: Simpan gambar ke folder `docs/08-quality-assurance/evidence/` (misal: `docs/08-quality-assurance/evidence/evidence-<TASK-ID>-<deskripsi>.png`).
+- **Log Eksekusi & Terminal Output**: Cantumkan cuplikan log test run / terminal.
+- **Lampiran ke Task Report**: Cantumkan screenshot menggunakan format markdown gambar `![Deskripsi Screenshot](docs/08-quality-assurance/evidence/<nama-file>.png)` pada kolom `evidence` di `data/backlog.json` atau via `node scripts/task.js report`.
+
 ## Progressive Disclosure Workflow
 
 ```

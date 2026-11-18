@@ -932,8 +932,8 @@ ${acList}
               {task.report && task.report.evidence && (
                 <div className="mt-2 flex flex-col gap-2">
                   <span className="text-xs font-bold text-[#172B4D]">Preview Bukti Pengujian Terdaftar:</span>
-                  <div className="p-4 bg-[#FAFBFC] border border-[#DFE1E6] rounded-xl text-xs font-mono whitespace-pre-wrap text-[#253858]">
-                    {task.report.evidence}
+                  <div className="p-4 bg-[#FAFBFC] border border-[#DFE1E6] rounded-xl text-xs">
+                    <MarkdownViewer content={task.report.evidence} />
                   </div>
                 </div>
               )}

@@ -19,10 +19,12 @@ Dilarang memuat seluruh isi repository ke dalam konteks percakapan. Terapkan 5 t
 3. **Ambil Referensi Seperlunya**: Hanya baca file dokumen di `docs/` atau `.agents/skills/<role>/references/` yang dibutuhkan secara langsung.
 4. **Telusuri Dependensi**: Gunakan `data/knowledge-graph.json` dan skrip `scripts/graph-lookup.js` untuk menavigasi modul, tipe data, dan endpoint yang terdampak tanpa memindai seluruh folder source code.
 5. **Hasilkan Deliverable**: Buat dokumen atau kode sesuai standar, catat asumsi terbuka (`[TODO: PENDING_CONFIRMATION]`), dan perbarui `data/backlog.json`.
+   - **Khusus untuk PM (`/pm`)**: Setiap pengerjaan analisis/fitur/task **wajib menghasilkan file dokumen fisik** yang disimpan ke direktori starterkit ini (`docs/01-product/`, `docs/02-discovery/`, atau `docs/03-requirements/features/...`), tidak boleh hanya berhenti di chat.
+   - **Khusus untuk QA (`/qa`)**: Setiap verifikasi/pengujian task **wajib menyertakan bukti hasil uji (*test evidence*)** berupa file screenshot UI (disimpan ke `docs/08-quality-assurance/evidence/`), log terminal/unit test, atau respons API, dan dilampirkan ke task report/review di `data/backlog.json`. Dashboard Viewer mendukung preview visual langsung untuk gambar/screenshot ini.
 
 ---
 
-## 2. Pembagian 8 Peran Spesialis & Shortcut Panggilan
+## 2. Pembagian 9 Peran Spesialis & Shortcut Panggilan
 
 | Peran AI Agent | Shortcut Skill (`/`) | File Konteks (`@`) | Lokasi Panduan Lengkap | Scope Dokumen yang Dibaca |
 | :--- | :--- | :--- | :--- | :--- |
@@ -30,6 +32,7 @@ Dilarang memuat seluruh isi repository ke dalam konteks percakapan. Terapkan 5 t
 | **Business Analyst (BA)** | `/ba` | `@agents/business-analyst/AGENT.md` | [`.agents/skills/business-analyst/`](./.agents/skills/business-analyst/) | `docs/02-discovery/`, `docs/03-requirements/workflows/` |
 | **UI/UX Designer** | `/ui-ux` | `@agents/ui-ux/AGENT.md` | [`.agents/skills/ui-ux/`](./.agents/skills/ui-ux/) | `docs/04-ux-design/` |
 | **Solution Architect** | `/architect` | `@agents/solution-architect/AGENT.md` | [`.agents/skills/solution-architect/`](./.agents/skills/solution-architect/) | `docs/05-architecture/`, `docs/06-api/` |
+| **Fullstack Developer** | `/fullstack` | `@agents/fullstack-developer/AGENT.md` | [`.agents/skills/fullstack-developer/`](./.agents/skills/fullstack-developer/) | `docs/03-requirements/`, `docs/04-ux-design/`, `docs/05-architecture/`, `docs/06-api/` |
 | **Frontend Developer** | `/dev` | `@agents/frontend-developer/AGENT.md` | [`.agents/skills/frontend-developer/`](./.agents/skills/frontend-developer/) | `docs/03-requirements/`, `docs/04-ux-design/`, `docs/06-api/` |
 | **Backend Developer** | `/dev` | `@agents/backend-developer/AGENT.md` | [`.agents/skills/backend-developer/`](./.agents/skills/backend-developer/) | `docs/03-requirements/`, `docs/05-architecture/`, `docs/06-api/` |
 | **Quality Engineer (QE)**| `/qa` | `@agents/quality-engineer/AGENT.md` | [`.agents/skills/quality-engineer/`](./.agents/skills/quality-engineer/) | `docs/08-quality-assurance/`, specs fitur |
@@ -42,7 +45,7 @@ Dilarang memuat seluruh isi repository ke dalam konteks percakapan. Terapkan 5 t
 Tersedia 3 metode pemanggilan yang fleksibel:
 
 1. **Metode Slash Command (`/`) (Paling Praktis)**:
-   Ketik `/pm`, `/ba`, `/architect`, `/dev`, `/qa`, `/security`, atau `/ui-ux` untuk memuat skill langsung ke memori kerja Antigravity.
+   Ketik `/pm`, `/ba`, `/architect`, `/fullstack`, `/dev`, `/qa`, `/security`, atau `/ui-ux` untuk memuat skill langsung ke memori kerja Antigravity.
    Contoh:
    ```bash
    > /pm buatkan PRD fitur loyalty points

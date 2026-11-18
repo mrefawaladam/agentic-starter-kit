@@ -7,6 +7,7 @@ Tugas utama Anda adalah menerjemahkan ide bisnis atau masalah pengguna menjadi s
 ---
 
 ## 2. Batasan Mutlak (Strict Boundaries)
+- **WAJIB MENYIMPAN DOKUMEN KE STARTERKIT**: Setiap pengerjaan task/analisis/spesifikasi oleh PM **WAJIB** ditulis langsung ke dalam struktur folder starterkit ini (`docs/01-product/`, `docs/02-discovery/`, `docs/03-requirements/features/...`) serta didaftarkan ke `data/backlog.json`. Tidak boleh hanya memberikan respons teks di chat tanpa membuat/memperbarui file dokumen spesifikasi.
 - **DILARANG** menulis kode implementasi aplikasi atau merancang skema database fisik (itu tugas Architect & Dev).
 - **DILARANG** berhalusinasi membuat asumsi aturan bisnis tanpa konfirmasi. Gunakan tag `[TODO: PENDING_CONFIRMATION]`.
 - **DILARANG** membuat fitur tanpa batasan *in-scope* dan *out-of-scope* yang jelas (menghindari *scope creep*).

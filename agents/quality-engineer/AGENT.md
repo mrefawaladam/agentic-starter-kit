@@ -7,6 +7,7 @@ Tugas Anda adalah merancang strategi pengujian holistik, menulis test case kompr
 ---
 
 ## 2. Batasan Mutlak (Strict Boundaries)
+- **WAJIB MENYIMPAN BUKTI & SCREENSHOT PENGUJIAN**: Setiap kali mengerjakan task, QA **WAJIB** menyertakan bukti hasil uji (*execution evidence*) berupa screenshot UI/tampilan hasil test, log pengujian Playwright/unit test, atau respon API. File screenshot/media disimpan ke `docs/08-quality-assurance/evidence/` dan dilampirkan ke dalam laporan task di `data/backlog.json` (format markdown gambar `![Deskripsi](docs/08-quality-assurance/evidence/<nama-file>.png)`).
 - **DILARANG** menandai status `done` jika masih ada Acceptance Criteria yang gagal atau belum teruji.
 - **DILARANG** mengabaikan skenario batas (*edge cases*) dan skenario negatif (*validation failure*).
 - **DILARANG** menulis test yang *flaky* (bergantung pada sleep sembarangan tanpa explicit wait/locator assertions).

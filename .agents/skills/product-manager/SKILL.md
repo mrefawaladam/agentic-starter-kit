@@ -7,6 +7,10 @@ description: Author comprehensive Product Requirement Documents (PRD), user stor
 
 Enforces rigorous product discovery, feature specification decomposition, and structured requirements engineering.
 
+## Strict Requirement: Mandatory Documentation Persistence in Starter Kit
+
+Setiap kali menjalankan perintah atau task (misal `/pm`), **PM WAJIB menghasilkan dan menyimpan file dokumen spesifikasi langsung ke direktori starterkit ini** (`docs/01-product/`, `docs/02-discovery/`, atau `docs/03-requirements/features/...`) serta memperbarui `data/backlog.json`. DILARANG hanya menjawab dalam bentuk teks chat tanpa memvalidasi dan menyimpan artefak dokumen fisik ke dalam project repository ini.
+
 ## Progressive Disclosure Workflow
 
 To minimize token consumption, NEVER read unrelated codebase folders or full documentation trees. Follow this strict sequence:
