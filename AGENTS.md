@@ -33,7 +33,7 @@ LEVEL 6 — Deep Investigation (HANYA jika terjadi ambiguitas tinggi atau parame
 2. **Context Budget (Default: 16k tokens, Max: 32k tokens)**: Jika utilisasi melebihi 80%, kompres konteks, buang referensi sekunder, dan gunakan artefak ringkasan (*Context Summary*).
 3. **Pencarian Terbatas (Bounded Search)**: Maksimal 20 file dan 10 match per file untuk pencarian teks.
 4. **Jalur yang Wajib Diabaikan (Ignored Paths)**:
-   `node_modules/**`, `.git/**`, `.next/**`, `dist/**`, `build/**`, `coverage/**`, `vendor/**`, `tmp/**`, `logs/**`, `*.lock`, `*.min.js`.
+   `node_modules/**`, `.git/**`, `.next/**`, `devdoc/**`, `dist/**`, `build/**`, `coverage/**`, `vendor/**`, `tmp/**`, `logs/**`, `*.lock`, `*.min.js`.
 5. **Context Reuse**: Gunakan artefak keluaran agen sebelumnya (misal temuan BA di `.context/` atau `docs/03-requirements/`) sebagai input untuk Architect/Developer. Jangan melakukan scan repo ulang.
 6. **Output Economy**: Agen dilarang mengulang deskripsi peran, basa-basi pembuka, atau mengulang teks instruksi pengguna. Sajikan langsung hasil rekayasa terstruktur: `Finding` $\to$ `Evidence` $\to$ `Impact` $\to$ `Recommendation`.
 

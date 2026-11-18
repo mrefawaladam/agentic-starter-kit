@@ -43,6 +43,7 @@ ignored_paths:
   - "node_modules/**"
   - ".git/**"
   - ".next/**"
+  - "devdoc/**"
   - "dist/**"
   - "build/**"
   - "coverage/**"
